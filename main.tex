@@ -1,0 +1,107 @@
+% ===========================================================================
+% main.tex -- bachelor thesis
+%
+% Placeholder setup until the institute template arrives. When it does, keep
+% this file's structure and swap the preamble; the chapter files stay as they
+% are.
+%
+% Build:  latexmk -pdf main.tex     (LaTeX Workshop does this on save)
+% ===========================================================================
+\documentclass[12pt,a4paper,oneside]{report}
+
+% ---- language and fonts ---------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% ---- mathematics ----------------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{siunitx}
+\sisetup{per-mode = symbol}
+
+% ---- figures and tables ---------------------------------------------------
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{booktabs}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+
+% ---- layout ---------------------------------------------------------------
+\usepackage[margin=3cm]{geometry}
+\usepackage{microtype}
+
+% ---- references -----------------------------------------------------------
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+% ---- theorem environments -------------------------------------------------
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+
+% ---- while drafting -------------------------------------------------------
+% \TODO marks a hole in the text. Before submitting, search the log for it -
+% it prints a warning for every one left in the document.
+\newcommand{\TODO}[1][]{%
+  \textbf{\textcolor{red}{[TODO #1]}}%
+  \GenericWarning{}{TODO left in the text: #1}%
+}
+\usepackage{xcolor}
+
+% ---- shorthands for this thesis ------------------------------------------
+% Fix the notation ONCE, here, and use these everywhere. Changing your mind
+% later then costs one line instead of a hundred find-and-replaces.
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\dzero}{d_0}
+\newcommand{\done}{d_1}
+\newcommand{\lone}{\ell_1}
+\newcommand{\ltwo}{\ell_2}
+\newcommand{\bracket}[2]{[#1,#2]}
+
+\begin{document}
+
+% ---- front matter ---------------------------------------------------------
+\begin{titlepage}
+  \centering
+  \vspace*{3cm}
+  {\Large Alpen-Adria-Universität Klagenfurt\par}
+  \vspace{2cm}
+  {\huge\bfseries \TODO[tvbdjfoj]\par}
+  \vspace{1.5cm}
+  {\Large Bachelor's Thesis\par}
+  \vspace{2cm}
+  {\large Markéta Hraničková\par}
+  \vspace{0.5cm}
+  {\large Supervisor: \TODO[supervisor]\par}
+  \vfill
+  {\large \today\par}
+\end{titlepage}
+
+\begin{abstract}
+\TODO[write last]
+\end{abstract}
+
+\tableofcontents
+
+% ---- body -----------------------------------------------------------------
+% Uncomment each chapter as it is written.
+
+% \input{chapters/ch1_introduction}
+% \input{chapters/ch2_background}
+\input{chapters/ch3_model}
+% \input{chapters/ch4_nilpotent}
+% \input{chapters/ch5_control}
+% \input{chapters/ch6_feasibility}
+% \input{chapters/ch7_simulation}
+% \input{chapters/ch8_experiments}
+% \input{chapters/ch9_conclusion}
+
+% ---- back matter ----------------------------------------------------------
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\appendix
+% \input{chapters/appendix_a}
+
+\end{document}

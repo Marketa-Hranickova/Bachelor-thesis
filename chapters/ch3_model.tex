@@ -1,0 +1,377 @@
+% ---------------------------------------------------------------------------
+% Chapter 3 -- Kinematic model of a car with two off-hooked trailers
+%
+% DRAFT. Rewrite in your own words before this goes anywhere near submission,
+% and check every step yourself -- you will be asked about these lines at the
+% defence.
+%
+% Needs: \usepackage{amsmath,amssymb,graphicx}
+% Citation keys are defined in refs.bib.
+% ---------------------------------------------------------------------------
+
+\chapter{Kinematic model of a car with two off-hooked trailers}
+\label{ch:model}
+
+This chapter derives the equations of motion of a differential-drive robot
+towing two trailers, under the assumption that each trailer is attached at a
+point that does not lie on the axle of the preceding body. The resulting model
+is a driftless control-affine system with five states and two inputs. We then
+establish its controllability and show that three standard tools of
+nonholonomic control -- conversion to chained form, differential flatness, and
+continuous time-invariant feedback -- are all unavailable for this class of
+systems. That triple failure is what motivates the time-varying controllers
+constructed in Chapter~\ref{ch:control}.
+
+The model follows \cite{zuyev2024}; the derivation below is carried out in
+full, since the original presentation states the result without intermediate
+steps.
+
+% ===========================================================================
+\section{Geometry and notation}
+\label{sec:geometry}
+
+The system consists of three rigid bodies: the towing robot and two trailers.
+Each body rolls on a single pair of wheels mounted on a common axle. Let
+$C_0$, $C_1$ and $C_2$ denote the midpoints of the three axles, and let
+$\varphi$, $\theta_1$ and $\theta_2$ denote the headings of the three bodies,
+measured from the $x$-axis of a fixed world frame.
+
+The bodies are connected by two revolute hitches with vertical axes. Four
+lengths describe the assembly:
+%
+\begin{align}
+  d_0 &: \ \text{from } C_0 \text{ to the first hitch axis},   \nonumber\\
+  \ell_1 &: \ \text{from the first hitch axis to } C_1,        \nonumber\\
+  d_1 &: \ \text{from } C_1 \text{ to the second hitch axis},  \nonumber\\
+  \ell_2 &: \ \text{from the second hitch axis to } C_2.       \nonumber
+\end{align}
+%
+All four are measured along the centreline of the respective body.
+
+\begin{figure}[t]
+  \centering
+  % TODO draw this: top view, three axles, all four lengths, three angles.
+  % A clean line drawing, not a photograph. Everything that follows refers
+  % back to it.
+  \includegraphics[width=0.8\textwidth]{figures/geometry.pdf}
+  \caption{Geometry of the car with two off-hooked trailers.}
+  \label{fig:geometry}
+\end{figure}
+
+\begin{definition}[Off-hooked trailer]
+A trailer is called \emph{off-hooked} if its hitch point does not lie on the
+axle of the preceding body, that is, if the corresponding offset $d_i$ is
+strictly positive.
+\end{definition}
+
+The distinction matters more than its geometric modesty suggests. When
+$d_0 = d_1 = 0$ the kinematics of a car with $n$ trailers can be transformed
+into chained form \cite{sordalen1993}, for which motion planning and
+stabilisation are essentially solved problems. As soon as the hitches move off
+the axles, that transformation ceases to exist \cite{vendittelli1998}, and with
+it the standard toolbox. Section~\ref{sec:failure} makes this precise.
+
+We collect the configuration variables into the state vector
+%
+\begin{equation}
+  x = (x_1, x_2, x_3, x_4, x_5)^\top
+    = (x_{C_0},\, y_{C_0},\, \varphi,\, \theta_1,\, \theta_2)^\top \in \mathbb{R}^5 .
+  \label{eq:state}
+\end{equation}
+
+% ===========================================================================
+\section{Rolling without slipping}
+\label{sec:constraints}
+
+Each pair of wheels is assumed to roll without slipping. For a single axle
+this means that the velocity of the axle midpoint has no component
+perpendicular to the plane of the wheels: the body may move forwards or
+backwards and may rotate, but it cannot translate sideways.
+
+For a body with heading $\theta$ and axle midpoint $(x_C, y_C)$, the outward
+normal of the wheel plane is $(\sin\theta, -\cos\theta)$, so the condition
+reads $\dot x_C \sin\theta - \dot y_C \cos\theta = 0$. Applying this to the
+three bodies gives
+%
+\begin{subequations}
+\label{eq:constraints}
+\begin{align}
+  \dot x_{C_0}\sin\varphi   - \dot y_{C_0}\cos\varphi   &= 0, \label{eq:c0}\\
+  \dot x_{C_1}\sin\theta_1  - \dot y_{C_1}\cos\theta_1  &= 0, \label{eq:c1}\\
+  \dot x_{C_2}\sin\theta_2  - \dot y_{C_2}\cos\theta_2  &= 0. \label{eq:c2}
+\end{align}
+\end{subequations}
+
+The configuration space is five-dimensional and the constraints
+\eqref{eq:constraints} are three in number, so two independent velocities
+remain. This count is worth pausing on: the system has five degrees of freedom
+of \emph{configuration} but only two of \emph{instantaneous motion}. The gap of
+three is exactly what makes the problem interesting, and recovering those three
+directions is what the rest of this thesis is about.
+
+% ===========================================================================
+\section{Position of the trailer axles}
+\label{sec:positions}
+
+Write $e(\alpha) = (\cos\alpha, \sin\alpha)^\top$ for the unit vector along a
+given heading. Following the chain of bodies from $C_0$ backwards, the first
+hitch lies at $C_0 - d_0\, e(\varphi)$ and $C_1$ a further $\ell_1$ back along
+the heading of the first trailer; the second hitch lies $d_1$ beyond $C_1$, and
+$C_2$ a further $\ell_2$ beyond that. Hence
+%
+\begin{align}
+  C_1 &= C_0 - d_0\, e(\varphi) - \ell_1\, e(\theta_1), \label{eq:C1}\\
+  C_2 &= C_0 - d_0\, e(\varphi) - (\ell_1 + d_1)\, e(\theta_1)
+            - \ell_2\, e(\theta_2). \label{eq:C2}
+\end{align}
+%
+Note that $\ell_1$ and $d_1$ enter \eqref{eq:C2} only through their sum: seen
+from the second trailer, the intermediate body acts as a single rigid link of
+length $\ell_1 + d_1$.
+
+% ===========================================================================
+\section{The driftless control-affine system}
+\label{sec:system}
+
+We now eliminate the constraints. Let $u_1$ denote the driving velocity of the
+robot along its heading and $u_2$ its angular velocity.
+
+Constraint \eqref{eq:c0} states that the velocity of $C_0$ is parallel to
+$e(\varphi)$, so
+%
+\begin{equation}
+  \dot x_1 = u_1\cos x_3, \qquad
+  \dot x_2 = u_1\sin x_3, \qquad
+  \dot x_3 = u_2 .
+  \label{eq:robot}
+\end{equation}
+
+\paragraph{First trailer.}
+Differentiating \eqref{eq:C1} and using $\dot e(\alpha) = \dot\alpha\,(-\sin\alpha,\cos\alpha)^\top$,
+%
+\begin{align}
+  \dot x_{C_1} &= \dot x_{C_0} + d_0\sin\varphi\,\dot\varphi
+                  + \ell_1\sin\theta_1\,\dot\theta_1, \nonumber\\
+  \dot y_{C_1} &= \dot y_{C_0} - d_0\cos\varphi\,\dot\varphi
+                  - \ell_1\cos\theta_1\,\dot\theta_1 . \nonumber
+\end{align}
+%
+Substituting into \eqref{eq:c1} and using \eqref{eq:robot} together with the
+angle-difference identities gives
+%
+\begin{equation}
+  u_1 \sin(\theta_1 - \varphi) + d_0 u_2 \cos(\varphi - \theta_1)
+  + \ell_1 \dot\theta_1 = 0,
+  \nonumber
+\end{equation}
+%
+so that
+%
+\begin{equation}
+  \dot x_4 = \frac{u_1 \sin(x_3 - x_4) - d_0 u_2 \cos(x_3 - x_4)}{\ell_1}.
+  \label{eq:theta1}
+\end{equation}
+%
+The second term is the off-hooked effect in its simplest form: with $d_0 = 0$
+the steering input does not act on the trailer angle at all, whereas for
+$d_0 > 0$ turning the robot on the spot already drags the trailer.
+
+\paragraph{Second trailer.}
+Proceeding identically with \eqref{eq:C2} and \eqref{eq:c2},
+%
+\begin{equation}
+  u_1\sin(\theta_2-\varphi) + d_0 u_2\cos(\varphi-\theta_2)
+  + (\ell_1+d_1)\,\dot\theta_1 \cos(\theta_1-\theta_2)
+  + \ell_2\dot\theta_2 = 0,
+  \nonumber
+\end{equation}
+%
+and substituting \eqref{eq:theta1} for $\dot\theta_1$ yields $\dot x_5$ as a
+combination of $u_1$ and $u_2$ with the coefficients $f_{15}$ and $f_{25}$
+given below.
+
+\paragraph{Result.}
+Collecting \eqref{eq:robot}, \eqref{eq:theta1} and the above, the constrained
+system takes the driftless control-affine form
+%
+\begin{equation}
+  \dot x = u_1 f_1(x) + u_2 f_2(x), \qquad x\in\mathbb{R}^5,\ u\in\mathbb{R}^2,
+  \label{eq:system}
+\end{equation}
+%
+with
+%
+\begin{equation}
+  f_1(x) =
+  \begin{pmatrix}
+    \cos x_3 \\ \sin x_3 \\ 0 \\
+    \dfrac{\sin(x_3-x_4)}{\ell_1} \\[4pt] f_{15}(x)
+  \end{pmatrix},
+  \qquad
+  f_2(x) =
+  \begin{pmatrix}
+    0 \\ 0 \\ 1 \\
+    -\dfrac{d_0\cos(x_3-x_4)}{\ell_1} \\[4pt] f_{25}(x)
+  \end{pmatrix},
+  \label{eq:fields}
+\end{equation}
+%
+where
+%
+\begin{align}
+  f_{15}(x) &= \frac{\sin(x_3-x_5)}{\ell_2}
+    + \frac{(d_1+\ell_1)\sin(x_4-x_3)\cos(x_4-x_5)}{\ell_1\ell_2},
+    \label{eq:f15}\\[2pt]
+  f_{25}(x) &= \frac{d_0(d_1+\ell_1)\cos(x_3-x_4)\cos(x_4-x_5)}{\ell_1\ell_2}
+    - \frac{d_0\cos(x_3-x_5)}{\ell_2}.
+    \label{eq:f25}
+\end{align}
+
+Two features of \eqref{eq:fields} deserve comment.
+
+First, $\dot x_3 = u_2$ exactly: the second input is the angular velocity of
+the robot body, not the steering angle of a front axle. A differential-drive
+platform therefore realises this model directly, with no steering mechanism,
+which is what makes the hardware of Chapter~\ref{ch:implementation} possible.
+
+Second, the fourth and fifth components of $f_2$ are not zero. Steering alone,
+with no forward motion, still moves both trailers. Every one of those terms
+carries a factor $d_0$ and vanishes in the on-axle limit. The off-hooked
+geometry is thus not a perturbation of the classical case but a structural
+change in how the inputs reach the trailer angles.
+
+% ===========================================================================
+\section{Controllability}
+\label{sec:controllability}
+
+Since the system is driftless with two inputs in five dimensions, no
+information about controllability can be obtained from the vector fields
+alone; it is contained in their Lie brackets. For vector fields $f_i$, $f_j$ we
+use the convention
+%
+\begin{equation}
+  [f_i, f_j](x)
+  = \frac{\partial f_j(x)}{\partial x}\, f_i(x)
+  - \frac{\partial f_i(x)}{\partial x}\, f_j(x).
+  \label{eq:bracket}
+\end{equation}
+
+Define
+%
+\begin{equation}
+  \mathcal{F}(x) = \bigl(\, f_1,\ f_2,\ [f_1,f_2],\ [f_1,[f_1,f_2]],\
+  [f_1,[f_1,[f_1,f_2]]] \,\bigr)(x).
+  \label{eq:Fmatrix}
+\end{equation}
+%
+A direct computation of the determinant at the origin gives
+%
+\begin{equation}
+  \det \mathcal{F}(0)
+  = -\,\frac{(d_0+\ell_1)(d_0+\ell_2)(d_1+\ell_2)}{\ell_1^{\,4}\ \ell_2^{\,4}} .
+  \label{eq:det}
+\end{equation}
+%
+For strictly positive lengths this quantity is nonzero, so $\mathcal{F}$ has
+full rank in a neighbourhood of the origin, the Lie Algebra Rank Condition is
+satisfied, and by the Chow--Rashevskii theorem \cite{nijmeijer1990} the system
+\eqref{eq:system} is completely controllable.
+
+% TODO: state here how you verified (\ref{eq:det}) -- symbolic computation is
+% fine, but say which tool and give the script in the appendix.
+
+It is worth recording not only that the brackets span $\mathbb{R}^5$, but how
+quickly they do so. Writing $\mathcal{L}^s$ for the span of all brackets of
+length at most $s$ and $n_s = \dim \mathcal{L}^s(0)$, one finds
+%
+\begin{equation}
+  (n_1, n_2, n_3, n_4) = (2, 3, 4, 5),
+  \label{eq:growth}
+\end{equation}
+%
+so the \emph{degree of nonholonomy} at the origin is $r = 4$.
+
+The growth vector \eqref{eq:growth} has a direct physical reading. Two
+directions of motion are available immediately: driving and turning. The third
+is reached by a manoeuvre combining two inputs, the fourth by a manoeuvre of
+length three, and the fifth -- essentially the angle of the rearmost trailer
+relative to the rest -- only by a coordinated manoeuvre of length four. This is
+the mathematical statement of something every driver of an articulated vehicle
+knows: the last trailer is the hardest thing to place, and placing it costs
+disproportionately more motion than placing the cab. It also foreshadows a
+practical difficulty, since the control effort required to move a direction of
+weight four scales far worse than for the others; Chapter~\ref{ch:results}
+returns to this point.
+
+% ===========================================================================
+\section{Why the standard tools are unavailable}
+\label{sec:failure}
+
+Three distinct negative results apply to \eqref{eq:system}. They are often
+conflated and are worth separating.
+
+\paragraph{No chained form.}
+For trailers hitched at the axle midpoints, the kinematics of a car with $n$
+trailers admits a change of coordinates and feedback taking it to chained form
+\cite{sordalen1993}. For the off-hooked case this transformation does not
+exist \cite{vendittelli1998}. The obstruction is structural rather than
+technical: the required conversion presumes a particular nesting of the
+distributions generated by the vector fields, and the offsets $d_0$, $d_1$
+destroy it.
+
+\paragraph{Not differentially flat.}
+The system also fails the necessary and sufficient flatness conditions for
+two-input driftless systems \cite{vendittelli1998}. No flat output exists, so
+trajectory planning cannot be reduced to the choice of curves in an output
+space.
+
+\paragraph{Brockett's condition fails.}
+Finally, no continuous time-invariant feedback can stabilise the origin.
+Brockett's necessary condition \cite{brockett1983} states that if
+$\dot x = f(x,u)$ is locally asymptotically stabilisable by a continuous
+feedback $u = k(x)$, then $f$ must map every neighbourhood of $(0,0)$ onto a
+neighbourhood of $0 \in \mathbb{R}^n$. For \eqref{eq:system} take the target
+velocity $\xi = (0,0,0,0,\varepsilon)^\top$. Matching the first two components
+of $u_1 f_1 + u_2 f_2$ to zero forces $u_1 = u_2 = 0$, whence
+$f(x,u) = 0 \neq \xi$. The image therefore omits an entire direction however
+small the neighbourhood, and the condition is violated.
+
+Together these results determine the shape of the remainder of this thesis.
+Stabilisation is possible -- the system is controllable -- but it cannot be
+achieved by any static continuous feedback law, and it cannot be reduced to a
+known canonical form. What remains is to approximate the system by one that is
+simple enough to design for, and to let the feedback depend explicitly on
+time. Those are the subjects of Chapters~\ref{ch:nilpotent}
+and~\ref{ch:control}.
+
+% ===========================================================================
+\section{Parameters of the experimental platform}
+\label{sec:parameters}
+
+% TODO after the lab visit. Fill in the measured values and keep the
+% uncertainties -- they propagate into the coefficients of Chapter 4.
+The model above holds for arbitrary positive lengths. The values realised by
+the platform used in this work are collected in
+Table~\ref{tab:parameters}; the measurement procedure is described in
+Section~\ref{sec:hardware}.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{llll}
+    \hline
+    Symbol & Meaning & Value & Uncertainty \\
+    \hline
+    $d_0$    & robot axle to first hitch      & \TODO & \TODO \\
+    $\ell_1$ & first hitch to trailer 1 axle  & \TODO & \TODO \\
+    $d_1$    & trailer 1 axle to second hitch & \TODO & \TODO \\
+    $\ell_2$ & second hitch to trailer 2 axle & \TODO & \TODO \\
+    \hline
+  \end{tabular}
+  \caption{Measured geometry of the experimental platform.}
+  \label{tab:parameters}
+\end{table}
+
+The two hitches are not identical: the printed parts place the pin at
+different distances from their mounting blocks, so $d_0 \neq d_1$ by
+construction. Both offsets were therefore measured separately rather than
+assumed equal.

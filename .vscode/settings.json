@@ -1,0 +1,32 @@
+{
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.message.badbox.show": false,
+  "latex-workshop.linting.chktex.enabled": false,
+
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "/Library/TeX/texbin/latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    { "name": "latexmk", "tools": ["latexmk"] }
+  ],
+
+  "ltex.language": "en-GB",
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 90,
+  "editor.rulers": [90],
+  "files.trimTrailingWhitespace": true
+}

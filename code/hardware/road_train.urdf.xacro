@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<!--
+  road_train.urdf.xacro
+  TurtleBot3 Burger with two off-hooked trailers.
+
+  Geometry follows the model of
+    Zuyev & Grushkovskaya, arXiv:2403.03341v1, Section II:
+      d0  robot wheel axle    -> 1st hitch axis
+      l1  1st hitch axis      -> trailer 1 axle
+      d1  trailer 1 axle      -> 2nd hitch axis
+      l2  2nd hitch axis      -> trailer 2 axle
+  "Off-hooked" means d0 > 0 and d1 > 0: the hitch is NOT on the axle.
+
+  Both hitches are passive revolute joints about the vertical axis.
+  Nothing actuates them - exactly as in the paper, where the trailers are
+  dragged and the only inputs are the driving and steering velocity.
+
+  Two build modes, selected by the "standalone" argument:
+    standalone:=true   a plain box tractor is generated (no ROS packages
+                       needed) - use this to test the trailer physics first
+    standalone:=false  includes the real TurtleBot3 Burger description
+
+  Expand and check:
+    xacro road_train.urdf.xacro > road_train.urdf
+    check_urdf road_train.urdf
+-->
+<robot name="road_train" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ==================== ARGUMENTS ==================== -->
+  <xacro:arg name="standalone" default="true"/>
+
+  <!-- ==================== GEOMETRY (TODO: measured values) ==================== -->
+  <!-- Replace these four with the numbers from MEASUREMENT_SHEET.md. -->
+  <xacro:property name="d0" value="0.100"/>
+  <xacro:property name="l1" value="0.150"/>
+  <xacro:property name="d1" value="0.100"/>
+  <xacro:property name="l2" value="0.150"/>
+
+  <!-- If base_link of the tractor is NOT at the wheel axle, put the offset
+       here (positive = base_link sits ahead of the axle). Verify with
+       "ros2 run tf2_tools view_frames" before trusting d0. -->
+  <xacro:property name="axle_offset_x" value="0.0"/>
+
+  <!-- ==================== HARDWARE ==================== -->
+  <xacro:property name="wheel_radius" value="0.033"/>   <!-- TB3 wheel -->
+  <xacro:property name="wheel_width"  value="0.018"/>
+  <xacro:property name="track"        value="0.160"/>   <!-- TODO: measure -->
+  <xacro:property name="plate_w"      value="0.140"/>
+  <xacro:property name="plate_t"      value="0.010"/>
+
+  <xacro:property name="m_trailer" value="0.30"/>       <!-- TODO: weigh -->
+  <xacro:property name="m_wheel"   value="0.03"/>
+
+  <!-- Passive joint behaviour. Some damping is needed, otherwise the hitch
+       chatters in Gazebo. Limit = how far the joint can fold before the
+       printed parts collide. -->
+  <xacro:property name="hitch_limit"    value="1.40"/>   <!-- rad, ~80 deg -->
+  <xacro:property name="hitch_damping"  value="0.002"/>
+  <xacro:property name="hitch_friction" value="0.001"/>
+
+  <xacro:property name="PI" value="3.14159265359"/>
+
+  <!-- ==================== INERTIA HELPERS ==================== -->
+  <xacro:macro name="box_inertia" params="m x y z">
+    <inertial>
+      <mass value="${m}"/>
+      <inertia ixx="${m*(y*y+z*z)/12}" iyy="${m*(x*x+z*z)/12}" izz="${m*(x*x+y*y)/12}"
+               ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="wheel_inertia" params="m r w">
+    <inertial>
+      <mass value="${m}"/>
+      <inertia ixx="${m*(3*r*r+w*w)/12}" iyy="${m*(3*r*r+w*w)/12}" izz="${m*r*r/2}"
+               ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- ==================== A PASSIVE WHEEL ==================== -->
+  <xacro:macro name="passive_wheel" params="name parent x y">
+    <link name="${name}">
+      <visual>
+        <origin rpy="${PI/2} 0 0"/>
+        <geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
+      </visual>
+      <collision>
+        <origin rpy="${PI/2} 0 0"/>
+        <geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
+      </collision>
+      <xacro:wheel_inertia m="${m_wheel}" r="${wheel_radius}" w="${wheel_width}"/>
+    </link>
+
+    <joint name="${name}_joint" type="continuous">
+      <parent link="${parent}"/>
+      <child  link="${name}"/>
+      <origin xyz="${x} ${y} 0"/>
+      <axis xyz="0 1 0"/>
+      <dynamics damping="0.0005" friction="0.0005"/>
+    </joint>
+
+    <gazebo reference="${name}">
+      <!-- high lateral friction: the wheel must not slide sideways, that is
+           what makes the system nonholonomic in the first place -->
+      <mu1>1.0</mu1>
+      <mu2>1.0</mu2>
+      <kp>1000000.0</kp>
+      <kd>10.0</kd>
+      <minDepth>0.001</minDepth>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- ==================== A TRAILER ==================== -->
+  <!-- The trailer frame has its origin AT THE HITCH, x pointing forward.
+       Its axle sits at x = -l_axle, the next hitch at x = -(l_axle + d_next). -->
+  <xacro:macro name="trailer" params="name parent hitch_x l_axle">
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="${-l_axle/2} 0 0"/>
+        <geometry><box size="${l_axle} ${plate_w} ${plate_t}"/></geometry>
+      </visual>
+      <collision>
+        <origin xyz="${-l_axle/2} 0 0"/>
+        <geometry><box size="${l_axle} ${plate_w} ${plate_t}"/></geometry>
+      </collision>
+      <xacro:box_inertia m="${m_trailer}" x="${l_axle}" y="${plate_w}" z="${plate_t}"/>
+    </link>
+
+    <joint name="${name}_hitch" type="revolute">
+      <parent link="${parent}"/>
+      <child  link="${name}_link"/>
+      <origin xyz="${hitch_x} 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-hitch_limit}" upper="${hitch_limit}" effort="0" velocity="100"/>
+      <dynamics damping="${hitch_damping}" friction="${hitch_friction}"/>
+    </joint>
+
+    <xacro:passive_wheel name="${name}_wheel_left"  parent="${name}_link"
+                         x="${-l_axle}" y="${ track/2}"/>
+    <xacro:passive_wheel name="${name}_wheel_right" parent="${name}_link"
+                         x="${-l_axle}" y="${-track/2}"/>
+  </xacro:macro>
+
+  <!-- ==================== TRACTOR ==================== -->
+  <xacro:if value="$(arg standalone)">
+    <!-- Minimal stand-in so the trailers can be tested without any ROS
+         package installed. Not a TurtleBot3 - no diff drive, no sensors. -->
+    <link name="base_footprint"/>
+    <link name="base_link">
+      <visual>
+        <geometry><box size="0.140 ${plate_w} ${plate_t}"/></geometry>
+      </visual>
+      <collision>
+        <geometry><box size="0.140 ${plate_w} ${plate_t}"/></geometry>
+      </collision>
+      <xacro:box_inertia m="1.0" x="0.140" y="${plate_w}" z="${plate_t}"/>
+    </link>
+    <joint name="base_joint" type="fixed">
+      <parent link="base_footprint"/>
+      <child  link="base_link"/>
+      <origin xyz="0 0 ${wheel_radius}"/>
+    </joint>
+    <xacro:passive_wheel name="tractor_wheel_left"  parent="base_link" x="0" y="${ track/2}"/>
+    <xacro:passive_wheel name="tractor_wheel_right" parent="base_link" x="0" y="${-track/2}"/>
+  </xacro:if>
+
+  <xacro:unless value="$(arg standalone)">
+    <!-- The real robot. Verify the path and the link names against the
+         version installed on the lab machine before relying on this. -->
+    <xacro:include filename="$(find turtlebot3_description)/urdf/turtlebot3_burger.urdf.xacro"/>
+  </xacro:unless>
+
+  <!-- ==================== THE TRAIN ==================== -->
+  <xacro:trailer name="trailer1" parent="base_link"
+                 hitch_x="${-(d0 - axle_offset_x)}" l_axle="${l1}"/>
+
+  <xacro:trailer name="trailer2" parent="trailer1_link"
+                 hitch_x="${-(l1 + d1)}" l_axle="${l2}"/>
+
+  <!-- ==================== GROUND-TRUTH POSE OF EACH TRAILER ==================== -->
+  <!-- In the lab, theta1 and theta2 come from OptiTrack. In simulation they
+       come from these plugins, so the controller sees the same three pose
+       sources in both worlds and only the transport changes.
+       Gazebo Classic / gazebo_ros_pkgs. On Gazebo Sim the plugin differs. -->
+  <gazebo>
+    <plugin name="trailer1_p3d" filename="libgazebo_ros_p3d.so">
+      <ros><remapping>odom:=/trailer1/odom</remapping></ros>
+      <body_name>trailer1_link</body_name>
+      <frame_name>world</frame_name>
+      <update_rate>100.0</update_rate>
+    </plugin>
+    <plugin name="trailer2_p3d" filename="libgazebo_ros_p3d.so">
+      <ros><remapping>odom:=/trailer2/odom</remapping></ros>
+      <body_name>trailer2_link</body_name>
+      <frame_name>world</frame_name>
+      <update_rate>100.0</update_rate>
+    </plugin>
+  </gazebo>
+
+</robot>

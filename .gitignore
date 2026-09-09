@@ -1,0 +1,26 @@
+# LaTeX build artefacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.synctex.gz
+*.toc
+*.xdv
+*.run.xml
+*.bcf
+
+# editors and OS
+.DS_Store
+.vscode/ltex.dictionary.*.txt
+
+# python
+__pycache__/
+*.pyc
+
+# keep the built pdf out of git; it changes every compile
+main.pdf
