@@ -1,0 +1,520 @@
+% ---------------------------------------------------------------------------
+% Chapter -- Simulation
+%
+% DRAFT 1 (19 Oct 2026). Proposed by Claude, to be read and rewritten in
+% your own words.
+% EVERY number and figure of this chapter comes from MATLAB:
+%   "1 trailer/thesis_sim.m" and "2 trailers/thesis_sim.m"
+% (they write figures/sim_*.pdf and sim_*.mat). The numbers quoted below were
+% obtained by running the same files in Octave 8.4; on 22 Oct 2026 both files were
+% also run in MATLAB R2025b and agree to the printed digits (round-off noise
+% aside); the long run (30 min) is Octave only (Appendix E); the run with eps = 26 s has to be redone (see TODO below).
+% ---------------------------------------------------------------------------
+
+% a missing figure file prints a red box instead of stopping the compilation
+\providecommand{\simfig}[2]{%
+  \IfFileExists{figures/#1.pdf}{\includegraphics[#2]{figures/#1}}%
+  {\fbox{\textcolor{red}{figure \detokenize{#1} missing -- run thesis\_sim}}}}
+
+\chapter{Simulation}
+\label{ch:simulation}
+\TODO[status of this chapter: about 50 percent done]
+
+Chapters~\ref{ch:nilpotent} and~\ref{ch:control} derive the controller for the
+nilpotent approximation, and Chapter~\ref{ch:feasibility} tunes it to the
+limits of the TurtleBot3 using the approximation only. This chapter closes the
+loop on the \emph{real} kinematics. It answers four questions: does the tuned
+controller still converge when it drives the exact model instead of the
+approximation (Section~\ref{sec:sim-exact}); does recomputing the gain at every
+interval help (Section~\ref{sec:sim-adaptive}); what limits the choice of the
+period $\varepsilon$ (Section~\ref{sec:sim-period}); and how is the same loop
+to be run in Gazebo (Section~\ref{sec:sim-gazebo}). Experiments on the robot
+follow in Chapter~\ref{ch:experiments}.
+
+% ===========================================================================
+\section{Implementation}
+\label{sec:sim-impl}
+
+The simulations are written in MATLAB, one self-contained file per robot:
+\texttt{trailer1.m} (one trailer, $r=3$) and \texttt{trailer2.m} (two trailers,
+$r=4$), with the physical numbers in \texttt{params.m} of the same folder.
+A file contains the vector fields of the exact model and of the nilpotent
+approximation, the map $x\mapsto z$ to the privileged coordinates, the
+controller, the bound on the controls of Chapter~\ref{ch:feasibility}, and the
+simulators described below. The controller signal and its bound are computed
+from the same function (\texttt{osc\_terms}), so the bound used for tuning cannot
+drift away from the signal actually sent to the robot. Each file starts with a
+self-test that recomputes the geometry-only numbers ($\alpha,\kappa,\theta$ of
+Chapter~\ref{ch:nilpotent}), the control bound, one value of the controller
+and three short closed-loop runs, and compares them with stored reference
+values; it is run after every edit. The Lie brackets and the amplitudes can also be
+derived symbolically (\texttt{derive.m}, \texttt{derive\_symbolic}), which gives
+an independent check of the numerical coefficients.
+\TODO[Python port without ROS and cross-verification against MATLAB: state it here only after it has been re-run; the old Python files are out of date]
+
+\paragraph{Three simulators.} All three use the sampled scheme of
+Chapter~\ref{ch:control}: at the start of every interval of length
+$\varepsilon=2\pi/\omega$ the state is read, the amplitudes
+$a=-\gamma\,h\,G^{-1}z$ are computed and kept constant, and the controller of
+Chapter~\ref{ch:control} is applied for one interval.
+\begin{itemize}
+  \item \emph{Approximation} (\texttt{simulate\_case}): the state $z$ evolves by
+    the nilpotent system $\dot z=u_1g_1(z)+u_2g_2(z)$.
+  \item \emph{Exact kinematics} (\texttt{simulate\_case\_physical}): the state
+    $x$ evolves by $\dot x=u_1f_1(x)+u_2f_2(x)$ of Chapter~\ref{ch:model}. The
+    controller still works in $z$: at the start of every interval it computes
+    $z=\Phi(x)$ and the amplitudes, and the resulting $u_1,u_2$ are applied to
+    the exact model \emph{without any conversion}. Everything that separates
+    this simulator from the approximation is therefore the neglected higher-order
+    terms and nothing else.
+  \item \emph{Adaptive gain} (\texttt{simulate\_case\_adaptive}): as the
+    approximation, but the gain is recomputed at the start of every interval as
+    the largest one that satisfies the limits (Section~\ref{sec:sim-adaptive}).
+\end{itemize}
+Within an interval the equations are integrated by \texttt{ode45}
+(\texttt{RelTol} $10^{-8}$, \texttt{AbsTol} $10^{-10}$, maximal step equal to the
+output step). The output grid is $\min(\SI{0.02}{s},\,T_{\mathrm{osc}}/40)$ with
+$T_{\mathrm{osc}}$ the shortest oscillation period, so that the peaks of $u_1$ at
+the start of every interval lie on the grid and the peak of $|u_1|$ below is
+exact; the peak of $|u_2|$ is accurate to a few percent.
+
+The chapter's numbers and figures are produced by \texttt{thesis\_sim.m} in each
+folder. It uses the design of Chapter~\ref{ch:feasibility} (one trailer:
+$\varepsilon=\SI{5}{s}$, $k=(3,2)$, $V=\frac{\gamma}{2c}\ln(1+c\|z\|^2)$ with
+$c=10$; two trailers: $\varepsilon=\SI{3}{s}$, $k=(14,5,1)$,
+$V=\sqrt{\|z\|^2+\delta^2}$ with $\delta=0.005$), the start poses of Chapter~\ref{ch:feasibility}
+(one trailer $x_0=(-0.2\,\mathrm{m},-0.2\,\mathrm{m},45^\circ,45^\circ)$, two trailers
+$x_0=0.6\,(-0.2\,\mathrm{m},-0.2\,\mathrm{m},45^\circ,45^\circ,45^\circ)$) and the
+largest gain that is admissible along the whole straight ray from $z_0$ to the
+origin, namely $\gamma=2.1143\times10^{-2}$ and $\gamma=3.4982\times10^{-5}$.
+Unless said otherwise the hardware limits are $|u_1|\le\SI{0.22}{m/s}$ and
+$|u_2|\le\SI{2.84}{rad/s}$.
+
+% ===========================================================================
+\section{Closed loop on the real (non-approximated) system}
+\label{sec:sim-exact}
+
+\subsection{The design of Chapter~\ref{ch:feasibility} on the exact kinematics}
+
+\paragraph{One trailer.}
+Figure~\ref{fig:sim-conv} (left) shows $\|z(t)\|/\|z_0\|$ for the approximation
+and for the exact kinematics. Both curves decay at the same rate and the exact
+one lags slightly behind: $\|z\|$ falls to \SI{10}{\percent}, \SI{1}{\percent}
+and \SI{0.1}{\percent} of $\|z_0\|$ after $238$, $333$, $445$ seconds in the
+approximation and after $250$, $333$, $445$ seconds on the exact kinematics.
+The prediction of Chapter~\ref{ch:feasibility} for \SI{0.1}{\percent} was
+$\SI{8.2}{min}=\SI{491}{s}$, so the simulation is about \SI{10}{\percent} faster than the estimate. The largest distance between the two
+trajectories is $\|z_{\mathrm{exact}}-z_{\mathrm{approx}}\|=0.037$, which is
+\SI{4.4}{\percent} of $\|z_0\|$; it occurs at $t=\SI{160}{s}$, in the middle of
+the descent, and vanishes together with $z$. At the end the robot is in the
+goal with $\theta_1=0^\circ$; on the way the trailer angle reaches
+$\SI{120}{\degree}$ (Figure~\ref{fig:sim-path} shows the path).
+\TODO[the hitch angle between the car and the first trailer reaches 2.49 rad (143 degrees) in the stroboscopic run, above the joint limit of the real hitch (about 1.57 rad) and above the 1.40 rad of the Gazebo model; with the start scaled by 0.3 it stays below 0.9 rad (Python port, not yet in MATLAB) - decide how to present this]
+
+The controls are shown in Figure~\ref{fig:sim-ctrl} for the first three
+intervals. On the exact kinematics $\max|u_1|=\SI{0.214}{m/s}$ and
+$\max|u_2|=\SI{0.37}{rad/s}$: the limit on $u_1$ is respected with a margin of
+\SI{3}{\percent} and the limit on $u_2$ is far from active (\SI{13}{\percent}),
+as announced in Chapter~\ref{ch:feasibility}. On the approximation the peak of $|u_1|$ is
+$\SI{0.223}{m/s}$, i.e.\ \SI{1.3}{\percent} above the limit, because the state does not follow the
+ray along which the gain was tuned.
+
+\paragraph{Two trailers.}
+The same run for two trailers (Figure~\ref{fig:sim-conv}, right) is a test of the
+whole construction, because here the neglected terms are of higher order and
+the descent takes hours. A full run is too long to simulate with the exact
+model in one piece, so two experiments are used. First, a run of
+\SI{60}{s}: the largest distance between the exact and approximate $z$ is
+$0.014$, \SI{2.7}{\percent} of $\|z_0\|$, reached after the first intervals
+(at $t=\SI{2.3}{s}$), so it does not grow during the minute; the norm
+after $\SI{60}{s}$ is $0.4997$ in the approximation and $0.4998$ on the exact
+kinematics. $\max|u_1|=\SI{0.2200}{m/s}$ in both, i.e.\ the limit is met in the first minute;
+$\max|u_2|=\SI{0.50}{rad/s}$ (\SI{18}{\percent} of the limit).
+The angles stay below $\SI{57}{\degree}$. The amplitudes are recomputed from the exact state,
+which is not exactly the approximate one, and the gain was tuned for the latter, so a margin below
+the limit may still be needed in the tuning; how large it must be follows from the long run below.
+\TODO[choose the margin and recompute the design times with it; the amplitude gain scales as the r-th power of the limit, so the time grows accordingly]
+
+\begin{figure}[ht]
+  \centering
+  \simfig{sim_1tr_conv}{width=0.48\textwidth}\hfill
+  \simfig{sim_2tr_conv}{width=0.48\textwidth}
+  \caption{Norm of the privileged coordinates, normalised by its initial value,
+    for the approximation and for the exact kinematics. Left: one trailer,
+    $\varepsilon=\SI{5}{s}$, to \SI{0.1}{\percent}; right: two trailers,
+    $\varepsilon=\SI{3}{s}$, first minute only (the time to converge is hours).}
+  \label{fig:sim-conv}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \simfig{sim_1tr_ctrl}{width=0.48\textwidth}\hfill
+  \simfig{sim_1tr_path}{width=0.40\textwidth}
+  \caption{One trailer, exact kinematics. Left: the controls over the first three
+    intervals ($u_1$ above, $u_2$ below) for the approximation and for the exact
+    model; the dotted lines are the hardware limits. Right: the path of the car
+    in the plane from the start (circle) to the goal (cross).}
+  \label{fig:sim-ctrl}
+  \label{fig:sim-path}
+\end{figure}
+
+\subsection{Interval by interval over a long time}
+
+Because the amplitudes are kept constant over an interval and the oscillation
+frequencies are integer multiples of $\omega$, the state at the end of an
+interval does not depend on how the previous interval was integrated. This
+allows the exact model to be simulated one interval at a time and only the
+state at the end of each interval to be kept (``stroboscopic'' run).
+Chapter~\ref{ch:feasibility} predicts the time by integrating the gradient flow
+$\dot z=-\gamma h\,z$ along a ray; Figure~\ref{fig:sim-long} compares this
+estimate with the stroboscopic exact and approximate runs.
+
+For one trailer all three curves agree: the largest difference between the exact
+run and the estimate is \SI{2.6}{\percent} of $\|z_0\|$ and between exact and
+approximate \SI{2.1}{\percent}; both occur during the descent, and $|u_1|$ of the exact run stays
+below the limit ($0.973$; the approximation reaches $1.013$). At the end of the intervals the exact run
+reaches \SI{5}{\percent}, \SI{1}{\percent} and \SI{0.1}{\percent} of $\|z_0\|$ after
+$311$, $383$ and $486$ seconds, later than in the run with the fine output grid above
+(which also counts the moments inside an interval).
+
+For two trailers the run of \SI{30}{min} ($600$ intervals of \SI{3}{s}) gives two
+results. The first confirms the prediction of Chapter~\ref{ch:feasibility}: after
+\SI{30}{min} $\|z\|/\|z_0\|$ is $0.8849$ on the exact kinematics, $0.8742$ in
+the approximation and $0.8745$ by the gradient-flow estimate; the largest difference
+between the exact run and the estimate over the whole run is \SI{1.0}{\percent}
+of $\|z_0\|$. The estimated slowness of the descent (hours) is therefore not an
+artefact of the approximation.
+
+The second result is a warning. The approximation keeps $|u_1|$ at the limit
+($1.000$) throughout, but on the exact kinematics $|u_1|$ exceeds the limit in
+$576$ of the $600$ intervals and its peak grows to $1.182$ of the limit at the end
+of the run (it was $1.000$ in the first minute); at the same time the trailer
+angles at the ends of the intervals reach $228^\circ$, and the hitch angles
+reach $4.04$~rad (car--trailer~1) and $3.06$~rad (trailer~1--trailer~2); more than
+\SI{94}{\percent} of the samples have a hitch angle above $1.40$~rad. The gain was chosen so that
+the limits hold along the straight ray from $z_0$ to the origin
+(Chapter~\ref{ch:feasibility}), but the path of the state is not that ray: it
+bends, the trailers turn, and the exact kinematics then ask for larger controls
+than the approximation does. So for two trailers the limit on $u_1$ is met in the
+approximation only, and a design for the real robot needs a margin or an
+adaptive gain that is computed from the \emph{exact} state.
+\TODO[the 30 min run covers only 11.5 percent of the descent in norm; the full run to 10 percent takes about 4 hours of robot time = about 5000 intervals and was not simulated (the Octave run of 30 min needs 23 min; in MATLAB it can be started with thesis-sim with the option 'long' and t-end = 14400 s over night) -- the growth of the peak of u1 and of the angles should be watched, because if they continue the two-trailer design fails on the exact model]
+\TODO[hitch angles of 3 to 4 rad are far beyond what the real hitch allows (the Gazebo model has 1.40 rad); this is the new finding of the hitch-angle analysis (coefficients of M0 up to 23000 for the robot geometry against 12 for unit lengths, so a small error in z means a large angle); decide how to present it here and in the conclusions]
+\TODO[Chapter feasibility states that the limits hold along the path; correct that statement according to this result, or add the margin there]
+
+\begin{figure}[ht]
+  \centering
+  \simfig{sim_1tr_long}{width=0.48\textwidth}\hfill
+  \simfig{sim_2tr_long}{width=0.48\textwidth}
+  \caption{Norm of $z$ at the end of each interval for the gradient-flow estimate
+    of Chapter~\ref{ch:feasibility}, the approximation and the exact kinematics.
+    Left: one trailer, whole run; right: two trailers, first part only.}
+  \label{fig:sim-long}
+\end{figure}
+
+\subsection{How far can the period be increased?}
+\label{sec:sim-validity}
+
+The approximation is the leading-order model of the real kinematics, so it
+describes the real system well only while the state moves a little within one
+interval. A larger $\varepsilon$ with the largest admissible gain means a larger
+step in $z$ per interval (the gain grows as $\varepsilon^{r-1}$,
+Chapter~\ref{ch:feasibility}), so the quality of the approximation must
+deteriorate at some period. Table~\ref{tab:sim-validity} gives, for several
+periods, the result of $12$ intervals with the largest admissible gain for
+each: the distance between exact and approximate $z$ relative to $\|z_0\|$, the
+progress of $\|z\|$ in both models, the peak of $|u_1|$ and $|u_2|$ of the exact
+run relative to the limits, the largest angle reached and the largest
+displacement of the car within one interval.
+
+\begin{table}[ht]
+  \centering
+  \caption{Validity of the approximation against the period. $12$ intervals per
+    run, gain: largest one admissible along the ray. dev $=\max\|z_{\mathrm{exact}}-z_{\mathrm{approx}}\|/\|z_0\|$;
+    $p_{\rm a},p_{\rm e}$ are the progress $\|z(12\varepsilon)\|/\|z_0\|$ in the approximation
+    and on the exact kinematics; $\hat u_1,\hat u_2$ are the peaks of $|u_1|,|u_2|$ of the exact run
+    relative to the limits; ``angle'' is the largest angle reached and ``exc.'' the
+    largest displacement of the car within one interval.}
+  \label{tab:sim-validity}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{rrrrrrrrr}
+    \toprule
+    $\varepsilon$ [s] & $\gamma$ & dev & $p_{\rm a}$ & $p_{\rm e}$ &
+      $\hat u_1$ & $\hat u_2$ & angle [$^\circ$] & exc. [m]\\
+    \midrule
+    \multicolumn{9}{l}{\emph{one trailer}}\\
+    2  & $4.63\cdot10^{-3}$ & 0.014 & 0.986 & 0.986 & 0.886 & 0.129 & 46.8 & 0.029\\
+    3  & $9.18\cdot10^{-3}$ & 0.022 & 0.958 & 0.959 & 0.873 & 0.126 & 47.3 & 0.043\\
+    5  & $2.11\cdot10^{-2}$ & 0.037 & 0.831 & 0.837 & 0.879 & 0.123 & 96.3 & 0.070\\
+    7  & $3.60\cdot10^{-2}$ & 0.047 & 0.560 & 0.574 & 0.943 & 0.127 & 129.3 & 0.101\\
+    10 & $6.20\cdot10^{-2}$ & 0.054 & 0.008 & 0.009 & 0.996 & 0.128 & 147.8 & 0.147\\
+    15 & $5.33\cdot10^{-2}$ & 0.058 & 0.000 & 0.000 & 0.741 & 0.095 & 152.7 & 0.164\\
+    \midrule
+    \multicolumn{9}{l}{\emph{two trailers}}\\
+    2  & $1.40\cdot10^{-5}$ & 0.019 & 0.999 & 0.999 & 1.000 & 0.182 & 34.7 & 0.039\\
+    3  & $3.50\cdot10^{-5}$ & 0.027 & 0.997 & 0.998 & 1.000 & 0.177 & 37.4 & 0.055\\
+    4  & $6.59\cdot10^{-5}$ & 0.039 & 0.994 & 0.994 & 1.001 & 0.173 & 81.4 & 0.070\\
+    6  & $1.57\cdot10^{-4}$ & 0.089 & 0.977 & 0.979 & 1.035 & 0.175 & 151.4 & 0.102\\
+    8  & $2.87\cdot10^{-4}$ & 0.131 & 0.945 & 0.950 & 1.103 & 0.183 & 207.3 & 0.139\\
+    26 & $1.55\cdot10^{-4}$ & 0.165 & 0.903 & 0.914 & 0.432 & 0.071 & 326.3 & 0.171\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{One trailer.} Up to $\varepsilon=\SI{10}{s}$ the gain is limited by the
+amplitude, and the deviation grows from \SI{1.4}{\percent} to \SI{5.4}{\percent}.
+From about $\varepsilon=\SI{11}{s}$ the contraction cap $\varepsilon\gamma h\le0.8$ is the active constraint
+(for the logarithmic function $h\le1$, so $\gamma=0.8/\varepsilon$, as in the row for $\SI{15}{s}$).
+The kinematics have no drift: if the controls
+are multiplied by a constant $\lambda$ and time is divided by $\lambda$, the
+path in the plane and the angles are unchanged. When the cap is the active constraint, a longer period comes with
+a smaller gain, the controls get smaller in
+proportion, and the robot traces exactly the same path, only more slowly. The
+period then costs time and gains nothing; for one trailer the best period is
+therefore the one at which the cap starts to bind, $\varepsilon\approx\SI{11}{s}$ with the
+logarithmic function (for the square-root function with $\delta=0.02$, which the design of
+Chapter~\ref{ch:feasibility} was first tuned for, it is $\SI{5}{s}$).
+\TODO[the experiment keeps eps = 5 s, tuned for the square-root function; for the logarithmic function eps = 10 s would give three times the gain (6.2e-2 against 2.1e-2) at a deviation of 5.4 percent instead of 3.7 percent and a largest angle of 148 degrees instead of 96 degrees - decide whether to re-tune the period for one trailer]
+
+\paragraph{Two trailers.} Here the cap never binds ($\varepsilon\gamma\le 4\cdot10^{-3}$
+for all periods in the table, against $0.8$), the gain is limited by the
+amplitude, and the deviation grows monotonically with the period: \SI{1.9}{\percent}
+for $\SI{2}{s}$, \SI{2.7}{\percent} for $\SI{3}{s}$, \SI{3.9}{\percent} for
+$\SI{4}{s}$, \SI{8.9}{\percent} for $\SI{6}{s}$ and \SI{13}{\percent} for
+$\SI{8}{s}$. At $\SI{6}{s}$ the exact system exceeds the limit on $u_1$ by
+\SI{3.5}{\percent}, the trailers swing through more than $\SI{150}{\degree}$,
+and the excursion within a single interval is about $\SI{0.1}{m}$. These
+are the symptoms that justify the working limit $\varepsilon\lesssim\SI{4}{s}$ used
+in Chapter~\ref{ch:feasibility} (condition (iii) there).
+\TODO[the limit 4 s is a judgement from this table (5 percent deviation, angles under 90 degrees); a sharper criterion could be derived from the size of the neglected terms -- ask supervisor]
+
+\paragraph{The mirage of a long period.}
+The last row ($\varepsilon=\SI{26}{s}$) deserves an explanation. For this
+period the approximation says that two trailers converge, and the table shows
+that after $12$ intervals the two models even agree in the norm ($0.903$ against
+$0.914$). The deviation is \SI{17}{\percent}, however, and the trailer angles
+have reached $\SI{326}{\degree}$.
+\TODO[the longer run of 60 intervals (1560 s, stroboscopic) with the new start has not been done; with the old start the approximation fell steadily while the exact model rose to 3.25 times the start and the trailers turned about 38 times; run thesis-sim with the option 'long', epsilon = 26 and t-end = 1560 s in MATLAB and quote the numbers]
+A large period can therefore not just make the approximation
+inaccurate; it can make it misleading. The reason is that the privileged
+coordinates are linear in the angles and do not know that an angle is
+defined modulo $2\pi$. A trailer that has turned once around looks like an
+error of $2\pi$ in $\theta$, and that error is amplified in the deepest
+coordinate, $z_4$ or $z_5$ (the one with the highest bracket depth), where the
+amplitude of the corresponding oscillation is largest. The controls then grow
+until the limits are exceeded.
+\TODO[the mechanism (z4/z5 amplification of a wound-up angle) is a hypothesis supported by the earlier experiment with the amplitudes being 82 times larger in the exact model; re-check with a dedicated run before the final version]
+
+\begin{figure}[ht]
+  \centering
+  \simfig{sim_1tr_validity}{width=0.48\textwidth}\hfill
+  \simfig{sim_2tr_validity}{width=0.48\textwidth}
+  \caption{Validity of the approximation against the period: relative distance
+    between exact and approximate trajectories (left of each pair) and progress
+    in both models after $12$ intervals (right). Left pair: one trailer; right
+    pair: two trailers.}
+  \label{fig:sim-validity}
+\end{figure}
+
+\subsection{From which start poses does the controller converge?}
+\label{sec:sim-envelope}
+
+The gain is tuned for one start pose, so the question is what happens from
+other poses. Table~\ref{tab:sim-envelope} starts from
+$s\cdot(\pm\SI{0.2}{m},\pm\SI{0.2}{m},45^\circ,45^\circ)$ for several scales $s$
+with the gain \emph{not} retuned (that of the design, $s=1$, sign $-$). The
+design start is the one with negative positions.
+
+\begin{table}[ht]
+  \centering
+  \caption{One trailer: exact kinematics from the scaled starts
+    $s\,(\pm0.2,\pm0.2,45^\circ,45^\circ)$, gain fixed at the design value,
+    $\SI{400}{s}$. The time is that to \SI{0.1}{\percent} of $\|z_0\|$ of the
+    respective start; ``--'' means it was not reached within $\SI{400}{s}$ (the design start,
+    $-$, reaches it after \SI{445}{s}, see above).}
+  \label{tab:sim-envelope}
+  \begin{tabular}{rrrrrr}
+    \toprule
+    sign & $s$ & $|x_0|$ [m] & time [s] & $\max|u_1|$/lim. & $\theta_1$ at the end [$^\circ$]\\
+    \midrule
+    $+$ & 1.00 & 0.283 & --  & 1.041 & $-226.1$\\
+    $+$ & 0.75 & 0.212 & --  & 1.000 & $-226.5$\\
+    $+$ & 0.50 & 0.141 & 341 & 0.803 & $0$\\
+    $+$ & 0.40 & 0.113 & 340 & 0.735 & $0$\\
+    $+$ & 0.30 & 0.085 & 330 & 0.674 & $0$\\
+    $+$ & 0.20 & 0.057 & 320 & 0.621 & $0$\\
+    $-$ & 1.00 & 0.283 & --  & 0.973 & $-2.4$\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The pose with positive coordinates and full size ($|x_0|=\SI{0.28}{m}$) does not
+converge within $\SI{400}{s}$: the trailer winds up (the end value
+$-226^\circ$ is not $0$ modulo $360^\circ$) and the exact system demands
+$1.04$ times the allowed $u_1$; at $s=0.75$ it winds up as well. Reducing the start to half the size brings it
+back to convergence, at $0.80$ of the limit. The design start itself has $0.97$ of the limit.
+Two points follow. First, the gain must be tuned for the start pose, which is
+an argument for the adaptive version of the next section, where the gain follows
+the state. Second, \emph{the region from which the controller works is
+limited by the validity of the approximation, not by the hardware limits only},
+since the same gain from the mirrored pose works and from the original pose
+does not.
+\TODO[the angles in this simulation are not reduced modulo 2 pi; a robot would measure them modulo 2 pi and a controller could choose the representative between minus pi and pi. Whether this repairs the failing start poses has not been tested]
+\TODO[two trailers: from the same family of starts only a 60-second run is available (norm stays bounded; max u1 between 0.43 and 0.74 of the limit for the positive starts and 1.08 for the negative start); a longer run is needed before a statement is made]
+
+% ===========================================================================
+\section{Fixed vs.\ adaptive gain}
+\label{sec:sim-adaptive}
+
+In the experiments so far the gain was constant and was chosen so that the
+limits hold along the whole ray from $z_0$ to the origin. With the quadratic
+$V$ the start is the most restrictive point of the ray and the gain is
+wasted everywhere else. The alternative is to recompute the gain at every
+interval: $\gamma_j$ is the largest gain for which the bound $B_1,B_2$ of
+\eqref{eq:bound3}, evaluated at the \emph{current} state, stays within the
+limits, capped by $\varepsilon\gamma_jh\le0.8$.
+As the state is closer to the origin the amplitudes $a$ shrink, the
+bound allows a larger $\gamma$, and the descent gets faster.
+
+\paragraph{One trailer.} Figure~\ref{fig:sim-adaptive} compares the two (approximation,
+$\SI{400}{s}$). With the adaptive gain $\|z\|$ falls to
+\SI{10}{\percent}, \SI{1}{\percent} and \SI{0.1}{\percent} after $208$, $250$
+and $260$ seconds against $238$, $333$ and $445$ for the fixed gain, so the
+gain brings $\SI{13}{\percent}$ of the time to \SI{10}{\percent} and $\SI{42}{\percent}$ of the time
+to \SI{0.1}{\percent}. The gain starts at the fixed value
+($2.1\times10^{-2}$) and rises to $0.16$, where the contraction cap $\varepsilon\gamma h\le0.8$ holds it.
+The limit on $u_1$ is met with the adaptive gain ($0.2200$; the fixed gain gives $0.2229$ on the approximation), and $\max|u_2|$ rises from
+$0.382$ to $0.404$. The improvement is small at the start, where the gain cannot change,
+and large in the late part of the descent.
+
+\paragraph{Two trailers.} Over the first minute the adaptive gain differs from the
+fixed one by \SI{0.3}{\percent} ($3.498\to3.508\times10^{-5}$), the norm is the same to
+three digits, and the limits are met in both. The gain would change appreciably
+only after the state has moved much closer to the origin, i.e.\ after hours of
+operation. The adaptive gain computed here is based on the approximation, so it does not
+remove the exceedance of $u_1$ on the exact kinematics found in
+Section~\ref{sec:sim-exact}. For the research question of the thesis it also means that adapting the
+gain does not remove the factor of about $30$ between one and two trailers
+from Chapter~\ref{ch:feasibility}.
+\TODO[a long adaptive run for two trailers (hours of robot time, approximation only, fast) has not been redone with the new start; do it and replace the minute by the time to 10 percent]
+
+\begin{figure}[ht]
+  \centering
+  \simfig{sim_1tr_adaptive}{width=0.48\textwidth}\hfill
+  \simfig{sim_2tr_adaptive}{width=0.48\textwidth}
+  \caption{Fixed against adaptive gain (approximation). In each pair: the norm
+    of $z$ (left) and the gain (right); the dotted line is the fixed gain.
+    Left pair: one trailer, $400$ s; right pair: two trailers, $60$ s.}
+  \label{fig:sim-adaptive}
+\end{figure}
+
+% ===========================================================================
+\section{Choice of period}
+\label{sec:sim-period}
+
+The period $\varepsilon$ is limited from three sides.
+
+\paragraph{Amplitude: the period should be long.} The oscillating terms of the controller have
+amplitude $T_m\propto(k\omega)^{(m-1)/m}|a_m|^{1/m}$, which grows with the
+frequency. Under a fixed limit the admissible gain therefore grows with the
+period like $\gamma_{\rm amp}\propto\varepsilon^{r-1}$
+(Chapter~\ref{ch:feasibility}); with a short period the robot is forced to
+move slowly. For two trailers this is a very steep law ($\varepsilon^3$).
+
+\paragraph{Contraction: the period should not be too long.}
+In the approximation with frozen amplitudes the state after one interval is
+$z\mapsto z-\varepsilon\gamma h\,z$ to leading order, so the interval map has the
+contraction factor $|1-\varepsilon\gamma h|$ and loses stability at
+$\varepsilon\gamma h=2$. Table~\ref{tab:sim-stepstab} checks this on the
+approximation with the quadratic $V$ ($h=1$) and without the limits, $10$
+intervals each. For one trailer the measured factor follows the prediction up
+to $\varepsilon\gamma=1.9$ and the scheme diverges at $2.1$. For two trailers
+the stability is lost earlier: $\varepsilon\gamma=1.2$ already converges more
+slowly than predicted ($1.3\cdot10^{-4}$ against $10^{-7}$ after $10$ intervals), and
+$1.6$ diverges. The cap $\varepsilon\gamma h\le0.8$ used in
+Chapter~\ref{ch:feasibility} is therefore a safe margin for both models. The
+leading-order threshold $2$ is thus reached for one trailer and not
+reached for two (practical limit between $1.4$ and $1.6$).
+\TODO[why does the two-trailer scheme lose stability before 2? Probably the nonlinear terms of the interval map (the privileged coordinates are not independent of the state) -- not analysed; ask supervisor]
+
+\begin{table}[ht]
+  \centering
+  \caption{Step stability of the sampled scheme: $\|z_N\|/\|z_0\|$ after $N=10$
+    intervals against $\varepsilon\gamma$ (approximation, $h=1$, limits
+    ignored) and the linear prediction $|1-\varepsilon\gamma|^{N}$.}
+  \label{tab:sim-stepstab}
+  \begin{tabular}{rrrrr}
+    \toprule
+    & \multicolumn{2}{c}{one trailer} & \multicolumn{2}{c}{two trailers}\\
+    \cmidrule(lr){2-3}\cmidrule(lr){4-5}
+    $\varepsilon\gamma$ & measured & predicted & measured & predicted\\
+    \midrule
+    0.4 & $6.26\cdot10^{-3}$ & $6.05\cdot10^{-3}$ & $6.35\cdot10^{-3}$ & $6.05\cdot10^{-3}$\\
+    0.8 & $1.33\cdot10^{-7}$ & $1.02\cdot10^{-7}$ & $1.21\cdot10^{-7}$ & $1.02\cdot10^{-7}$\\
+    1.0 & $\approx0$ & $\approx0$ & $\approx0$ & $\approx0$\\
+    1.2 & $1.15\cdot10^{-7}$ & $1.02\cdot10^{-7}$ & $1.30\cdot10^{-4}$ & $1.02\cdot10^{-7}$\\
+    1.4 & $1.05\cdot10^{-4}$ & $1.05\cdot10^{-4}$ & $5.92\cdot10^{-2}$ & $1.05\cdot10^{-4}$\\
+    1.6 & $5.99\cdot10^{-3}$ & $6.05\cdot10^{-3}$ & $3.37$ & $6.05\cdot10^{-3}$\\
+    1.9 & $0.35$ & $0.35$ & $316$ & $0.35$\\
+    2.1 & $2.86$ & $2.59$ & $4.31\cdot10^{3}$ & $2.59$\\
+    2.6 & $2.70\cdot10^{4}$ & $110$ & $1.69\cdot10^{6}$ & $110$\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Validity: the period should not be too long.} Section~\ref{sec:sim-validity}
+shows that the approximation (and with it the theory) fails once the step per
+interval is large; for two trailers this happens at
+$\varepsilon\approx\SI{4}{s}$ long before the contraction condition is touched.
+
+\paragraph{Result.} For one trailer the amplitude and contraction conditions
+cross at $\varepsilon\approx\SI{11}{s}$ with the logarithmic function (at
+$\SI{5}{s}$ with the square-root function), and that is the optimum: below it the
+period is too short for the limits, above it the cap makes the descent
+proportionally slower without changing the path. For two trailers the optimum is
+set by validity alone, at about $\SI{3}{s}$ to $\SI{4}{s}$. A short period is
+\emph{slower}, a long period is \emph{unstable or invalid}; these are two
+different mechanisms and should not be mixed up when the period is chosen for
+experiments.
+\TODO[the earlier old convergence map of trailer2 used a different (8 s) criterion and is not quoted here; it should be re-run with this chapter's setting or removed from the code]
+
+% ===========================================================================
+\section{Gazebo model}
+\label{sec:sim-gazebo}
+
+\TODO[Gazebo has not been run yet; this section describes the model file only, no results]
+
+The robot with two trailers is described in the Xacro file
+\texttt{road\_train.urdf.xacro} (folder \texttt{code/hardware}). It has two build
+modes. In the first, a plain box with two passive wheels stands in for the
+car, so that the trailer physics can be tested without any ROS package; in the
+second the file includes the description of the real TurtleBot3 Burger.
+Each trailer is a separate rigid body with two passive wheels, attached to the
+body in front of it by a \emph{passive revolute hitch} about the vertical axis,
+with a range of $\pm\SI{1.40}{rad}$, a damping of $0.002$ and a friction of
+$0.001$; nothing actuates the hitch, as in the paper. The hitch is placed at
+the distances $d_0,d_1$ \emph{in front of} the trailer axle, which is the
+off-hooked configuration of Chapter~\ref{ch:model}. The kinematic model of
+that chapter is therefore not enforced by the file: the kinematics emerge from
+the contact of the wheels with the ground and from the hitch mechanics, and the
+difference between them and the idealised model is what the simulation is meant
+to expose. The file is written for Gazebo Classic with the \texttt{gazebo\_ros\_pkgs}
+plugins.
+
+For the controller the state $x=(x_1,x_2,\varphi,\theta_1,\theta_2)$ is needed
+at the start of every interval. In the file a ground-truth plugin
+(\texttt{libgazebo\_ros\_p3d}) publishes the world pose of each trailer at
+\SI{100}{Hz} (topics \texttt{/trailer1/odom}, \texttt{/trailer2/odom}); the
+pose of the car comes from the car itself. In the laboratory the same three
+poses come from the motion-capture system, so that the controller sees the
+same inputs in simulation and on the robot and only the transport differs.
+The planned conversion is
+$\theta_1=\psi_1-\varphi$ and $\theta_2=\psi_2-\psi_1$, where $\psi_i$ is the
+yaw of trailer~$i$, with each difference reduced to $(-\pi,\pi]$; the
+amplitudes are then computed from $x$ once per interval, as in
+Section~\ref{sec:sim-impl}, and $u_1,u_2$ are sent to the car as a velocity
+command.
+\TODO[the dimensions in the file (d0 = 0.100, l1 = 0.150, d1 = 0.100, l2 = 0.150, track 0.160, trailer mass 0.30) are placeholders marked as to be measured; the geometry of Chapter model is d0 = 0.115, d1 = 0.084, l1 = 0.082, l2 = 0.089 -- replace before using the file]
+\TODO[velocity-controller response: the simulated and the real drive follow the command with a delay; at the 4.7 to 6 Hz command rate of Chapter feasibility the response matters -- measure it and add a delay to the simulation]
+\TODO[the topic names and the sign convention of the yaw differences are those of the file and the plan; check against the Gazebo version actually used]
