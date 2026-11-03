@@ -1,0 +1,22 @@
+geometry (26): alpha, kappa, theta  paper [0.10495 0.0024 0.0112]   our formulas [0.10495 0.0024 0.0112]
+geometry (27): alpha, kappa, theta  paper [1 1.5 4]   our formulas [1 1.5 4]
+
+##### case 1: geometry (26), start paper z0, h = 1
+  x0 = [1         -2         -2     -1.853      1.278]   ||z0|| = 3.3166
+   t [s]      exact     approx
+     1.0     0.5264     0.3714
+     2.0     0.2751     0.1359
+     3.0     0.2309    0.04933
+     4.0     0.2642    0.01777
+     5.0     0.2934   0.006356
+     6.0     0.2971   0.002261
+     7.0     0.2787   0.000801
+     8.0     0.2374  0.0002827
+     9.0     0.1714   9.95e-05
+    10.0    0.09544  3.495e-05
+    11.0    0.04189  1.225e-05
+    12.0    0.01623   4.29e-06
+    13.0   0.005972    1.5e-06
+  -> CONVERGED: min exact 0.005972, final exact 0.005972, approx 1.5e-06, max|u1| 219.0, largest |angle| 134 deg
+
+ratios are ||z||/||z0||; "approx" = nilpotent approximation, "exact" = exact kinematics.

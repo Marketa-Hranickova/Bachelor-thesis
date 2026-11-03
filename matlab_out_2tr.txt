@@ -1,0 +1,64 @@
+
+=== thesis_sim: two trailers (r = 4), design eps = 3 s, k = (14   5   1), V = sqrt, delta = 0.005 ===
+
+-- design run: gamma = 2.7498e-05, dt = 0.0054 s, t_end = 60 s
+  ||z|| to 10% / 1% / 0.1% of ||z0||  approx [NaN NaN NaN] s   exact [NaN NaN NaN] s
+  largest ||z_exact - z_approx|| = 0.0297 (3.6 % of ||z0||) at t = 59.3 s
+  max |u1| approx 0.2200 exact 0.2202 (limit 0.22);  max |u2| approx 0.5244 exact 0.5247 (limit 2.84)
+  final ||z|| approx 8.347e-01 exact 8.348e-01;  final theta1, theta2 [60.37 -22.5] deg, largest |theta| [67.95 57.34] deg
+
+-- validity: 12 intervals per period, gain = largest admissible
+  eps    gamma       dev/||z0||  ||z(T)||/||z0||  approx  exact   |u1|e/lim  |u2|e/lim  max|angle| [deg]  excursion [m]
+    2.0  1.064e-05      0.024        1.000      1.000      1.000     0.189         53.3        0.042
+    3.0  2.750e-05      0.035        0.999      0.999      1.000     0.185         56.1        0.059
+    4.0  5.330e-05      0.050        0.997      0.997      1.003     0.182         91.7        0.076
+    6.0  1.330e-04      0.092        0.988      0.990      1.034     0.183        200.5        0.112
+    8.0  2.509e-04      0.118        0.971      0.975      1.076     0.187        238.9        0.148
+   26.0  1.560e-04      0.213        0.941      0.957      0.457     0.078        593.2        0.196
+
+-- fixed against adaptive gain (approximation), t_end = 60 s
+  fixed    : to 10/1/0.1 %: [NaN NaN NaN] s, max |u1| 0.2200, max |u2| 0.5244
+  adaptive : to 10/1/0.1 %: [NaN NaN NaN] s, max |u1| 0.2200, max |u2| 0.5244
+  adaptive gamma: min 2.750e-05  max 2.754e-05  (fixed 2.750e-05);  final ||z|| fixed 8.35e-01 adaptive 8.35e-01
+
+-- envelope of start poses x0 = s*(+-0.2 m, +-0.2 m, 45 deg, 45 deg), exact kinematics, 60 s
+  sign  s     |x0|[m]   ||z(60 s)||/||z0||   max|u1|/lim   theta1 end [deg]
+  +1    1.00   0.283          1.0        0.689            38.7
+  +1    0.75   0.212          1.0        0.596            30.5
+  +1    0.50   0.141          1.0        0.437            21.3
+  +1    0.40   0.113          1.0        0.396            17.3
+  +1    0.30   0.085          1.0        0.433            13.1
+  +1    0.20   0.057          1.0        0.453             8.8
+  -1    1.00   0.283          1.0        1.001            60.4
+
+-- step stability: eps = 3 s, 10 intervals, quadratic V (h = 1), limits ignored
+  eps*gamma   ||z_N||/||z_0||   (1-eps*gamma)^N
+     0.40       6.506e-03        6.047e-03
+     0.80       1.446e-07        1.024e-07
+     1.00       2.005e-20        0.000e+00
+     1.20       2.928e-04        1.024e-07
+     1.40       1.397e-01        1.049e-04
+     1.60       8.337e+00        6.047e-03
+     1.90       8.308e+02        3.487e-01
+     2.10       1.069e+04        2.594e+00
+     2.60       4.326e+06        1.100e+02
+
+figures and sim_2tr.mat written to /Users/marke/Documents/thesis/figures
+
+ans = 
+
+  struct with fields:
+
+       model: '2tr'
+       label: 'two trailers (r = 4)'
+         des: [1×1 struct]
+          z0: [5×1 double]
+          x0: [5×1 double]
+       u1max: 0.2200
+       u2max: 2.8400
+      design: [1×1 struct]
+    validity: [1×1 struct]
+    adaptive: [1×1 struct]
+    envelope: [1×1 struct]
+    stepstab: [1×1 struct]
+

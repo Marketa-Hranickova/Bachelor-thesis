@@ -1,0 +1,1255 @@
+start position (-0.100, -0.100) m, eps = 3 s, sqrt h, Tmax = 20000 s
+family                a k               gamma   t_stop     |z0|      min    final   hitch1   hitch2  verdict (max u1)
+{Operation terminated by user during <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>u_ctrl', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1406)" style="font-weight:bold">trailer2>u_ctrl</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1406,0)">line 1406</a>)
+
+
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>rhs_x', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1356)" style="font-weight:bold">trailer2>rhs_x</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1356,0)">line 1356</a>)
+    [u1, u2] = u_ctrl(t, zf, omega, k12, k112, k1112, ...
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>@(t,x)rhs_x(t,x,z_frozen,d0,d1,l1,l2,omega,k12,k112,k1112,alpha,kappa,theta,gamma_val,h_fun)', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1306)" style="font-weight:bold">trailer2>@(t,x)rhs_x(t,x,z_frozen,d0,d1,l1,l2,omega,k12,k112,k1112,alpha,kappa,theta,gamma_val,h_fun)</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1306,0)">line 1306</a>)
+        odefun = @(t, x) rhs_x(t, x, z_frozen, d0, d1, l1, l2, omega, ...
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('ode45', '/Applications/MATLAB_R2025b.app/toolbox/matlab/funfun/ode45.m', 298)" style="font-weight:bold">ode45</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2025b.app/toolbox/matlab/funfun/ode45.m',298,0)">line 298</a>)
+        f4 = ode(t4, y4, odeArgs{:});
+             ^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>simulate_case_physical', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1320)" style="font-weight:bold">trailer2>simulate_case_physical</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1320,0)">line 1320</a>)
+        [t_seg, x_seg] = ode45(odefun, tspan_j, x_cur, options);
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 49)" style="font-weight:bold">trailer2</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',49,0)">line 49</a>)
+        [varargout{1:nargout}] = f(varargin{:});
+                                 ^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('angle_scan>@(name,varargin)trailer2(name,varargin{:})', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m', 32)" style="font-weight:bold">angle_scan>@(name,varargin)trailer2(name,varargin{:})</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m',32,0)">line 32</a>)
+    Tr = @(name, varargin) trailer2(name, varargin{:});
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('angle_scan', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m', 64)" style="font-weight:bold">angle_scan</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m',64,0)">line 64</a>)
+                    [~, xs, zs, u1] = Tr('simulate_case_physical', xc, geo.d0, geo.d1, geo.l1, geo.l2, al, ka, th, ...
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+angle_scan(struct('k_list',[18 4 1]))
+start position (-0.100, -0.100) m, eps = 3 s, sqrt h, Tmax = 20000 s
+family                a k               gamma   t_stop     |z0|      min    final   hitch1   hitch2  verdict (max u1)
+phi=th1=th2=a         0 (18,4,1)  2.029e-05    20000   0.1425   0.2703   0.5608   5.78 r   3.18 r  not finished (0.313)
+{Operation terminated by user during <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>u_ctrl', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1406)" style="font-weight:bold">trailer2>u_ctrl</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1406,0)">line 1406</a>)
+
+
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>rhs_x', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1356)" style="font-weight:bold">trailer2>rhs_x</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1356,0)">line 1356</a>)
+    [u1, u2] = u_ctrl(t, zf, omega, k12, k112, k1112, ...
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>@(t,x)rhs_x(t,x,z_frozen,d0,d1,l1,l2,omega,k12,k112,k1112,alpha,kappa,theta,gamma_val,h_fun)', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1306)" style="font-weight:bold">trailer2>@(t,x)rhs_x(t,x,z_frozen,d0,d1,l1,l2,omega,k12,k112,k1112,alpha,kappa,theta,gamma_val,h_fun)</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1306,0)">line 1306</a>)
+        odefun = @(t, x) rhs_x(t, x, z_frozen, d0, d1, l1, l2, omega, ...
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('ode45', '/Applications/MATLAB_R2025b.app/toolbox/matlab/funfun/ode45.m', 298)" style="font-weight:bold">ode45</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2025b.app/toolbox/matlab/funfun/ode45.m',298,0)">line 298</a>)
+        f4 = ode(t4, y4, odeArgs{:});
+             ^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>simulate_case_physical', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1320)" style="font-weight:bold">trailer2>simulate_case_physical</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1320,0)">line 1320</a>)
+        [t_seg, x_seg] = ode45(odefun, tspan_j, x_cur, options);
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 49)" style="font-weight:bold">trailer2</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',49,0)">line 49</a>)
+        [varargout{1:nargout}] = f(varargin{:});
+                                 ^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('angle_scan>@(name,varargin)trailer2(name,varargin{:})', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m', 32)" style="font-weight:bold">angle_scan>@(name,varargin)trailer2(name,varargin{:})</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m',32,0)">line 32</a>)
+    Tr = @(name, varargin) trailer2(name, varargin{:});
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('angle_scan', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m', 64)" style="font-weight:bold">angle_scan</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m',64,0)">line 64</a>)
+                    [~, xs, zs, u1] = Tr('simulate_case_physical', xc, geo.d0, geo.d1, geo.l1, geo.l2, al, ka, th, ...
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+plots_hyper
+run 1 of 2 (T = 16 s) ...
+run 2 of 2 (T = 8 s) ...
+PNG files written to /Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/../hyperexponential 2 trailers
+plots_o
+
+=== Vector field f1(x) ===
+                                                                  cos(x3)
+                                                                  sin(x3)
+                                                                        0
+                                                        sin(x3 - x4)/l1_s
+sin(x3 - x5)/l2_s - (cos(x4 - x5)*sin(x3 - x4)*(d1_s + l1_s))/(l1_s*l2_s)
+ 
+
+=== Vector field f2(x) ===
+                                                                                    0
+                                                                                    0
+                                                                                    1
+                                                            -(d0_s*cos(x3 - x4))/l1_s
+(d0_s*cos(x3 - x4)*cos(x4 - x5)*(d1_s + l1_s))/(l1_s*l2_s) - (d0_s*cos(x3 - x5))/l2_s
+ 
+
+=== Lie bracket [f1, f2] ===
+                                                                                                                                                                                                                             sin(x3)
+                                                                                                                                                                                                                            -cos(x3)
+                                                                                                                                                                                                                                   0
+                                                                                                                                                                                                  -(d0_s + l1_s*cos(x3 - x4))/l1_s^2
+(l1_s^2*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s - l1_s^2*l2_s*cos(x3 - x5) + d1_s*l1_s*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l2_s*cos(x4 - x5) + 2*d0_s*l1_s*l2_s*cos(x4 - x5) + d1_s*l1_s*l2_s*cos(x3 - x5))/(2*l1_s^2*l2_s^2)
+ 
+
+=== Lie bracket [f1, [f1, f2]] ===
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                         0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                         0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                         0
+                                                                                                                                                                                                                                                                                                                                                                                                                                        -(l1_s + d0_s*cos(x3 - x4))/l1_s^3
+(2*l1_s^2*l2_s^2*cos(x4 - x5) + 2*d1_s*l1_s^2*l2_s + d0_s*d1_s*l1_s^2*cos(x3 - x5) - d0_s*d1_s^2*l1_s*cos(x3 - x5) + d0_s*d1_s*l2_s^2*cos(x3 - x5) + 2*d0_s*l1_s^2*l2_s*cos(x3 - x4) + d0_s*l1_s*l2_s^2*cos(x3 - x5) + 2*d1_s*l1_s*l2_s^2*cos(x4 - x5) + d0_s*d1_s*l1_s^2*cos(x3 - 2*x4 + x5) + d0_s*d1_s^2*l1_s*cos(x3 - 2*x4 + x5) + d0_s*d1_s*l2_s^2*cos(x3 - 2*x4 + x5) + d0_s*l1_s*l2_s^2*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s*l2_s*cos(x3 - x4))/(2*l1_s^3*l2_s^3)
+ 
+
+=== Lie bracket [f1, [f1, [f1, f2]]] ===
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 -(d0_s + l1_s*cos(x3 - x4))/l1_s^4
+(4*l1_s^3*l2_s^2*cos(x3 - x4) + 2*l1_s^2*l2_s^3*cos(x3 - x5) + 4*d0_s*l1_s^2*l2_s^2 + 2*l1_s^2*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s^3 + 2*d0_s*d1_s^3*l1_s + 4*d0_s*d1_s*l2_s^3*cos(x4 - x5) + 4*d0_s*l1_s*l2_s^3*cos(x4 - x5) + 2*d0_s*l1_s^3*l2_s*cos(x4 - x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - x5) + 4*d0_s*d1_s*l1_s*l2_s^2 + 2*d0_s*d1_s*l1_s^3*cos(2*x3 - 2*x4) - 2*d0_s*d1_s^3*l1_s*cos(2*x3 - 2*x4) + 4*d1_s*l1_s^2*l2_s^2*cos(x3 - x4) - 2*d1_s^2*l1_s^2*l2_s*cos(x3 - x5) + d0_s*l1_s^3*l2_s*cos(x4 - 2*x3 + x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - 2*x4 + x5) + d0_s*l1_s^3*l2_s*cos(2*x3 - 3*x4 + x5) + 2*d1_s^2*l1_s^2*l2_s*cos(x3 - 2*x4 + x5) - d0_s*d1_s^2*l1_s*l2_s*cos(2*x3 - 3*x4 + x5) + 4*d0_s*d1_s*l1_s^2*l2_s*cos(x4 - x5) + 2*d0_s*d1_s^2*l1_s*l2_s*cos(x4 - x5) - d0_s*d1_s^2*l1_s*l2_s*cos(x4 - 2*x3 + x5))/(4*l1_s^4*l2_s^4)
+ 
+
+=== Matrix F(x) from eq. (3) ===
+[                                                                  cos(x3),                                                                                     0,                                                                                                                                                                                                                              sin(x3),                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0]
+[                                                                  sin(x3),                                                                                     0,                                                                                                                                                                                                                             -cos(x3),                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0]
+[                                                                        0,                                                                                     1,                                                                                                                                                                                                                                    0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0]
+[                                                        sin(x3 - x4)/l1_s,                                                             -(d0_s*cos(x3 - x4))/l1_s,                                                                                                                                                                                                   -(d0_s + l1_s*cos(x3 - x4))/l1_s^2,                                                                                                                                                                                                                                                                                                                                                                                                                                         -(l1_s + d0_s*cos(x3 - x4))/l1_s^3,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  -(d0_s + l1_s*cos(x3 - x4))/l1_s^4]
+[sin(x3 - x5)/l2_s - (cos(x4 - x5)*sin(x3 - x4)*(d1_s + l1_s))/(l1_s*l2_s), (d0_s*cos(x3 - x4)*cos(x4 - x5)*(d1_s + l1_s))/(l1_s*l2_s) - (d0_s*cos(x3 - x5))/l2_s, (l1_s^2*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s - l1_s^2*l2_s*cos(x3 - x5) + d1_s*l1_s*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l2_s*cos(x4 - x5) + 2*d0_s*l1_s*l2_s*cos(x4 - x5) + d1_s*l1_s*l2_s*cos(x3 - x5))/(2*l1_s^2*l2_s^2), (2*l1_s^2*l2_s^2*cos(x4 - x5) + 2*d1_s*l1_s^2*l2_s + d0_s*d1_s*l1_s^2*cos(x3 - x5) - d0_s*d1_s^2*l1_s*cos(x3 - x5) + d0_s*d1_s*l2_s^2*cos(x3 - x5) + 2*d0_s*l1_s^2*l2_s*cos(x3 - x4) + d0_s*l1_s*l2_s^2*cos(x3 - x5) + 2*d1_s*l1_s*l2_s^2*cos(x4 - x5) + d0_s*d1_s*l1_s^2*cos(x3 - 2*x4 + x5) + d0_s*d1_s^2*l1_s*cos(x3 - 2*x4 + x5) + d0_s*d1_s*l2_s^2*cos(x3 - 2*x4 + x5) + d0_s*l1_s*l2_s^2*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s*l2_s*cos(x3 - x4))/(2*l1_s^3*l2_s^3), (4*l1_s^3*l2_s^2*cos(x3 - x4) + 2*l1_s^2*l2_s^3*cos(x3 - x5) + 4*d0_s*l1_s^2*l2_s^2 + 2*l1_s^2*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s^3 + 2*d0_s*d1_s^3*l1_s + 4*d0_s*d1_s*l2_s^3*cos(x4 - x5) + 4*d0_s*l1_s*l2_s^3*cos(x4 - x5) + 2*d0_s*l1_s^3*l2_s*cos(x4 - x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - x5) + 4*d0_s*d1_s*l1_s*l2_s^2 + 2*d0_s*d1_s*l1_s^3*cos(2*x3 - 2*x4) - 2*d0_s*d1_s^3*l1_s*cos(2*x3 - 2*x4) + 4*d1_s*l1_s^2*l2_s^2*cos(x3 - x4) - 2*d1_s^2*l1_s^2*l2_s*cos(x3 - x5) + d0_s*l1_s^3*l2_s*cos(x4 - 2*x3 + x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - 2*x4 + x5) + d0_s*l1_s^3*l2_s*cos(2*x3 - 3*x4 + x5) + 2*d1_s^2*l1_s^2*l2_s*cos(x3 - 2*x4 + x5) - d0_s*d1_s^2*l1_s*l2_s*cos(2*x3 - 3*x4 + x5) + 4*d0_s*d1_s*l1_s^2*l2_s*cos(x4 - x5) + 2*d0_s*d1_s^2*l1_s*l2_s*cos(x4 - x5) - d0_s*d1_s^2*l1_s*l2_s*cos(x4 - 2*x3 + x5))/(4*l1_s^4*l2_s^4)]
+ 
+  det F(0) = -((d0_s + l1_s)*(d0_s + l2_s)*(d1_s + l2_s))/(l1_s^4*l2_s^4)
+ 
+
+========================================
+  Initial condition (physical x-coordinates)
+========================================
+  x0 = [0.4000; -0.4000; 0.3000; -0.2000; 0.1000]
+  (x_C0 = 0.40 m, y_C0 = -0.40 m, phi = 0.30 rad,
+   theta_1 = -0.20 rad, theta_2 = 0.10 rad)
+
+========================================
+  Starting simulations
+  Time span: [0.0, 5.0], dt = 1.0e-04
+  epsilon = 0.10, omega = 2*pi/eps = 62.8319
+  k12 = 8, k112 = 6, k1112 = 5
+========================================
+
+Running Case 1a: params (26), h = 1 ...
+  Case 1a complete: 50001 steps.
+  Final x: [-0.002161; -0.003017; 0.001546; -0.004184; 0.007937]
+  ||x(end)|| = 0.009832
+
+Running Case 1b: params (26), h = |log(||z||^2)| ...
+  Case 1b complete: 50001 steps.
+  Final x: [0.000040; -0.000012; -0.000002; -0.000013; -0.000012]
+  ||x(end)|| = 0.000045
+
+Running Case 2a: params (27), h = 1 ...
+  Case 2a complete: 50001 steps.
+  Final x: [-0.001735; -0.003171; 0.001546; -0.001218; -0.003538]
+  ||x(end)|| = 0.005427
+
+Running Case 2b: params (27), h = |log(||z||^2)| ...
+  Case 2b complete: 50001 steps.
+  Final x: [0.300185; -0.350378; 0.246927; -0.182846; 0.109940]
+  ||x(end)|| = 0.565126
+
+========================================
+  Deriving z(t) from x(t)
+========================================
+  z(end) for each case:
+    Case 1a: z = [-0.002161; 0.001546; 0.003017; -0.004588; 0.005234]
+    Case 1b: z = [0.000040; -0.000002; 0.000012; 0.000014; -0.000013]
+    Case 2a: z = [-0.001735; 0.001546; 0.003171; -0.005563; 0.002228]
+    Case 2b: z = [0.300185; 0.246927; 0.350378; -0.762630; 0.380212]
+
+========================================
+  Computing Lyapunov functions
+========================================
+  V(z) and V2(z) computed for all cases.
+  V_1a(end)  = 0.000065,  V_1b(end)  = 0.000000
+  V_2a(end)  = 0.000051,  V_2b(end)  = 1.000013
+  V2_1a(end) = 0.000623,  V2_1b(end) = 0.000000
+  V2_2a(end) = 0.000507,  V2_2b(end) = 0.000013
+
+=== All computations finished. ===
+plots_o
+
+=== Vector field f1(x) ===
+                                                                  cos(x3)
+                                                                  sin(x3)
+                                                                        0
+                                                        sin(x3 - x4)/l1_s
+sin(x3 - x5)/l2_s - (cos(x4 - x5)*sin(x3 - x4)*(d1_s + l1_s))/(l1_s*l2_s)
+ 
+
+=== Vector field f2(x) ===
+                                                                                    0
+                                                                                    0
+                                                                                    1
+                                                            -(d0_s*cos(x3 - x4))/l1_s
+(d0_s*cos(x3 - x4)*cos(x4 - x5)*(d1_s + l1_s))/(l1_s*l2_s) - (d0_s*cos(x3 - x5))/l2_s
+ 
+
+=== Lie bracket [f1, f2] ===
+                                                                                                                                                                                                                             sin(x3)
+                                                                                                                                                                                                                            -cos(x3)
+                                                                                                                                                                                                                                   0
+                                                                                                                                                                                                  -(d0_s + l1_s*cos(x3 - x4))/l1_s^2
+(l1_s^2*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s - l1_s^2*l2_s*cos(x3 - x5) + d1_s*l1_s*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l2_s*cos(x4 - x5) + 2*d0_s*l1_s*l2_s*cos(x4 - x5) + d1_s*l1_s*l2_s*cos(x3 - x5))/(2*l1_s^2*l2_s^2)
+ 
+
+=== Lie bracket [f1, [f1, f2]] ===
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                         0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                         0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                         0
+                                                                                                                                                                                                                                                                                                                                                                                                                                        -(l1_s + d0_s*cos(x3 - x4))/l1_s^3
+(2*l1_s^2*l2_s^2*cos(x4 - x5) + 2*d1_s*l1_s^2*l2_s + d0_s*d1_s*l1_s^2*cos(x3 - x5) - d0_s*d1_s^2*l1_s*cos(x3 - x5) + d0_s*d1_s*l2_s^2*cos(x3 - x5) + 2*d0_s*l1_s^2*l2_s*cos(x3 - x4) + d0_s*l1_s*l2_s^2*cos(x3 - x5) + 2*d1_s*l1_s*l2_s^2*cos(x4 - x5) + d0_s*d1_s*l1_s^2*cos(x3 - 2*x4 + x5) + d0_s*d1_s^2*l1_s*cos(x3 - 2*x4 + x5) + d0_s*d1_s*l2_s^2*cos(x3 - 2*x4 + x5) + d0_s*l1_s*l2_s^2*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s*l2_s*cos(x3 - x4))/(2*l1_s^3*l2_s^3)
+ 
+
+=== Lie bracket [f1, [f1, [f1, f2]]] ===
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 -(d0_s + l1_s*cos(x3 - x4))/l1_s^4
+(4*l1_s^3*l2_s^2*cos(x3 - x4) + 2*l1_s^2*l2_s^3*cos(x3 - x5) + 4*d0_s*l1_s^2*l2_s^2 + 2*l1_s^2*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s^3 + 2*d0_s*d1_s^3*l1_s + 4*d0_s*d1_s*l2_s^3*cos(x4 - x5) + 4*d0_s*l1_s*l2_s^3*cos(x4 - x5) + 2*d0_s*l1_s^3*l2_s*cos(x4 - x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - x5) + 4*d0_s*d1_s*l1_s*l2_s^2 + 2*d0_s*d1_s*l1_s^3*cos(2*x3 - 2*x4) - 2*d0_s*d1_s^3*l1_s*cos(2*x3 - 2*x4) + 4*d1_s*l1_s^2*l2_s^2*cos(x3 - x4) - 2*d1_s^2*l1_s^2*l2_s*cos(x3 - x5) + d0_s*l1_s^3*l2_s*cos(x4 - 2*x3 + x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - 2*x4 + x5) + d0_s*l1_s^3*l2_s*cos(2*x3 - 3*x4 + x5) + 2*d1_s^2*l1_s^2*l2_s*cos(x3 - 2*x4 + x5) - d0_s*d1_s^2*l1_s*l2_s*cos(2*x3 - 3*x4 + x5) + 4*d0_s*d1_s*l1_s^2*l2_s*cos(x4 - x5) + 2*d0_s*d1_s^2*l1_s*l2_s*cos(x4 - x5) - d0_s*d1_s^2*l1_s*l2_s*cos(x4 - 2*x3 + x5))/(4*l1_s^4*l2_s^4)
+ 
+
+=== Matrix F(x) from eq. (3) ===
+[                                                                  cos(x3),                                                                                     0,                                                                                                                                                                                                                              sin(x3),                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0]
+[                                                                  sin(x3),                                                                                     0,                                                                                                                                                                                                                             -cos(x3),                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0]
+[                                                                        0,                                                                                     1,                                                                                                                                                                                                                                    0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0]
+[                                                        sin(x3 - x4)/l1_s,                                                             -(d0_s*cos(x3 - x4))/l1_s,                                                                                                                                                                                                   -(d0_s + l1_s*cos(x3 - x4))/l1_s^2,                                                                                                                                                                                                                                                                                                                                                                                                                                         -(l1_s + d0_s*cos(x3 - x4))/l1_s^3,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  -(d0_s + l1_s*cos(x3 - x4))/l1_s^4]
+[sin(x3 - x5)/l2_s - (cos(x4 - x5)*sin(x3 - x4)*(d1_s + l1_s))/(l1_s*l2_s), (d0_s*cos(x3 - x4)*cos(x4 - x5)*(d1_s + l1_s))/(l1_s*l2_s) - (d0_s*cos(x3 - x5))/l2_s, (l1_s^2*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s - l1_s^2*l2_s*cos(x3 - x5) + d1_s*l1_s*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l2_s*cos(x4 - x5) + 2*d0_s*l1_s*l2_s*cos(x4 - x5) + d1_s*l1_s*l2_s*cos(x3 - x5))/(2*l1_s^2*l2_s^2), (2*l1_s^2*l2_s^2*cos(x4 - x5) + 2*d1_s*l1_s^2*l2_s + d0_s*d1_s*l1_s^2*cos(x3 - x5) - d0_s*d1_s^2*l1_s*cos(x3 - x5) + d0_s*d1_s*l2_s^2*cos(x3 - x5) + 2*d0_s*l1_s^2*l2_s*cos(x3 - x4) + d0_s*l1_s*l2_s^2*cos(x3 - x5) + 2*d1_s*l1_s*l2_s^2*cos(x4 - x5) + d0_s*d1_s*l1_s^2*cos(x3 - 2*x4 + x5) + d0_s*d1_s^2*l1_s*cos(x3 - 2*x4 + x5) + d0_s*d1_s*l2_s^2*cos(x3 - 2*x4 + x5) + d0_s*l1_s*l2_s^2*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s*l2_s*cos(x3 - x4))/(2*l1_s^3*l2_s^3), (4*l1_s^3*l2_s^2*cos(x3 - x4) + 2*l1_s^2*l2_s^3*cos(x3 - x5) + 4*d0_s*l1_s^2*l2_s^2 + 2*l1_s^2*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s^3 + 2*d0_s*d1_s^3*l1_s + 4*d0_s*d1_s*l2_s^3*cos(x4 - x5) + 4*d0_s*l1_s*l2_s^3*cos(x4 - x5) + 2*d0_s*l1_s^3*l2_s*cos(x4 - x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - x5) + 4*d0_s*d1_s*l1_s*l2_s^2 + 2*d0_s*d1_s*l1_s^3*cos(2*x3 - 2*x4) - 2*d0_s*d1_s^3*l1_s*cos(2*x3 - 2*x4) + 4*d1_s*l1_s^2*l2_s^2*cos(x3 - x4) - 2*d1_s^2*l1_s^2*l2_s*cos(x3 - x5) + d0_s*l1_s^3*l2_s*cos(x4 - 2*x3 + x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - 2*x4 + x5) + d0_s*l1_s^3*l2_s*cos(2*x3 - 3*x4 + x5) + 2*d1_s^2*l1_s^2*l2_s*cos(x3 - 2*x4 + x5) - d0_s*d1_s^2*l1_s*l2_s*cos(2*x3 - 3*x4 + x5) + 4*d0_s*d1_s*l1_s^2*l2_s*cos(x4 - x5) + 2*d0_s*d1_s^2*l1_s*l2_s*cos(x4 - x5) - d0_s*d1_s^2*l1_s*l2_s*cos(x4 - 2*x3 + x5))/(4*l1_s^4*l2_s^4)]
+ 
+  det F(0) = -((d0_s + l1_s)*(d0_s + l2_s)*(d1_s + l2_s))/(l1_s^4*l2_s^4)
+ 
+
+========================================
+  Initial condition (physical x-coordinates)
+========================================
+  x0 = [0.4000; -0.4000; 0.3000; -0.2000; 0.1000]
+  (x_C0 = 0.40 m, y_C0 = -0.40 m, phi = 0.30 rad,
+   theta_1 = -0.20 rad, theta_2 = 0.10 rad)
+
+========================================
+  Starting simulations
+  Time span: [0.0, 10.0], dt = 1.0e-04
+  epsilon = 0.10, omega = 2*pi/eps = 62.8319
+  k12 = 8, k112 = 6, k1112 = 5
+========================================
+
+Running Case 1a: params (26), h = 1 ...
+  Case 1a complete: 100001 steps.
+  Final x: [-0.000017; -0.000010; 0.000008; -0.000016; 0.000042]
+  ||x(end)|| = 0.000049
+
+Running Case 1b: params (26), h = |log(||z||^2)| ...
+  Case 1b complete: 100001 steps.
+  Final x: [0.000042; -0.000012; -0.000002; -0.000018; 0.000001]
+  ||x(end)|| = 0.000047
+
+Running Case 2a: params (27), h = 1 ...
+  Case 2a complete: 100001 steps.
+  Final x: [-0.000014; -0.000013; 0.000008; 0.000001; -0.000034]
+  ||x(end)|| = 0.000039
+
+Running Case 2b: params (27), h = |log(||z||^2)| ...
+  Case 2b complete: 100001 steps.
+  Final x: [0.300182; -0.350375; 0.246925; -0.182844; 0.109940]
+  ||x(end)|| = 0.565122
+
+========================================
+  Deriving z(t) from x(t)
+========================================
+  z(end) for each case:
+    Case 1a: z = [-0.000017; 0.000008; 0.000010; -0.000024; 0.000028]
+    Case 1b: z = [0.000042; -0.000002; 0.000012; 0.000011; -0.000007]
+    Case 2a: z = [-0.000014; 0.000008; 0.000013; -0.000029; 0.000012]
+    Case 2b: z = [0.300182; 0.246925; 0.350375; -0.762625; 0.380210]
+
+========================================
+  Computing Lyapunov functions
+========================================
+  V(z) and V2(z) computed for all cases.
+  V_1a(end)  = 0.000000,  V_1b(end)  = 0.000000
+  V_2a(end)  = 0.000000,  V_2b(end)  = 1.000000
+  V2_1a(end) = 0.000000,  V2_1b(end) = 0.000000
+  V2_2a(end) = 0.000000,  V2_2b(end) = 0.000000
+
+=== All computations finished. ===
+plots_hyper
+run 1 of 2 (T = 16 s) ...
+run 2 of 2 (T = 8 s) ...
+[Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.] 
+{Error using checkArgsForHandleToPrint
+Invalid graphics object.
+
+Error in checkArgsForHandleToPrint
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('print>LocalCreatePrintJob', '/Applications/MATLAB_R2025b.app/toolbox/matlab/graphics/graphics/printing/print.m', 104)" style="font-weight:bold">print>LocalCreatePrintJob</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2025b.app/toolbox/matlab/graphics/graphics/printing/print.m',104,0)">line 104</a>)
+handles = checkArgsForHandleToPrint(0, varargin{:});
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('print', '/Applications/MATLAB_R2025b.app/toolbox/matlab/graphics/graphics/printing/print.m', 33)" style="font-weight:bold">print</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2025b.app/toolbox/matlab/graphics/graphics/printing/print.m',33,0)">line 33</a>)
+[pj, inputargs] = LocalCreatePrintJob(varargin{:});
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('plots_hyper', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/plots_hyper.m', 79)" style="font-weight:bold">plots_hyper</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/plots_hyper.m',79,0)">line 79</a>)
+    print(f, fullfile(opts.outdir, 'control_inputs.png'), '-dpng', '-r150');
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+plots_hyper
+run 1 of 2 (T = 16 s) ...
+run 2 of 2 (T = 8 s) ...
+PNG files written to /Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/../hyperexponential 2 trailers
+plots_o
+
+=== Vector field f1(x) ===
+                                                                  cos(x3)
+                                                                  sin(x3)
+                                                                        0
+                                                        sin(x3 - x4)/l1_s
+sin(x3 - x5)/l2_s - (cos(x4 - x5)*sin(x3 - x4)*(d1_s + l1_s))/(l1_s*l2_s)
+ 
+
+=== Vector field f2(x) ===
+                                                                                    0
+                                                                                    0
+                                                                                    1
+                                                            -(d0_s*cos(x3 - x4))/l1_s
+(d0_s*cos(x3 - x4)*cos(x4 - x5)*(d1_s + l1_s))/(l1_s*l2_s) - (d0_s*cos(x3 - x5))/l2_s
+ 
+
+=== Lie bracket [f1, f2] ===
+                                                                                                                                                                                                                             sin(x3)
+                                                                                                                                                                                                                            -cos(x3)
+                                                                                                                                                                                                                                   0
+                                                                                                                                                                                                  -(d0_s + l1_s*cos(x3 - x4))/l1_s^2
+(l1_s^2*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s - l1_s^2*l2_s*cos(x3 - x5) + d1_s*l1_s*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l2_s*cos(x4 - x5) + 2*d0_s*l1_s*l2_s*cos(x4 - x5) + d1_s*l1_s*l2_s*cos(x3 - x5))/(2*l1_s^2*l2_s^2)
+ 
+
+=== Lie bracket [f1, [f1, f2]] ===
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                         0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                         0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                         0
+                                                                                                                                                                                                                                                                                                                                                                                                                                        -(l1_s + d0_s*cos(x3 - x4))/l1_s^3
+(2*l1_s^2*l2_s^2*cos(x4 - x5) + 2*d1_s*l1_s^2*l2_s + d0_s*d1_s*l1_s^2*cos(x3 - x5) - d0_s*d1_s^2*l1_s*cos(x3 - x5) + d0_s*d1_s*l2_s^2*cos(x3 - x5) + 2*d0_s*l1_s^2*l2_s*cos(x3 - x4) + d0_s*l1_s*l2_s^2*cos(x3 - x5) + 2*d1_s*l1_s*l2_s^2*cos(x4 - x5) + d0_s*d1_s*l1_s^2*cos(x3 - 2*x4 + x5) + d0_s*d1_s^2*l1_s*cos(x3 - 2*x4 + x5) + d0_s*d1_s*l2_s^2*cos(x3 - 2*x4 + x5) + d0_s*l1_s*l2_s^2*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s*l2_s*cos(x3 - x4))/(2*l1_s^3*l2_s^3)
+ 
+
+=== Lie bracket [f1, [f1, [f1, f2]]] ===
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 -(d0_s + l1_s*cos(x3 - x4))/l1_s^4
+(4*l1_s^3*l2_s^2*cos(x3 - x4) + 2*l1_s^2*l2_s^3*cos(x3 - x5) + 4*d0_s*l1_s^2*l2_s^2 + 2*l1_s^2*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s^3 + 2*d0_s*d1_s^3*l1_s + 4*d0_s*d1_s*l2_s^3*cos(x4 - x5) + 4*d0_s*l1_s*l2_s^3*cos(x4 - x5) + 2*d0_s*l1_s^3*l2_s*cos(x4 - x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - x5) + 4*d0_s*d1_s*l1_s*l2_s^2 + 2*d0_s*d1_s*l1_s^3*cos(2*x3 - 2*x4) - 2*d0_s*d1_s^3*l1_s*cos(2*x3 - 2*x4) + 4*d1_s*l1_s^2*l2_s^2*cos(x3 - x4) - 2*d1_s^2*l1_s^2*l2_s*cos(x3 - x5) + d0_s*l1_s^3*l2_s*cos(x4 - 2*x3 + x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - 2*x4 + x5) + d0_s*l1_s^3*l2_s*cos(2*x3 - 3*x4 + x5) + 2*d1_s^2*l1_s^2*l2_s*cos(x3 - 2*x4 + x5) - d0_s*d1_s^2*l1_s*l2_s*cos(2*x3 - 3*x4 + x5) + 4*d0_s*d1_s*l1_s^2*l2_s*cos(x4 - x5) + 2*d0_s*d1_s^2*l1_s*l2_s*cos(x4 - x5) - d0_s*d1_s^2*l1_s*l2_s*cos(x4 - 2*x3 + x5))/(4*l1_s^4*l2_s^4)
+ 
+
+=== Matrix F(x) from eq. (3) ===
+[                                                                  cos(x3),                                                                                     0,                                                                                                                                                                                                                              sin(x3),                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0]
+[                                                                  sin(x3),                                                                                     0,                                                                                                                                                                                                                             -cos(x3),                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0]
+[                                                                        0,                                                                                     1,                                                                                                                                                                                                                                    0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0]
+[                                                        sin(x3 - x4)/l1_s,                                                             -(d0_s*cos(x3 - x4))/l1_s,                                                                                                                                                                                                   -(d0_s + l1_s*cos(x3 - x4))/l1_s^2,                                                                                                                                                                                                                                                                                                                                                                                                                                         -(l1_s + d0_s*cos(x3 - x4))/l1_s^3,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  -(d0_s + l1_s*cos(x3 - x4))/l1_s^4]
+[sin(x3 - x5)/l2_s - (cos(x4 - x5)*sin(x3 - x4)*(d1_s + l1_s))/(l1_s*l2_s), (d0_s*cos(x3 - x4)*cos(x4 - x5)*(d1_s + l1_s))/(l1_s*l2_s) - (d0_s*cos(x3 - x5))/l2_s, (l1_s^2*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s - l1_s^2*l2_s*cos(x3 - x5) + d1_s*l1_s*l2_s*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l2_s*cos(x4 - x5) + 2*d0_s*l1_s*l2_s*cos(x4 - x5) + d1_s*l1_s*l2_s*cos(x3 - x5))/(2*l1_s^2*l2_s^2), (2*l1_s^2*l2_s^2*cos(x4 - x5) + 2*d1_s*l1_s^2*l2_s + d0_s*d1_s*l1_s^2*cos(x3 - x5) - d0_s*d1_s^2*l1_s*cos(x3 - x5) + d0_s*d1_s*l2_s^2*cos(x3 - x5) + 2*d0_s*l1_s^2*l2_s*cos(x3 - x4) + d0_s*l1_s*l2_s^2*cos(x3 - x5) + 2*d1_s*l1_s*l2_s^2*cos(x4 - x5) + d0_s*d1_s*l1_s^2*cos(x3 - 2*x4 + x5) + d0_s*d1_s^2*l1_s*cos(x3 - 2*x4 + x5) + d0_s*d1_s*l2_s^2*cos(x3 - 2*x4 + x5) + d0_s*l1_s*l2_s^2*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s*l2_s*cos(x3 - x4))/(2*l1_s^3*l2_s^3), (4*l1_s^3*l2_s^2*cos(x3 - x4) + 2*l1_s^2*l2_s^3*cos(x3 - x5) + 4*d0_s*l1_s^2*l2_s^2 + 2*l1_s^2*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d0_s*d1_s*l1_s^3 + 2*d0_s*d1_s^3*l1_s + 4*d0_s*d1_s*l2_s^3*cos(x4 - x5) + 4*d0_s*l1_s*l2_s^3*cos(x4 - x5) + 2*d0_s*l1_s^3*l2_s*cos(x4 - x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - x5) + 4*d0_s*d1_s*l1_s*l2_s^2 + 2*d0_s*d1_s*l1_s^3*cos(2*x3 - 2*x4) - 2*d0_s*d1_s^3*l1_s*cos(2*x3 - 2*x4) + 4*d1_s*l1_s^2*l2_s^2*cos(x3 - x4) - 2*d1_s^2*l1_s^2*l2_s*cos(x3 - x5) + d0_s*l1_s^3*l2_s*cos(x4 - 2*x3 + x5) + 2*d1_s*l1_s*l2_s^3*cos(x3 - 2*x4 + x5) + 2*d1_s*l1_s^3*l2_s*cos(x3 - 2*x4 + x5) + d0_s*l1_s^3*l2_s*cos(2*x3 - 3*x4 + x5) + 2*d1_s^2*l1_s^2*l2_s*cos(x3 - 2*x4 + x5) - d0_s*d1_s^2*l1_s*l2_s*cos(2*x3 - 3*x4 + x5) + 4*d0_s*d1_s*l1_s^2*l2_s*cos(x4 - x5) + 2*d0_s*d1_s^2*l1_s*l2_s*cos(x4 - x5) - d0_s*d1_s^2*l1_s*l2_s*cos(x4 - 2*x3 + x5))/(4*l1_s^4*l2_s^4)]
+ 
+  det F(0) = -((d0_s + l1_s)*(d0_s + l2_s)*(d1_s + l2_s))/(l1_s^4*l2_s^4)
+ 
+
+========================================
+  Initial condition (physical x-coordinates)
+========================================
+  x0 = [0.4000; -0.4000; 0.3000; -0.2000; 0.1000]
+  (x_C0 = 0.40 m, y_C0 = -0.40 m, phi = 0.30 rad,
+   theta_1 = -0.20 rad, theta_2 = 0.10 rad)
+
+========================================
+  Starting simulations
+  Time span: [0.0, 10.0], dt = 1.0e-04
+  epsilon = 0.10, omega = 2*pi/eps = 62.8319
+  k12 = 8, k112 = 6, k1112 = 5
+========================================
+
+Running Case 1a: params (26), h = 1 ...
+  Case 1a complete: 100001 steps.
+  Final x: [-0.000017; -0.000010; 0.000008; -0.000016; 0.000042]
+  ||x(end)|| = 0.000049
+
+Running Case 1b: params (26), h = |log(||z||^2)| ...
+  Case 1b complete: 100001 steps.
+  Final x: [0.000042; -0.000012; -0.000002; -0.000018; 0.000001]
+  ||x(end)|| = 0.000047
+
+Running Case 2a: params (27), h = 1 ...
+  Case 2a complete: 100001 steps.
+  Final x: [-0.000014; -0.000013; 0.000008; 0.000001; -0.000034]
+  ||x(end)|| = 0.000039
+
+Running Case 2b: params (27), h = |log(||z||^2)| ...
+  Case 2b complete: 100001 steps.
+  Final x: [0.300182; -0.350375; 0.246925; -0.182844; 0.109940]
+  ||x(end)|| = 0.565122
+
+========================================
+  Deriving z(t) from x(t)
+========================================
+  z(end) for each case:
+    Case 1a: z = [-0.000017; 0.000008; 0.000010; -0.000024; 0.000028]
+    Case 1b: z = [0.000042; -0.000002; 0.000012; 0.000011; -0.000007]
+    Case 2a: z = [-0.000014; 0.000008; 0.000013; -0.000029; 0.000012]
+    Case 2b: z = [0.300182; 0.246925; 0.350375; -0.762625; 0.380210]
+
+========================================
+  Computing Lyapunov functions
+========================================
+  V(z) and V2(z) computed for all cases.
+  V_1a(end)  = 0.000000,  V_1b(end)  = 0.000000
+  V_2a(end)  = 0.000000,  V_2b(end)  = 1.000000
+  V2_1a(end) = 0.000000,  V2_1b(end) = 0.000000
+  V2_2a(end) = 0.000000,  V2_2b(end) = 0.000000
+
+=== All computations finished. ===
+cd('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/1 trailer')
+plots_hyper_1tr
+gamma: sqrt design 3.2028e-03, |log| 4.5055e-03
+run 1 of 2 (T = 500 s) ...
+run 2 of 2 (T = 500 s) ...
+[Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.] 
+PNG files written to /Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/1 trailer/../hyperexponential 1 trailer
+plots_hyper
+run 1 of 2 (T = 16 s) ...
+run 2 of 2 (T = 16 s) ...
+PNG files written to /Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/../hyperexponential 2 trailers
+diary('/Users/marke/Documents/thesis/matlab_out_2tr_angle_scan.txt'); angle_scan; diary off
+{angle_scan is not found in the current folder or on the MATLAB path, but exists in:
+    /Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers
+
+<a href = "matlab:internal.matlab.desktop.commandwindow.executeCommandForUser('cd ''/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers''')">Change the MATLAB current folder</a> or <a href = "matlab:internal.matlab.desktop.commandwindow.executeCommandForUser('addpath ''/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers''')">add its folder to the MATLAB path</a>.
+} 
+cd '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers'
+diary('/Users/marke/Documents/thesis/matlab_out_2tr_angle_scan.txt'); angle_scan; diary off
+start position (-0.100, -0.100) m, eps = 3 s, sqrt h, Tmax = 20000 s
+family                a k               gamma   t_stop     |z0|      min    final   hitch1   hitch2  verdict (max u1)
+phi=th1=th2=a         0 (14,5,1)  1.708e-05     8517   0.1425   0.6313   3.0494  40.14 r   9.61 r  DIVERGED (0.336)
+phi=th1=th2=a        15 (14,5,1)  2.962e-05    10020   0.2984   0.6952   3.0201  83.29 r  22.10 r  DIVERGED (0.393)
+{Operation terminated by user during <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>u_ctrl', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1406)" style="font-weight:bold">trailer2>u_ctrl</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1406,0)">line 1406</a>)
+
+
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>rhs_x', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1356)" style="font-weight:bold">trailer2>rhs_x</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1356,0)">line 1356</a>)
+    [u1, u2] = u_ctrl(t, zf, omega, k12, k112, k1112, ...
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>@(t,x)rhs_x(t,x,z_frozen,d0,d1,l1,l2,omega,k12,k112,k1112,alpha,kappa,theta,gamma_val,h_fun)', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1306)" style="font-weight:bold">trailer2>@(t,x)rhs_x(t,x,z_frozen,d0,d1,l1,l2,omega,k12,k112,k1112,alpha,kappa,theta,gamma_val,h_fun)</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1306,0)">line 1306</a>)
+        odefun = @(t, x) rhs_x(t, x, z_frozen, d0, d1, l1, l2, omega, ...
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('ode45', '/Applications/MATLAB_R2025b.app/toolbox/matlab/funfun/ode45.m', 294)" style="font-weight:bold">ode45</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2025b.app/toolbox/matlab/funfun/ode45.m',294,0)">line 294</a>)
+        f3 = ode(t3, y3, odeArgs{:});
+             ^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>simulate_case_physical', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1320)" style="font-weight:bold">trailer2>simulate_case_physical</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1320,0)">line 1320</a>)
+        [t_seg, x_seg] = ode45(odefun, tspan_j, x_cur, options);
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 49)" style="font-weight:bold">trailer2</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',49,0)">line 49</a>)
+        [varargout{1:nargout}] = f(varargin{:});
+                                 ^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('angle_scan>@(name,varargin)trailer2(name,varargin{:})', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m', 32)" style="font-weight:bold">angle_scan>@(name,varargin)trailer2(name,varargin{:})</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m',32,0)">line 32</a>)
+    Tr = @(name, varargin) trailer2(name, varargin{:});
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('angle_scan', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m', 64)" style="font-weight:bold">angle_scan</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/angle_scan.m',64,0)">line 64</a>)
+                    [~, xs, zs, u1] = Tr('simulate_case_physical', xc, geo.d0, geo.d1, geo.l1, geo.l2, al, ka, th, ...
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+plots_hyper_1tr
+gamma: sqrt design 2.1143e-02, |log| 4.5055e-03
+run 1 of 2 (T = 500 s) ...
+run 2 of 2 (T = 500 s) ...
+PNG files written to /Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/1 trailer/../hyperexponential 1 trailer
+cd '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers'
+diary('/Users/marke/Documents/thesis/matlab_out_2tr_angle_scan.txt'); angle_scan; diary off
+{Unrecognized function or variable 'angle_scan'.
+} 
+cd('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/1 trailer')
+trailer1('selftest')      % must end with SELFTEST PASSED
+  [ok  ] alpha                      max |difference| = 0.00e+00  (tol 1e-12)
+  [ok  ] z0 = x0_to_z0(x0)          max |difference| = 3.47e-18  (tol 1e-12)
+  [ok  ] x -> z -> x round trip     max |difference| = 1.11e-16  (tol 1e-12)
+  [ok  ] x_to_z = x0_to_z0          max |difference| = 0.00e+00  (tol 1e-12)
+  [ok  ] control_bound at z0        max |difference| = 5.55e-17  (tol 1e-12)
+  [ok  ] gamma_max at z0            max |difference| = 2.78e-17  (tol 1e-10)
+  [ok  ] u1/u2 at t = 0.37 s        max |difference| = 2.78e-17  (tol 1e-12)
+
+simulating 12 s (approx / adaptive / exact) ...
+  [ok  ] approx   z(12 s)           max |difference| = 6.68e-14  (tol 1e-07)
+  [ok  ] approx   max|u|            max |difference| = 3.05e-14  (tol 1e-07)
+  [ok  ] adaptive z(12 s)           max |difference| = 5.05e-14  (tol 1e-07)
+  [ok  ] adaptive max|u|            max |difference| = 1.74e-14  (tol 1e-07)
+  [ok  ] exact    x(12 s)           max |difference| = 3.64e-14  (tol 1e-07)
+  [ok  ] exact    max|u|            max |difference| = 2.21e-14  (tol 1e-07)
+
+=== SELFTEST PASSED ===
+cd('../2 trailers')
+trailer2('selftest')      % must end with SELFTEST PASSED
+  [ok  ] alpha, kappa, theta, beta  max |difference| = 3.47e-18  (tol 1e-12)
+  [ok  ] z0 = x_to_z(x0)            max |difference| = 2.78e-16  (tol 1e-12)
+  [ok  ] control_bound at z0        max |difference| = 1.11e-16  (tol 1e-12)
+  [ok  ] gamma_max at z0            max |difference| = 2.71e-20  (tol 1e-10)
+  [ok  ] u_ctrl(0.37 s) at z0       max |difference| = 8.33e-17  (tol 1e-12)
+
+simulating 12 s (approx / adaptive / exact) ...
+  [ok  ] approx   z(12 s)           max |difference| = 4.98e-14  (tol 1e-07)
+  [ok  ] approx   max|u|            max |difference| = 1.39e-14  (tol 1e-07)
+  [ok  ] adaptive z(12 s)           max |difference| = 5.72e-15  (tol 1e-07)
+  [ok  ] adaptive max|u|            max |difference| = 1.55e-15  (tol 1e-07)
+  [ok  ] exact    x(12 s)           max |difference| = 4.34e-14  (tol 1e-07)
+  [ok  ] exact    max|u|            max |difference| = 1.39e-14  (tol 1e-07)
+
+=== SELFTEST PASSED ===
+cd('../2 trailers/investigations')
+compare_with_original      % prints cases 1a, 1b, 2a, 2b; should match the older project
+
+Case 1a (ours) ...
+  Final x: [-0.002161; -0.003017; 0.001546; -0.004184; 0.007937]
+  ||x(end)|| = 0.009832
+  z(end)  : [-0.002161; 0.001546; 0.003017; -0.004588; 0.005234]
+  V(end)  = 0.000065
+
+Case 1b (ours) ...
+  Final x: [0.000040; -0.000012; -0.000002; -0.000013; -0.000012]
+  ||x(end)|| = 0.000045
+  z(end)  : [0.000040; -0.000002; 0.000012; 0.000014; -0.000013]
+  V(end)  = 0.000000
+
+Case 2a (ours) ...
+  Final x: [-0.001735; -0.003171; 0.001546; -0.001218; -0.003538]
+  ||x(end)|| = 0.005427
+  z(end)  : [-0.001735; 0.001546; 0.003171; -0.005563; 0.002228]
+  V(end)  = 0.000051
+
+Case 2b (ours) ...
+  Final x: [0.300185; -0.350378; 0.246927; -0.182846; 0.109940]
+  ||x(end)|| = 0.565126
+  z(end)  : [0.300185; 0.246927; 0.350378; -0.762630; 0.380212]
+  V(end)  = 1.000013
+cd('../../1 trailer')
+thesis_figures
+
+=== thesis_figures: one trailer (r = 3) ===
+geometry d0=0.115 l1=0.082, k=(3  2), eps in use = 5 s, ||z0|| = 0.8351
+ray check (worst point of the ray / z0, quadratic V; 1 = z0 is the worst): 1.000000
+
+  eps [s]   gamma_amp    gamma_cap    t(10%) [min]
+    0.25    1.625e-05    3.200e+00      2362.05
+    0.50    6.147e-05    1.600e+00       624.34
+    1.00    2.279e-04    8.000e-01       168.37
+    2.00    8.232e-04    4.000e-01        46.62
+    3.00    1.718e-03    2.667e-01        22.34
+    4.00    2.870e-03    2.000e-01        13.37
+    5.00    4.250e-03    1.600e-01         9.03
+    6.00    5.834e-03    1.333e-01         6.58
+    8.00    9.530e-03    1.000e-01         4.03
+   12.00    1.862e-02    6.667e-02         2.06
+   16.00    2.935e-02    5.000e-02         1.31
+   24.00    5.374e-02    3.333e-02         1.15
+   32.00    7.992e-02    2.500e-02         1.54
+
+in-use design: gamma = 2.1143e-02 (largest admissible along the ray), V = log, c = 10 (Viktoria)
+terms at z0, in-use design (share of limit):
+  u1: [0.00241 0.133 0.707]   sum 0.843
+  u2: [0.000733 0.0103 0.11]   sum 0.121
+
+Lyapunov functions at eps = 5:
+  quadratic              gamma 4.250e-03   t(10%)     9.03 min   t(0.1%)    27.09 min
+  log, c = 10            gamma 2.114e-02   t(10%)     4.54 min   t(0.1%)     8.19 min
+  log, c = 100           gamma 7.208e-02   t(10%)     8.51 min   t(0.1%)     9.66 min
+  sqrt, d = 0.02         gamma 3.203e-03   t(10%)     3.92 min   t(0.1%)     4.64 min
+
+d0 sweep (l1 = 0.082 fixed): t(10%) [min], 1 = amplitude-limited
+  d0 = 0.020        9.63    1.00
+  d0 = 0.040        9.55    1.00
+  d0 = 0.060        9.44    1.00
+  d0 = 0.080        9.31    1.00
+  d0 = 0.100        9.16    1.00
+  d0 = 0.115        9.03    1.00
+  d0 = 0.140        8.78    1.00
+  d0 = 0.170        8.43    1.00
+  d0 = 0.200        8.02    1.00
+  d0 = 0.250        7.21    1.00
+  d0 = 0.300        6.23    1.00
+
+l scale sweep (d0 = 0.115 fixed): t(10%) [min]
+  l x 0.50         7.67    1.00
+  l x 0.75         8.31    1.00
+  l x 1.00         9.03    1.00
+  l x 1.50        10.67    1.00
+  l x 2.00        12.58    1.00
+  l x 3.00        17.17    1.00
+  l x 4.00        22.78    1.00
+
+hardware limits scaled (eps = 5): t(10%) [min]
+  scale   u1 scaled   u2 scaled
+   0.25      443.99        9.03
+   0.50       62.10        9.03
+   0.75       19.99        9.03
+   1.00        9.03        9.03
+   1.50        2.99        9.03
+   2.00        1.39        9.03
+   3.00        0.48        9.03
+   4.00        0.24        9.03
+   6.00        0.24        9.03
+   8.00        0.24        9.03
+
+multipliers k at eps = 5, quadratic V: gamma_amp
+  k = (3  2)   4.250e-03   (1.00 x the first row);  V in use along the ray: gamma 2.114e-02, t(0.1%) 8.19 min
+  k = (5  2)   3.734e-03   (0.88 x the first row);  V in use along the ray: gamma 1.717e-02, t(0.1%) 10.09 min
+  k = (7  2)   3.385e-03   (0.80 x the first row);  V in use along the ray: gamma 1.472e-02, t(0.1%) 11.77 min
+  k = (2  3)   2.387e-03   (0.56 x the first row);  V in use along the ray: gamma 1.389e-02, t(0.1%) 12.47 min
+
+start distance scaled (eps = 5, quadratic V): ||z0||, gamma, t(10%)
+  x  0.25   ||z0||  0.7886   gamma 3.000e-02   t     1.28 min
+  x  0.50   ||z0||  0.7981   gamma 1.181e-02   t     3.25 min
+  x  1.00   ||z0||  0.8351   gamma 4.250e-03   t     9.03 min
+  x  2.00   ||z0||  0.9687   gamma 1.396e-03   t    27.49 min
+  x  4.00   ||z0||  1.3791   gamma 4.240e-04   t    90.51 min
+  x  8.00   ||z0||  2.3991   gamma 1.214e-04   t   316.19 min
+
+best radial design (gain at every radius as large as allowed, quadratic h): t(10%) 3.70 min, t(0.1%) 4.32 min
+  (log V, c = 10 in use: t(10%) 4.54 min, t(0.1%) 8.19 min)
+
+quadratic V, t(0.1%) for every multiplier set at eps = 5:
+  k = (3  2)   27.09 min
+  k = (5  2)   30.83 min
+  k = (7  2)   34.01 min
+  k = (2  3)   48.23 min
+[Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.] 
+
+figures and feas_1tr.mat written to /Users/marke/Documents/thesis/figures
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+          model: '1tr'
+              r: 3
+          label: 'one trailer (r = 3)'
+            geo: [1×1 struct]
+             z0: [4×1 double]
+              k: [3 2]
+        eps_use: 5
+       lyap_use: 'log, c = 10 (Viktoria)'
+          delta: 0.0200
+          u1max: 0.2200
+          u2max: 2.8400
+            cap: 0.8000
+       eps_list: [0.2500 0.5000 1 2 3 4 5 6 8 12 16 24 32]
+          g_amp: [1.6247e-05 6.1467e-05 2.2793e-04 8.2318e-04 0.0017 0.0029 0.0043 0.0058 0.0095 0.0186 0.0293 0.0537 0.0799]
+          g_cap: [3.2000 1.6000 0.8000 0.4000 0.2667 0.2000 0.1600 0.1333 0.1000 0.0667 0.0500 0.0333 0.0250]
+          g_eff: [1.6247e-05 6.1467e-05 2.2793e-04 8.2318e-04 0.0017 0.0029 0.0043 0.0058 0.0095 0.0186 0.0293 0.0333 0.0250]
+            t10: [1.4172e+05 3.7460e+04 1.0102e+04 2.7972e+03 1.3404e+03 802.1866 541.7259 394.7123 241.6153 123.6860 78.4559 69.0776 92.1034]
+       t10_unit: 's'
+      ray_check: 1
+      gamma_use: 0.0211
+       terms_u1: [0.0024 0.1332 0.7071]
+       terms_u2: [7.3333e-04 0.0103 0.1096]
+    terms_names: {'a (constant)'  'T12'  'T112'}
+       bound_u1: 0.8427
+       bound_u2: 0.1206
+         V_name: {4×1 cell}
+        V_gamma: [4×1 double]
+            V_t: [4×80 double]
+         V_frac: [1 0.9163 0.8396 0.7693 0.7049 0.6458 0.5918 0.5422 0.4968 0.4552 0.4171 0.3822 0.3502 0.3209 0.2940 0.2694 0.2468 … ] (1×80 double)
+          V_t10: [4×1 double]
+         V_t001: [4×1 double]
+        d0_list: [0.0200 0.0400 0.0600 0.0800 0.1000 0.1150 0.1400 0.1700 0.2000 0.2500 0.3000]
+        ls_list: [0.5000 0.7500 1 1.5000 2 3 4]
+           d0_g: [0.0040 0.0040 0.0041 0.0041 0.0042 0.0043 0.0044 0.0046 0.0048 0.0053 0.0062]
+         d0_t10: [578.0116 573.0353 566.6470 558.8387 549.6005 541.7259 526.7811 505.7980 481.4116 432.8941 373.8207]
+     d0_ampfrac: [1 1 1 1 1 1 1 1 1 1 1]
+           ls_g: [0.0050 0.0046 0.0043 0.0036 0.0031 0.0022 0.0017]
+         ls_t10: [460.1131 498.7682 541.7259 640.1408 754.6933 1.0305e+03 1.3669e+03]
+     ls_ampfrac: [1 1 1 1 1 1 1]
+         s_list: [0.2500 0.5000 0.7500 1 1.5000 2 3 4 6 8]
+          hw_u1: [2.6640e+04 3.7259e+03 1.1993e+03 541.7259 179.6435 83.2701 28.9155 14.3912 14.3912 14.3912]
+          hw_u2: [541.7259 541.7259 541.7259 541.7259 541.7259 541.7259 541.7259 541.7259 541.7259 541.7259]
+           ktab: [4×2 double]
+            k_g: [4×1 double]
+         k_gray: [4×1 double]
+         k_t001: [4×1 double]
+        sc_list: [0.2500 0.5000 1 2 4 8]
+           sc_g: [0.0300 0.0118 0.0043 0.0014 4.2398e-04 1.2137e-04]
+          sc_z0: [0.7886 0.7981 0.8351 0.9687 1.3791 2.3991]
+         sc_t10: [76.7419 194.9699 541.7259 1.6495e+03 5.4308e+03 1.8971e+04]
+           ad_r: [8.3506e-05 8.5456e-05 8.7451e-05 8.9493e-05 9.1583e-05 9.3722e-05 9.5911e-05 9.8150e-05 1.0044e-04 1.0279e-04 … ] (1×400 double)
+       ad_gamma: [0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 … ] (1×400 double)
+           ad_t: [0 15.9602 36.0886 54.7857 72.0243 84.0140 98.7976 112.2797 124.5487 135.6962 143.3758 152.7781 161.3008 169.0232 … ] (1×80 double)
+         ad_t10: 221.9787
+        ad_t001: 259.2583
+
+thesis_sim('design')
+
+=== thesis_sim: one trailer (r = 3), design eps = 5 s, k = (3  2), V = log, c = 10 (Viktoria) ===
+
+-- design run: gamma = 2.1143e-02, dt = 0.0200 s, t_end = 400 s
+  ||z|| to 10% / 1% / 0.1% of ||z0||  approx [237.8 332.5 NaN] s   exact [250.3 332.9 NaN] s
+  largest ||z_exact - z_approx|| = 0.0369 (4.4 % of ||z0||) at t = 160.5 s
+  max |u1| approx 0.2229 exact 0.2141 (limit 0.22);  max |u2| approx 0.3823 exact 0.3693 (limit 2.84)
+  final ||z|| approx 4.966e-03 exact 5.724e-03;  final theta1 -2.44 deg, largest |theta1| 119.9 deg
+
+figures and sim_1tr.mat written to /Users/marke/Documents/thesis/figures
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+     model: '1tr'
+     label: 'one trailer (r = 3)'
+       des: [1×1 struct]
+        z0: [4×1 double]
+        x0: [4×1 double]
+     u1max: 0.2200
+     u2max: 2.8400
+    design: [1×1 struct]
+
+cd('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/investigations')
+R = bisect_regime;
+step                                         |z0|   t_stop      min    final    hitch1    hitch2   max u1  verdict
+S0 old project (case 1b)                   0.8905      2.4   0.0005   0.0005    1.48 r    1.11 r 199.871   CONVERGED
+S1 + robot geometry, start scaled          0.3036      0.9   0.0002   0.0002    1.68 r    2.68 r  54.508   CONVERGED
+S2 + our start (x0.25)                     0.2091      0.6   0.0022   0.0022    2.75 r    2.92 r  79.920   CONVERGED
+S3 + k = (14,5,1)                          0.2091     10.0   0.3379   1.3452   27.73 r    3.15 r  91.541   not finished
+S4 + sqrt Lyapunov function, gamma = 0.04   0.2091      6.0   0.4437   3.9819   78.62 r   28.10 r  37.446   DIVERGED
+S5 + eps = 3 s, gamma = 1.3e-3             0.2091    165.0   0.4436   3.3504   65.96 r   22.30 r   1.238   DIVERGED
+S6 + gamma = 4.68e-5 (limits) = ours       0.2091   6000.0   0.5123   2.5306   49.93 r   15.70 r   0.435   not finished
+
+min, final = ||z||/||z0||; hitch = largest |angle difference| over all samples [rad]; max u1 in m/s (limit 0.22).
+cd('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/1 trailer')
+plots_hyper_1tr(struct('Tscale', 0.2))
+gamma: sqrt design 2.1143e-02, |log| 4.5055e-03
+run 1 of 2 (T = 100 s) ...
+run 2 of 2 (T = 100 s) ...
+PNG files written to /Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/1 trailer/../hyperexponential 1 trailer
+cd('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/investigations')
+R = angle_scan(struct('k_list', [14 5 1], 'angles', [0 30 45], 'Tmax', 5000));
+start position (-0.100, -0.100) m, eps = 3 s, sqrt h, Tmax = 5000 s
+family                a k               gamma   t_stop     |z0|      min    final   hitch1   hitch2  verdict (max u1)
+phi=th1=th2=a         0 (14,5,1)  1.708e-05     5000   0.1425   0.6313   1.5675  18.27 r   3.35 r  not finished (0.336)
+phi=th1=th2=a        30 (14,5,1)  4.475e-05     5000   0.5431   0.7301   0.9350  31.49 r   9.43 r  not finished (0.416)
+phi=th1=th2=a        45 (14,5,1)  5.707e-05     5000   0.7988   0.7519   0.8606  36.32 r   9.56 r  not finished (0.423)
+phi=a, th1=th2=0      0 (14,5,1)  1.708e-05     5000   0.1425   0.6313   1.5675  18.27 r   3.35 r  not finished (0.336)
+phi=a, th1=th2=0     30 (14,5,1)  5.173e-05     5000   0.5428   0.7142   1.0629  41.38 r  10.04 r  not finished (0.449)
+phi=a, th1=th2=0     45 (14,5,1)  6.880e-05     5000   0.7984   0.7385   0.9863  53.33 r  15.79 r  not finished (0.478)
+plots_hyper
+run 1 of 2 (T = 16 s) ...
+run 2 of 2 (T = 16 s) ...
+PNG files written to /Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/../hyperexponential 2 trailers
+plots_hyper_1tr
+gamma: log V (c = 10) 2.1143e-02, |log| 4.5055e-03
+run 1 of 2 (T = 500 s) ...
+run 2 of 2 (T = 500 s) ...
+PNG files written to /Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/1 trailer/../hyperexponential 1 trailer
+thesis_figures
+
+=== thesis_figures: one trailer (r = 3) ===
+geometry d0=0.115 l1=0.082, k=(3  2), eps in use = 5 s, ||z0|| = 0.8351
+ray check (worst point of the ray / z0, quadratic V; 1 = z0 is the worst): 1.000000
+
+  eps [s]   gamma_amp    gamma_cap    t(10%) [min]
+    0.25    1.625e-05    3.200e+00      2362.05
+    0.50    6.147e-05    1.600e+00       624.34
+    1.00    2.279e-04    8.000e-01       168.37
+    2.00    8.232e-04    4.000e-01        46.62
+    3.00    1.718e-03    2.667e-01        22.34
+    4.00    2.870e-03    2.000e-01        13.37
+    5.00    4.250e-03    1.600e-01         9.03
+    6.00    5.834e-03    1.333e-01         6.58
+    8.00    9.530e-03    1.000e-01         4.03
+   12.00    1.862e-02    6.667e-02         2.06
+   16.00    2.935e-02    5.000e-02         1.31
+   24.00    5.374e-02    3.333e-02         1.15
+   32.00    7.992e-02    2.500e-02         1.54
+
+in-use design: gamma = 2.1143e-02 (largest admissible along the ray), V = log, c = 10 (Viktoria)
+terms at z0, in-use design (share of limit):
+  u1: [0.00241 0.133 0.707]   sum 0.843
+  u2: [0.000733 0.0103 0.11]   sum 0.121
+
+Lyapunov functions at eps = 5:
+  quadratic              gamma 4.250e-03   t(10%)     9.03 min   t(0.1%)    27.09 min
+  log, c = 10            gamma 2.114e-02   t(10%)     4.54 min   t(0.1%)     8.19 min
+  log, c = 100           gamma 7.208e-02   t(10%)     8.51 min   t(0.1%)     9.66 min
+  sqrt, d = 0.02         gamma 3.203e-03   t(10%)     3.92 min   t(0.1%)     4.64 min
+
+d0 sweep (l1 = 0.082 fixed): t(10%) [min], 1 = amplitude-limited
+  d0 = 0.020        9.63    1.00
+  d0 = 0.040        9.55    1.00
+  d0 = 0.060        9.44    1.00
+  d0 = 0.080        9.31    1.00
+  d0 = 0.100        9.16    1.00
+  d0 = 0.115        9.03    1.00
+  d0 = 0.140        8.78    1.00
+  d0 = 0.170        8.43    1.00
+  d0 = 0.200        8.02    1.00
+  d0 = 0.250        7.21    1.00
+  d0 = 0.300        6.23    1.00
+
+l scale sweep (d0 = 0.115 fixed): t(10%) [min]
+  l x 0.50         7.67    1.00
+  l x 0.75         8.31    1.00
+  l x 1.00         9.03    1.00
+  l x 1.50        10.67    1.00
+  l x 2.00        12.58    1.00
+  l x 3.00        17.17    1.00
+  l x 4.00        22.78    1.00
+
+hardware limits scaled (eps = 5): t(10%) [min]
+  scale   u1 scaled   u2 scaled
+   0.25      443.99        9.03
+   0.50       62.10        9.03
+   0.75       19.99        9.03
+   1.00        9.03        9.03
+   1.50        2.99        9.03
+   2.00        1.39        9.03
+   3.00        0.48        9.03
+   4.00        0.24        9.03
+   6.00        0.24        9.03
+   8.00        0.24        9.03
+
+multipliers k at eps = 5, quadratic V: gamma_amp
+  k = (3  2)   4.250e-03   (1.00 x the first row);  V in use along the ray: gamma 2.114e-02, t(0.1%) 8.19 min
+  k = (5  2)   3.734e-03   (0.88 x the first row);  V in use along the ray: gamma 1.717e-02, t(0.1%) 10.09 min
+  k = (7  2)   3.385e-03   (0.80 x the first row);  V in use along the ray: gamma 1.472e-02, t(0.1%) 11.77 min
+  k = (2  3)   2.387e-03   (0.56 x the first row);  V in use along the ray: gamma 1.389e-02, t(0.1%) 12.47 min
+
+start distance scaled (eps = 5, quadratic V): ||z0||, gamma, t(10%)
+  x  0.25   ||z0||  0.7886   gamma 3.000e-02   t     1.28 min
+  x  0.50   ||z0||  0.7981   gamma 1.181e-02   t     3.25 min
+  x  1.00   ||z0||  0.8351   gamma 4.250e-03   t     9.03 min
+  x  2.00   ||z0||  0.9687   gamma 1.396e-03   t    27.49 min
+  x  4.00   ||z0||  1.3791   gamma 4.240e-04   t    90.51 min
+  x  8.00   ||z0||  2.3991   gamma 1.214e-04   t   316.19 min
+
+best radial design (gain at every radius as large as allowed, quadratic h): t(10%) 3.70 min, t(0.1%) 4.32 min
+  (log V, c = 10 in use: t(10%) 4.54 min, t(0.1%) 8.19 min)
+
+quadratic V, t(0.1%) for every multiplier set at eps = 5:
+  k = (3  2)   27.09 min
+  k = (5  2)   30.83 min
+  k = (7  2)   34.01 min
+  k = (2  3)   48.23 min
+
+figures and feas_1tr.mat written to /Users/marke/Documents/thesis/figures
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+          model: '1tr'
+              r: 3
+          label: 'one trailer (r = 3)'
+            geo: [1×1 struct]
+             z0: [4×1 double]
+              k: [3 2]
+        eps_use: 5
+       lyap_use: 'log, c = 10 (Viktoria)'
+          delta: 0.0200
+          u1max: 0.2200
+          u2max: 2.8400
+            cap: 0.8000
+       eps_list: [0.2500 0.5000 1 2 3 4 5 6 8 12 16 24 32]
+          g_amp: [1.6247e-05 6.1467e-05 2.2793e-04 8.2318e-04 0.0017 0.0029 0.0043 0.0058 0.0095 0.0186 0.0293 0.0537 0.0799]
+          g_cap: [3.2000 1.6000 0.8000 0.4000 0.2667 0.2000 0.1600 0.1333 0.1000 0.0667 0.0500 0.0333 0.0250]
+          g_eff: [1.6247e-05 6.1467e-05 2.2793e-04 8.2318e-04 0.0017 0.0029 0.0043 0.0058 0.0095 0.0186 0.0293 0.0333 0.0250]
+            t10: [1.4172e+05 3.7460e+04 1.0102e+04 2.7972e+03 1.3404e+03 802.1866 541.7259 394.7123 241.6153 123.6860 78.4559 69.0776 92.1034]
+       t10_unit: 's'
+      ray_check: 1
+      gamma_use: 0.0211
+       terms_u1: [0.0024 0.1332 0.7071]
+       terms_u2: [7.3333e-04 0.0103 0.1096]
+    terms_names: {'a (constant)'  'T12'  'T112'}
+       bound_u1: 0.8427
+       bound_u2: 0.1206
+         V_name: {4×1 cell}
+        V_gamma: [4×1 double]
+            V_t: [4×80 double]
+         V_frac: [1 0.9163 0.8396 0.7693 0.7049 0.6458 0.5918 0.5422 0.4968 0.4552 0.4171 0.3822 0.3502 0.3209 0.2940 0.2694 0.2468 … ] (1×80 double)
+          V_t10: [4×1 double]
+         V_t001: [4×1 double]
+        d0_list: [0.0200 0.0400 0.0600 0.0800 0.1000 0.1150 0.1400 0.1700 0.2000 0.2500 0.3000]
+        ls_list: [0.5000 0.7500 1 1.5000 2 3 4]
+           d0_g: [0.0040 0.0040 0.0041 0.0041 0.0042 0.0043 0.0044 0.0046 0.0048 0.0053 0.0062]
+         d0_t10: [578.0116 573.0353 566.6470 558.8387 549.6005 541.7259 526.7811 505.7980 481.4116 432.8941 373.8207]
+     d0_ampfrac: [1 1 1 1 1 1 1 1 1 1 1]
+           ls_g: [0.0050 0.0046 0.0043 0.0036 0.0031 0.0022 0.0017]
+         ls_t10: [460.1131 498.7682 541.7259 640.1408 754.6933 1.0305e+03 1.3669e+03]
+     ls_ampfrac: [1 1 1 1 1 1 1]
+         s_list: [0.2500 0.5000 0.7500 1 1.5000 2 3 4 6 8]
+          hw_u1: [2.6640e+04 3.7259e+03 1.1993e+03 541.7259 179.6435 83.2701 28.9155 14.3912 14.3912 14.3912]
+          hw_u2: [541.7259 541.7259 541.7259 541.7259 541.7259 541.7259 541.7259 541.7259 541.7259 541.7259]
+           ktab: [4×2 double]
+            k_g: [4×1 double]
+         k_gray: [4×1 double]
+         k_t001: [4×1 double]
+        sc_list: [0.2500 0.5000 1 2 4 8]
+           sc_g: [0.0300 0.0118 0.0043 0.0014 4.2398e-04 1.2137e-04]
+          sc_z0: [0.7886 0.7981 0.8351 0.9687 1.3791 2.3991]
+         sc_t10: [76.7419 194.9699 541.7259 1.6495e+03 5.4308e+03 1.8971e+04]
+           ad_r: [8.3506e-05 8.5456e-05 8.7451e-05 8.9493e-05 9.1583e-05 9.3722e-05 9.5911e-05 9.8150e-05 1.0044e-04 1.0279e-04 … ] (1×400 double)
+       ad_gamma: [0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 0.1600 … ] (1×400 double)
+           ad_t: [0 15.9602 36.0886 54.7857 72.0243 84.0140 98.7976 112.2797 124.5487 135.6962 143.3758 152.7781 161.3008 169.0232 … ] (1×80 double)
+         ad_t10: 221.9787
+        ad_t001: 259.2583
+
+thesis_sim
+
+=== thesis_sim: one trailer (r = 3), design eps = 5 s, k = (3  2), V = log, c = 10 (Viktoria) ===
+
+-- design run: gamma = 2.1143e-02, dt = 0.0200 s, t_end = 400 s
+  ||z|| to 10% / 1% / 0.1% of ||z0||  approx [237.8 332.5 NaN] s   exact [250.3 332.9 NaN] s
+  largest ||z_exact - z_approx|| = 0.0369 (4.4 % of ||z0||) at t = 160.5 s
+  max |u1| approx 0.2229 exact 0.2141 (limit 0.22);  max |u2| approx 0.3823 exact 0.3693 (limit 2.84)
+  final ||z|| approx 4.966e-03 exact 5.724e-03;  final theta1 -2.44 deg, largest |theta1| 119.9 deg
+
+-- validity: 12 intervals per period, gain = largest admissible
+  eps    gamma       dev/||z0||  ||z(T)||/||z0||  approx  exact   |u1|e/lim  |u2|e/lim  max|angle| [deg]  excursion [m]
+    2.0  4.629e-03      0.014        0.986      0.986      0.886     0.129         46.8        0.029
+    3.0  9.176e-03      0.022        0.958      0.959      0.873     0.126         47.3        0.043
+    5.0  2.114e-02      0.037        0.831      0.837      0.879     0.123         96.3        0.070
+    7.0  3.596e-02      0.047        0.560      0.574      0.943     0.127        129.3        0.101
+   10.0  6.201e-02      0.054        0.008      0.009      0.996     0.128        147.8        0.147
+   15.0  5.333e-02      0.058        0.000      0.000      0.741     0.095        152.7        0.164
+
+-- fixed against adaptive gain (approximation), t_end = 400 s
+  fixed    : to 10/1/0.1 %: [237.8 332.5 NaN] s, max |u1| 0.2229, max |u2| 0.3823
+  adaptive : to 10/1/0.1 %: [207.7 250 260] s, max |u1| 0.2200, max |u2| 0.4041
+  adaptive gamma: min 2.036e-02  max 1.604e-01  (fixed 2.114e-02);  final ||z|| fixed 4.97e-03 adaptive 3.66e-22
+
+-- envelope of start poses x0 = s*(+-0.2 m, +-0.2 m, 45 deg, 45 deg), exact kinematics, 400 s
+  sign  s     |x0|[m]   t(0.1%) [s]   max|u1|/lim   theta1 end [deg]
+  +1    1.00   0.283          NaN        1.041          -226.1
+  +1    0.75   0.212          NaN        1.000          -226.5
+  +1    0.50   0.141        341.2        0.803            -0.2
+  +1    0.40   0.113        340.0        0.735            -0.1
+  +1    0.30   0.085        330.0        0.674            -0.0
+  +1    0.20   0.057        320.0        0.621            -0.0
+  -1    1.00   0.283          NaN        0.973            -2.4
+
+-- step stability: eps = 5 s, 10 intervals, quadratic V (h = 1), limits ignored
+  eps*gamma   ||z_N||/||z_0||   (1-eps*gamma)^N
+     0.40       6.258e-03        6.047e-03
+     0.80       1.325e-07        1.024e-07
+     1.00       6.530e-44        0.000e+00
+     1.20       1.150e-07        1.024e-07
+     1.40       1.052e-04        1.049e-04
+     1.60       5.989e-03        6.047e-03
+     1.90       3.510e-01        3.487e-01
+     2.10       2.863e+00        2.594e+00
+     2.60       2.697e+04        1.100e+02
+
+figures and sim_1tr.mat written to /Users/marke/Documents/thesis/figures
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+       model: '1tr'
+       label: 'one trailer (r = 3)'
+         des: [1×1 struct]
+          z0: [4×1 double]
+          x0: [4×1 double]
+       u1max: 0.2200
+       u2max: 2.8400
+      design: [1×1 struct]
+    validity: [1×1 struct]
+    adaptive: [1×1 struct]
+    envelope: [1×1 struct]
+    stepstab: [1×1 struct]
+
+thesis_sim
+
+=== thesis_sim: one trailer (r = 3), design eps = 5 s, k = (3  2), V = log, c = 10 (Viktoria) ===
+
+-- design run: gamma = 2.1143e-02, dt = 0.0200 s, t_end = 400 s
+  ||z|| to 10% / 1% / 0.1% of ||z0||  approx [237.8 332.5 NaN] s   exact [250.3 332.9 NaN] s
+  largest ||z_exact - z_approx|| = 0.0369 (4.4 % of ||z0||) at t = 160.5 s
+  max |u1| approx 0.2229 exact 0.2141 (limit 0.22);  max |u2| approx 0.3823 exact 0.3693 (limit 2.84)
+  final ||z|| approx 4.966e-03 exact 5.724e-03;  final theta1 -2.44 deg, largest |theta1| 119.9 deg
+
+-- validity: 12 intervals per period, gain = largest admissible
+  eps    gamma       dev/||z0||  ||z(T)||/||z0||  approx  exact   |u1|e/lim  |u2|e/lim  max|angle| [deg]  excursion [m]
+    2.0  4.629e-03      0.014        0.986      0.986      0.886     0.129         46.8        0.029
+    3.0  9.176e-03      0.022        0.958      0.959      0.873     0.126         47.3        0.043
+    5.0  2.114e-02      0.037        0.831      0.837      0.879     0.123         96.3        0.070
+    7.0  3.596e-02      0.047        0.560      0.574      0.943     0.127        129.3        0.101
+   10.0  6.201e-02      0.054        0.008      0.009      0.996     0.128        147.8        0.147
+   15.0  5.333e-02      0.058        0.000      0.000      0.741     0.095        152.7        0.164
+
+-- fixed against adaptive gain (approximation), t_end = 400 s
+  fixed    : to 10/1/0.1 %: [237.8 332.5 NaN] s, max |u1| 0.2229, max |u2| 0.3823
+  adaptive : to 10/1/0.1 %: [207.7 250 260] s, max |u1| 0.2200, max |u2| 0.4041
+  adaptive gamma: min 2.036e-02  max 1.604e-01  (fixed 2.114e-02);  final ||z|| fixed 4.97e-03 adaptive 3.66e-22
+
+-- envelope of start poses x0 = s*(+-0.2 m, +-0.2 m, 45 deg, 45 deg), exact kinematics, 400 s
+  sign  s     |x0|[m]   t(0.1%) [s]   max|u1|/lim   theta1 end [deg]
+  +1    1.00   0.283          NaN        1.041          -226.1
+  +1    0.75   0.212          NaN        1.000          -226.5
+  +1    0.50   0.141        341.2        0.803            -0.2
+  +1    0.40   0.113        340.0        0.735            -0.1
+  +1    0.30   0.085        330.0        0.674            -0.0
+  +1    0.20   0.057        320.0        0.621            -0.0
+  -1    1.00   0.283          NaN        0.973            -2.4
+
+-- step stability: eps = 5 s, 10 intervals, quadratic V (h = 1), limits ignored
+  eps*gamma   ||z_N||/||z_0||   (1-eps*gamma)^N
+     0.40       6.258e-03        6.047e-03
+     0.80       1.325e-07        1.024e-07
+     1.00       6.530e-44        0.000e+00
+     1.20       1.150e-07        1.024e-07
+     1.40       1.052e-04        1.049e-04
+     1.60       5.989e-03        6.047e-03
+     1.90       3.510e-01        3.487e-01
+     2.10       2.863e+00        2.594e+00
+     2.60       2.697e+04        1.100e+02
+
+figures and sim_1tr.mat written to /Users/marke/Documents/thesis/figures
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+       model: '1tr'
+       label: 'one trailer (r = 3)'
+         des: [1×1 struct]
+          z0: [4×1 double]
+          x0: [4×1 double]
+       u1max: 0.2200
+       u2max: 2.8400
+      design: [1×1 struct]
+    validity: [1×1 struct]
+    adaptive: [1×1 struct]
+    envelope: [1×1 struct]
+    stepstab: [1×1 struct]
+
+trailer1
+
+trailer1(task, ...)   -- one trailer, r = 3, numbers in params.m
+
+  trailer1('selftest')           does the code still compute what it did before (~20 s)
+  trailer1('calculations')       one closed-loop simulation (approximate model)
+  trailer1('plots')              states / controls / convergence, approx vs exact
+  trailer1('compare_physical')   approx vs exact kinematics as numbers (slow)
+  trailer1('compare_gain')       fixed vs adaptive gain, gamma and time vs epsilon
+  trailer1('compare_V')          candidate Lyapunov functions ranked under the limits
+  trailer1('convergence_map')    which (epsilon, gamma) converge
+  trailer1('search_k', 15)       rank the (k12, k112) pairs
+
+  Any function in this file can be called as trailer1('name', args...).
+  Symbolic derivation: derive.m (needs the Symbolic Math Toolbox).
+
+Running the default task 'plots' (change DEFAULT_TASK at the top of trailer1.m)
+
+geometry : d0=0.115  l1=0.082  [m]
+coeff    : alpha=0.011328
+
+========================================
+  Simulation
+  z0      = [-0.2000; 0.7854; 0.2000; -0.0217],  ||z0|| = 0.8351
+  time    : [0.0, 400.0], dt = 2.0e-03
+  epsilon = 5.00, omega = 1.2566, gamma = 2.1143e-02
+  V       : log, c = 10 (Viktoria)
+  k       = (3, 2)   [k12, k112 -- no k1112 for r=3]
+========================================
+  200001 steps
+  final state : [-0.001183; 0.004647; 0.001280; -0.000151]
+  final norm  : 0.004965
+  max |u1|    : 0.223  (limit 0.22)
+  max |u2|    : 0.383  (limit 2.84)
+  ||z(0)|| = 0.835057  ->  ||z(end)|| = 0.004965
+
+=== Done. ===
+(running the exact-kinematics model for comparison ...)
+
+  V : log, c = 10 (Viktoria)
+
+  max |u1| =   0.2229 m/s    limit 0.22    ->  101.3 % of the limit
+  max |u2| =   0.3827 rad/s  limit 2.84    ->   13.5 % of the limit
+
+  --- same controller, EXACT kinematics (what the robot does) ---
+  max |u1| =   0.2141 m/s    limit 0.22    ->   97.3 % of the limit
+  max |u2| =   0.3697 rad/s  limit 2.84    ->   13.0 % of the limit
+  final ||z|| : approximation 4.965e-03,  exact 5.723e-03
+trailer2
+
+trailer2(task, ...)   -- two trailers, r = 4, numbers in params.m
+
+  trailer2('selftest')           does the code still compute what it did before
+  trailer2('calculations')       one closed-loop simulation (approximate model)
+  trailer2('plots')              states / controls / convergence of that simulation
+  trailer2('compare_physical')   approx vs exact kinematics as numbers (slow)
+  trailer2('compare_gain')       fixed vs adaptive gain, gamma and time vs epsilon
+  trailer2('compare_V')          candidate Lyapunov functions ranked under the limits
+  trailer2('convergence_map')    which (epsilon, gamma) converge
+  trailer2('search_k', 15)       rank the (k12, k112, k1112) triples
+  trailer2('derive_symbolic')    symbolic derivation (needs the Symbolic Math Toolbox)
+
+  Any function in this file can be called as trailer2('name', args...).
+
+Running the default task 'plots' (change DEFAULT_TASK at the top of trailer2.m)
+
+geometry : d0=0.115  d1=0.084  l1=0.082  l2=0.089  [m]
+coeffs   : alpha=0.007356  kappa=0.023296  theta=0.061115
+
+========================================
+  Simulation
+  z0      = [-0.2000; 0.7854; 0.2000; -0.0514; 0.0025],  ||z0|| = 0.8364
+  time    : [0.0, 1800.0], dt = 2.0e-03
+  epsilon = 3.00, omega = 2.0944, gamma = 2.7498e-05
+  V       : sqrt, delta = 0.005
+  k       = (14, 5, 1)
+========================================
+  900001 steps
+  final state : [-0.188163; 0.738915; 0.187613; -0.048419; 0.001551]
+  final norm  : 0.786731
+  max |u1|    : 0.220
+  max |u2|    : 0.525
+  ||z(0)|| = 0.836362  ->  ||z(end)|| = 0.786731
+
+=== Done. ===
+
+========================================
+  Control demand vs TurtleBot3 Burger
+========================================
+  max |u1| =   0.2200 m/s    limit 0.22    ->  100.0 % of the limit
+  max |u2| =   0.5248 rad/s  limit 2.84    ->   18.5 % of the limit
+  -> the commanded controls fit within the limits.
+thesis_sim
+
+=== thesis_sim: two trailers (r = 4), design eps = 3 s, k = (14   5   1), V = sqrt, delta = 0.005 ===
+
+-- design run: gamma = 2.7498e-05, dt = 0.0054 s, t_end = 60 s
+  ||z|| to 10% / 1% / 0.1% of ||z0||  approx [NaN NaN NaN] s   exact [NaN NaN NaN] s
+  largest ||z_exact - z_approx|| = 0.0297 (3.6 % of ||z0||) at t = 59.3 s
+  max |u1| approx 0.2200 exact 0.2202 (limit 0.22);  max |u2| approx 0.5244 exact 0.5247 (limit 2.84)
+  final ||z|| approx 8.347e-01 exact 8.348e-01;  final theta1, theta2 [60.37 -22.5] deg, largest |theta| [67.95 57.34] deg
+
+-- validity: 12 intervals per period, gain = largest admissible
+  eps    gamma       dev/||z0||  ||z(T)||/||z0||  approx  exact   |u1|e/lim  |u2|e/lim  max|angle| [deg]  excursion [m]
+    2.0  1.064e-05      0.024        1.000      1.000      1.000     0.189         53.3        0.042
+    3.0  2.750e-05      0.035        0.999      0.999      1.000     0.185         56.1        0.059
+    4.0  5.330e-05      0.050        0.997      0.997      1.003     0.182         91.7        0.076
+    6.0  1.330e-04      0.092        0.988      0.990      1.034     0.183        200.5        0.112
+    8.0  2.509e-04      0.118        0.971      0.975      1.076     0.187        238.9        0.148
+   26.0  1.560e-04      0.213        0.941      0.957      0.457     0.078        593.2        0.196
+
+-- fixed against adaptive gain (approximation), t_end = 60 s
+  fixed    : to 10/1/0.1 %: [NaN NaN NaN] s, max |u1| 0.2200, max |u2| 0.5244
+  adaptive : to 10/1/0.1 %: [NaN NaN NaN] s, max |u1| 0.2200, max |u2| 0.5244
+  adaptive gamma: min 2.750e-05  max 2.754e-05  (fixed 2.750e-05);  final ||z|| fixed 8.35e-01 adaptive 8.35e-01
+
+-- envelope of start poses x0 = s*(+-0.2 m, +-0.2 m, 45 deg, 45 deg), exact kinematics, 60 s
+  sign  s     |x0|[m]   ||z(60 s)||/||z0||   max|u1|/lim   theta1 end [deg]
+  +1    1.00   0.283          1.0        0.689            38.7
+  +1    0.75   0.212          1.0        0.596            30.5
+  +1    0.50   0.141          1.0        0.437            21.3
+  +1    0.40   0.113          1.0        0.396            17.3
+  +1    0.30   0.085          1.0        0.433            13.1
+  +1    0.20   0.057          1.0        0.453             8.8
+  -1    1.00   0.283          1.0        1.001            60.4
+
+-- step stability: eps = 3 s, 10 intervals, quadratic V (h = 1), limits ignored
+  eps*gamma   ||z_N||/||z_0||   (1-eps*gamma)^N
+     0.40       6.506e-03        6.047e-03
+     0.80       1.446e-07        1.024e-07
+     1.00       2.224e-20        0.000e+00
+     1.20       2.928e-04        1.024e-07
+     1.40       1.397e-01        1.049e-04
+     1.60       8.337e+00        6.047e-03
+     1.90       8.308e+02        3.487e-01
+     2.10       1.069e+04        2.594e+00
+     2.60       4.326e+06        1.100e+02
+
+figures and sim_2tr.mat written to /Users/marke/Documents/thesis/figures
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+       model: '2tr'
+       label: 'two trailers (r = 4)'
+         des: [1×1 struct]
+          z0: [5×1 double]
+          x0: [5×1 double]
+       u1max: 0.2200
+       u2max: 2.8400
+      design: [1×1 struct]
+    validity: [1×1 struct]
+    adaptive: [1×1 struct]
+    envelope: [1×1 struct]
+    stepstab: [1×1 struct]
+
+cd('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers')
+thesis_sim('long', struct('t_end', 30600))
+
+=== thesis_sim: two trailers (r = 4), design eps = 3 s, k = (14   5   1), V = sqrt, delta = 0.005 ===
+
+-- long run: 10200 intervals of 3 s (t_end = 30600 s), gamma = 2.7498e-05
+    10.0 %  t =      3060 s  exact 0.9196  approx 0.8991   (128 s elapsed)
+{Operation terminated by user during <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>u_ctrl', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1336)" style="font-weight:bold">trailer2>u_ctrl</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1336,0)">line 1336</a>)
+
+
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>rhs_x', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1291)" style="font-weight:bold">trailer2>rhs_x</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1291,0)">line 1291</a>)
+    [u1, u2] = u_ctrl(t, zf, omega, k12, k112, k1112, ...
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>@(t,x)rhs_x(t,x,z_frozen,d0,d1,l1,l2,omega,k12,k112,k1112,alpha,kappa,theta,gamma_val,h_fun)', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1242)" style="font-weight:bold">trailer2>@(t,x)rhs_x(t,x,z_frozen,d0,d1,l1,l2,omega,k12,k112,k1112,alpha,kappa,theta,gamma_val,h_fun)</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1242,0)">line 1242</a>)
+        odefun = @(t, x) rhs_x(t, x, z_frozen, d0, d1, l1, l2, omega, ...
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('ode45', '/Applications/MATLAB_R2025b.app/toolbox/matlab/funfun/ode45.m', 306)" style="font-weight:bold">ode45</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2025b.app/toolbox/matlab/funfun/ode45.m',306,0)">line 306</a>)
+        f6 = ode(t6, y6, odeArgs{:});
+             ^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2>simulate_case_physical', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 1256)" style="font-weight:bold">trailer2>simulate_case_physical</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',1256,0)">line 1256</a>)
+        [t_seg, x_seg] = ode45(odefun, tspan_j, x_cur, options);
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('trailer2', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m', 49)" style="font-weight:bold">trailer2</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/trailer2.m',49,0)">line 49</a>)
+        [varargout{1:nargout}] = f(varargin{:});
+                                 ^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('thesis_sim>@(name,varargin)trailer2(name,varargin{:})', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/thesis_sim.m', 40)" style="font-weight:bold">thesis_sim>@(name,varargin)trailer2(name,varargin{:})</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/thesis_sim.m',40,0)">line 40</a>)
+    Tr = @(name, varargin) trailer2(name, varargin{:});
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('thesis_sim>@(x,gam,ep,T,dt)Tr(''simulate_case_physical'',x,geo.d0,geo.d1,geo.l1,geo.l2,alpha,kappa,theta,gam,ep,2*pi/ep,DES.k(1),DES.k(2),DES.k(3),0,T,dt,h_use)', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/thesis_sim.m', 58)" style="font-weight:bold">thesis_sim>@(x,gam,ep,T,dt)Tr('simulate_case_physical',x,geo.d0,geo.d1,geo.l1,geo.l2,alpha,kappa,theta,gam,ep,2*pi/ep,DES.k(1),DES.k(2),DES.k(3),0,T,dt,h_use)</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/thesis_sim.m',58,0)">line 58</a>)
+    simE = @(x, gam, ep, T, dt) Tr('simulate_case_physical', x, geo.d0, geo.d1, geo.l1, geo.l2, ...
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('thesis_sim', '/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/thesis_sim.m', 239)" style="font-weight:bold">thesis_sim</a> (<a href="matlab: opentoline('/Users/marke/Documents/MATLAB/turtlebot/bachelor thesis/2 trailers/thesis_sim.m',239,0)">line 239</a>)
+            [~, xs, ~, u1s] = simE(xc, gam, ep, ep, dt);
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+trailer1
+
+trailer1(task, ...)   -- one trailer, r = 3, numbers in params.m
+
+  trailer1('selftest')           does the code still compute what it did before (~20 s)
+  trailer1('calculations')       one closed-loop simulation (approximate model)
+  trailer1('plots')              states / controls / convergence, approx vs exact
+  trailer1('compare_physical')   approx vs exact kinematics as numbers (slow)
+  trailer1('compare_gain')       fixed vs adaptive gain, gamma and time vs epsilon
+  trailer1('compare_V')          candidate Lyapunov functions ranked under the limits
+  trailer1('convergence_map')    which (epsilon, gamma) converge
+  trailer1('search_k', 15)       rank the (k12, k112) pairs
+
+  Any function in this file can be called as trailer1('name', args...).
+  Symbolic derivation: derive.m (needs the Symbolic Math Toolbox).
+
+Running the default task 'plots' (change DEFAULT_TASK at the top of trailer1.m)
+
+geometry : d0=0.115  l1=0.082  [m]
+coeff    : alpha=0.011328
+
+========================================
+  Simulation
+  z0      = [-0.2000; 0.7854; 0.2000; -0.0217],  ||z0|| = 0.8351
+  time    : [0.0, 400.0], dt = 2.0e-03
+  epsilon = 5.00, omega = 1.2566, gamma = 2.1143e-02
+  V       : log, c = 10 (Viktoria)
+  k       = (3, 2)   [k12, k112 -- no k1112 for r=3]
+========================================
+  200001 steps
+  final state : [-0.001183; 0.004647; 0.001280; -0.000151]
+  final norm  : 0.004965
+  max |u1|    : 0.223  (limit 0.22)
+  max |u2|    : 0.383  (limit 2.84)
+  ||z(0)|| = 0.835057  ->  ||z(end)|| = 0.004965
+
+=== Done. ===
+(running the exact-kinematics model for comparison ...)
+
+  V : log, c = 10 (Viktoria)
+
+  max |u1| =   0.2229 m/s    limit 0.22    ->  101.3 % of the limit
+  max |u2| =   0.3827 rad/s  limit 2.84    ->   13.5 % of the limit
+
+  --- same controller, EXACT kinematics (what the robot does) ---
+  max |u1| =   0.2141 m/s    limit 0.22    ->   97.3 % of the limit
+  max |u2| =   0.3697 rad/s  limit 2.84    ->   13.0 % of the limit
+  final ||z|| : approximation 4.965e-03,  exact 5.723e-03

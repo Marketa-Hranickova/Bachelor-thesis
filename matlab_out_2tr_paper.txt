@@ -1,0 +1,28 @@
+
+##### paper: k=(8,6,5) eps=0.1 gamma=1
+  t =    1 s:  approx 0.3467   exact 0.6324
+  t =    3 s:  approx 0.04192   exact 0.5026
+  t =    6 s:  approx 0.001771   exact 0.2975
+  t =   12 s:  approx 3.176e-06   exact 0.2973
+  max |u1| = 151.66 m/s, largest |angle| = 2615 deg, min exact = 0.2809
+
+##### k=(14,5,1) eps=0.1 gamma=1
+  t =    1 s:  approx 0.3475   exact 0.9337
+  t =    3 s:  approx 0.04286   exact 1.442
+  t =    6 s:  approx 0.001829   exact 1.441
+  t =   12 s:  approx 3.292e-06   exact 1.441
+  max |u1| = 107.93 m/s, largest |angle| = 6661 deg, min exact = 0.5487
+
+##### k=(8,6,5) eps=0.5 gamma=1
+  t =    1 s:  approx 0.2493   exact 0.3191
+  t =    3 s:  approx 0.01572   exact 0.0814
+  t =    6 s:  approx 0.0002506   exact 0.004518
+  t =   12 s:  approx 6.18e-08   exact 0.004525
+  max |u1| = 35.08 m/s, largest |angle| = 1156 deg, min exact = 0.004518
+
+##### template: k=(8,6,5) eps=2 gamma=0.1
+  t =    1 s:  approx 1.411   exact 1.416
+  t =    3 s:  approx 1.169   exact 1.301
+  t =    6 s:  approx 0.51   exact 0.5925
+  t =   12 s:  approx 0.2604   exact 0.3876
+  max |u1| = 7.90 m/s, largest |angle| = 1893 deg, min exact = 0.3684

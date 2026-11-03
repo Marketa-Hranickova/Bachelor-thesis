@@ -1,0 +1,439 @@
+% ---------------------------------------------------------------------------
+% Chapter -- Nilpotent Approximation
+%
+% DRAFT 1 (19 Oct 2026). Proposed by Claude, to be read and rewritten in
+% your own words. Every formula in this chapter was re-derived with sympy
+% (code/verify_nilpotent.py) and agrees with the MATLAB code
+% (one_trailer_coeff, offhooked_coeffs, x_to_z) and with
+% Zuyev & Grushkovskaya, arXiv:2403.03341, Sec. III.
+% The one-trailer derivation (Sec. 4.4) is your own, not in the paper.
+% ---------------------------------------------------------------------------
+
+\chapter{Nilpotent Approximation}
+\label{ch:nilpotent}
+\TODO[status of this chapter: about 80 percent done]
+
+The model from Chapter~\ref{ch:model} is controllable, but its equations
+contain sines and cosines. Also, no continuous feedback that depends only on the
+state can stabilize it. The controllers in Chapter~\ref{ch:control} are
+therefore designed for a simpler system. This system keeps only the terms that
+matter most for small motions near the origin. It is called the nilpotent
+approximation. This chapter explains what it is and why it is used. It is
+derived for the car with one trailer (\cref{sec:approx1}) and, following
+\cite{zuyev2024}, for two trailers (\cref{sec:approx2}).
+
+% ===========================================================================
+\section{Why linearization is not enough}
+\label{sec:linearization}
+
+The first idea is to linearize the system, that is, to replace it near the
+origin by a linear system. The system has no drift, so the origin with zero
+inputs is an equilibrium. The linearization is
+\begin{equation}
+  \dot x=f_1(0)\,u_1+f_2(0)\,u_2 .
+  \label{eq:linearization}
+\end{equation}
+This system can only move in the plane spanned by $f_1(0)$ and $f_2(0)$, but the
+state has five numbers (four for one trailer). So the linearization is not
+controllable. It keeps the two directions that are available at once and drops
+all the others. These others come from the Lie brackets, and they are exactly
+the directions in which the original system is controllable
+(\cref{sec:controllability}).
+
+The fix is to look at each direction on its own scale. Suppose the inputs are
+of size one and are used for a short time $\varepsilon$. Then the robot moves
+about $\varepsilon$ in the first two directions, driving and turning. In a
+direction that needs a manoeuvre of length $s$, it moves only about
+$\varepsilon^{s}$, which is much less. So the directions cannot be measured on
+the same scale. This is made exact by weights (\cref{sec:privileged}).
+
+% ===========================================================================
+\section{Privileged coordinates and weights}
+\label{sec:privileged}
+
+The construction comes from Bella\"iche, Jean and Risler~\cite{bellaiche2005},
+in the form used in~\cite{zuyev2024}. It starts from the directions
+$\mathcal L^s(0)$ of \cref{sec:controllability}. These are the directions at the
+origin that can be made from brackets of length at most $s$, and there are $n_s$
+of them. Each longer bracket adds more directions, until all of $\R^n$ is
+covered. This is possible because the Lie algebra rank condition holds at the
+origin. The result is a chain of spaces, each inside the next, which is called a
+flag:
+\begin{equation}
+  \{0\}\subset\mathcal L^1(0)\subset\dots\subset\mathcal L^r(0)=\R^n ,
+  \qquad \dim\mathcal L^s(0)=n_s .
+\end{equation}
+
+\paragraph{Weights.}
+Every coordinate $y_j$ gets a weight. The weight is the smallest $s$ for which
+some direction in $\mathcal L^s(0)$ changes $y_j$. In other words, $y_j$ has
+weight $s$ if it is first reached by manoeuvres of length $s$. For the growth
+vector $(2,3,4,5)$ from \eqref{eq:growth}, the weights are
+\begin{equation}
+  w=(1,1,2,3,4).
+  \label{eq:weights}
+\end{equation}
+The first two coordinates have weight 1, because two directions are available at
+once. The other three have weights 2, 3 and 4. For one trailer, with growth
+vector $(2,3,4)$, the weights are $w=(1,1,2,3)$. In general, $w_j$ is the
+smallest $s$ with $n_s\ge j$.
+
+\paragraph{Linear step.}
+Take the vectors $Y_1=f_1$, $Y_2=f_2$, $Y_3=[f_1,f_2]$, $Y_4=[f_1,[f_1,f_2]]$,
+and so on. They are the columns of the matrix $F$ from \eqref{eq:Fmatrix}. At the
+origin they are independent, so they can be used as new axes. The new
+coordinates are
+\begin{equation}
+  y=F(0)^{-1}x .
+  \label{eq:ylinear}
+\end{equation}
+The number $y_j$ says how much of the direction $Y_j(0)$ the state contains. The
+vector $Y_j$ is made from brackets of length $w_j$, and so the coordinate $y_j$
+has the weight $w_j$.
+
+\paragraph{Nonlinear correction.}
+The coordinates $y$ are not always good enough. The new coordinates have to be
+\emph{privileged}, which means that a coordinate with weight $w_j$ changes at
+most about $\varepsilon^{w_j}$ when the inputs are used for a short time
+$\varepsilon$ \cite{bellaiche2005}. The coordinates $y$ do not always do this,
+so they are corrected. The correction is given by the recursion
+\begin{equation}
+  z_q=y_q-\sum_{(\alpha,w)<w_q}\frac{1}{\alpha_1!\cdots\alpha_{q-1}!}
+      \bigl(Y_1^{\alpha_1}\cdots Y_{q-1}^{\alpha_{q-1}}y_q\bigr)(0)\,
+      z_1^{\alpha_1}\cdots z_{q-1}^{\alpha_{q-1}},
+  \label{eq:bellaiche}
+\end{equation}
+where $(\alpha,w)=\sum_i w_i\alpha_i$. The recursion subtracts from $y_q$ all
+terms whose weighted degree is smaller than $w_q$. For the systems in this thesis
+almost all of these terms are zero. The details are in \cref{sec:approx1} and
+\cref{sec:approx2}.
+
+\paragraph{A practical test.}
+Whether the coordinates are privileged can be checked on the equations. In the
+exact equation for $\dot z_q$, every $z_i$ is replaced by $\varepsilon^{w_i}z_i$,
+and the result is expanded in $\varepsilon$. A coordinate with weight $w_q$
+changes by about $\varepsilon^{w_q}$ during a time $\varepsilon$, so its speed
+$\dot z_q$ should be of size $\varepsilon^{w_q-1}$. This means that the lowest
+power of $\varepsilon$ must be exactly $w_q-1$. The coefficient of this power is
+the $q$-th component of the approximating system. If the lowest power is smaller,
+the coordinate moves faster than its weight allows, and it needs a correction.
+As an example, take $z_3=-x_2$ and $z_2=x_3$. Then
+\begin{equation}
+  \dot z_3=-u_1\sin x_3=-u_1\sin z_2
+  \;\xrightarrow{\;z_2\to\varepsilon z_2\;}\;
+  -\varepsilon\,u_1z_2+O(\varepsilon^3).
+\end{equation}
+The lowest power is $\varepsilon^1=\varepsilon^{w_3-1}$, because $w_3=2$. All
+coordinates in this thesis were checked in this way
+(\cref{app:nilpotent}).
+
+% ===========================================================================
+\section{Quasi-homogeneity}
+\label{sec:homogeneity}
+
+The weights tell how to stretch the coordinates. For a number $\lambda>0$, the
+stretching is
+\begin{equation}
+  \delta_\lambda(z_1,\dots,z_n)=(\lambda^{w_1}z_1,\dots,\lambda^{w_n}z_n).
+\end{equation}
+Every coordinate is stretched by the power of $\lambda$ given by its weight. This
+is the same idea as in \cref{sec:linearization}, where a short time $\varepsilon$
+changes a coordinate with weight $w$ by about $\varepsilon^{w}$. The weights also
+give a \emph{weighted degree} to every term. A term
+$z_1^{\alpha_1}\cdots z_n^{\alpha_n}$ has the degree $\sum_iw_i\alpha_i$. For
+example, $z_3$ and $z_2^2$ both have degree $2$, and $z_4$ and $z_2^3$ both have
+degree $3$.
+
+A vector field $X$ has one component $X_j$ for each coordinate. It is
+\emph{weighted homogeneous of degree $m$} if every component $X_j$ has weighted
+degree $w_j+m$, which means that all its terms have this degree. The fields of
+the nilpotent approximation, which is derived below, have degree $-1$: the
+component $j$ has degree $w_j-1$. This is what the practical test in
+\cref{sec:privileged} checks. It has three consequences, and they show why the
+approximation is useful.
+
+\begin{enumerate}
+  \item The bracket of two weighted homogeneous fields with degrees $m$ and $m'$
+        is weighted homogeneous of degree $m+m'$. Let $g_1$ and $g_2$ be the two
+        fields of the nilpotent approximation. Both have degree $-1$, so a
+        bracket of length $k$ of $g_1$ and $g_2$ has degree $-k$.
+  \item The fields $g_1$ and $g_2$ are polynomial, which means that their
+        components are polynomials in $z$. A bracket of length $k$ has degree
+        $-k$, so its component $j$ has degree $w_j-k$. A polynomial cannot have
+        a negative degree, so this component is zero when $w_j<k$. Therefore all
+        brackets of length greater than $r=\max_jw_j$ are zero. A Lie algebra
+        with this property is called \emph{nilpotent} (of step $r$), and this is
+        where the name of the approximation comes from. The exact system is not
+        nilpotent, because its sines and cosines produce new terms at every
+        length.
+  \item A component of degree $w_j-1$ can contain only coordinates with a smaller
+        weight than $w_j$. So $\dot z_j$ depends only on $z_1,\dots,z_{j-1}$, and
+        the system is triangular. A triangular system can be solved one
+        coordinate after the other, with a formula. The controller of
+        Chapter~\ref{ch:control} uses this.
+\end{enumerate}
+
+In privileged coordinates, the exact system differs from the approximating
+system only by terms of higher weighted degree~\cite{bellaiche2005}. Close to the
+origin, these terms are small compared with the terms of the approximation. A
+controller designed for the nilpotent approximation can therefore be expected to
+work for the exact system too, as long as the difference stays small.
+Chapter~\ref{ch:control} shows how this is made exact.
+Chapter~\ref{ch:simulation} measures the size of the difference. There, the
+controller is simulated on the approximation and on the exact kinematics, and the
+two results are compared (\cref{sec:sim-exact,sec:sim-validity}).
+
+% ===========================================================================
+\section{Approximation for one trailer}
+\label{sec:approx1}
+
+In this section, the construction is carried out for the car with one off-hooked
+trailer, that is, for the system with four coordinates from
+\eqref{eq:onetrailer}. Its weights are $w=(1,1,2,3)$ and its degree of
+nonholonomy is $r=3$. The paper~\cite{zuyev2024} treats only two trailers, so this
+derivation is not in it.
+
+\paragraph{Privileged coordinates.}
+For one trailer, the matrix $F(0)$ is made of $\bar f_1$, $\bar f_2$ and their
+brackets from \cref{sec:onetrailer}. It is
+\begin{equation}
+  F(0)=\begin{pmatrix}
+    1&0&0&0\\
+    0&0&-1&0\\
+    0&1&0&0\\
+    0&-\dfrac{\dzero}{\lone}&-\dfrac{\dzero+\lone}{\lone^{2}}&-\dfrac{\dzero+\lone}{\lone^{3}}
+  \end{pmatrix}.
+\end{equation}
+The linear step \eqref{eq:ylinear} gives the new coordinates
+\begin{equation}
+  z_1=x_1,\qquad z_2=x_3,\qquad z_3=-x_2,\qquad
+  z_4=\lone x_2-\frac{\dzero\lone^{2}}{\dzero+\lone}\,x_3
+      -\frac{\lone^{3}}{\dzero+\lone}\,x_4 .
+  \label{eq:xtoz1}
+\end{equation}
+They are found by writing $x$ as a mix of the four directions
+$Y_1(0),\dots,Y_4(0)$ and solving for the amounts. They are called $z$, because
+no nonlinear correction is needed, as shown below. The inverse map is
+$x=F(0)z$, and it is used to plot the motion in the original coordinates. It
+reads $x_1=z_1$, $x_2=-z_3$, $x_3=z_2$ and
+$x_4=-\frac{\dzero}{\lone}z_2-\frac{\dzero+\lone}{\lone^{2}}z_3
+-\frac{\dzero+\lone}{\lone^{3}}z_4$.
+Only the state is written in new coordinates. The inputs $u_1$ and $u_2$ are the
+physical velocities in both descriptions.
+
+\paragraph{No nonlinear correction is needed.}
+The correction \eqref{eq:bellaiche} subtracts only terms of weighted degree
+smaller than $w_q$. The highest weight here is $w_4=3$, so a cubic term such as
+$z_2^3$ (degree $3$) is never subtracted. In the two-trailer system it is,
+because there $w_5=4>3$. Terms of degree $2$, which is less than $3$, could be
+subtracted in principle, but they are not needed. The practical test below finds
+no power of $\varepsilon$ below $w_q-1$. So the coordinates from the linear step
+are already privileged.
+
+\paragraph{Equations in the new coordinates.}
+The first three equations follow from \eqref{eq:robot}:
+$\dot z_1=u_1\cos z_2$, $\dot z_2=u_2$, $\dot z_3=-u_1\sin z_2$.
+For $z_4$, the derivative of \eqref{eq:xtoz1} is computed, and $\dot x_2$,
+$\dot x_3$ and $\dot x_4$ are taken from the system, using \eqref{eq:x4dot}.
+This gives the exact expression
+\begin{equation}
+  \dot z_4=u_1\,\lone\Bigl[\sin x_3-\frac{\lone}{\dzero+\lone}\sin(x_3-x_4)\Bigr]
+  -u_2\,\frac{\dzero\lone^{2}}{\dzero+\lone}\bigl[1-\cos(x_3-x_4)\bigr].
+  \label{eq:z4dot}
+\end{equation}
+Here $x_3$ and $x_4$ have to be replaced by their expressions in $z$. From the
+inverse map,
+\begin{equation}
+  x_3-x_4=\frac{\dzero+\lone}{\lone}\,z_2+\frac{\dzero+\lone}{\lone^{2}}\,z_3
+          +\frac{\dzero+\lone}{\lone^{3}}\,z_4 .
+\end{equation}
+Next, every $z_i$ is replaced by $\varepsilon^{w_i}z_i$, and the result is
+expanded in $\varepsilon$, as in the practical test of \cref{sec:privileged}. In
+the $u_1$ term, the parts of order $\varepsilon^1$ cancel, because
+$\lone\bigl[z_2-\frac{\lone}{\dzero+\lone}\cdot\frac{\dzero+\lone}{\lone}z_2\bigr]=0$.
+The part of order $\varepsilon^2$ is $-z_3$. In the $u_2$ term,
+$1-\cos(x_3-x_4)=\tfrac12\bigl(\tfrac{\dzero+\lone}{\lone}z_2\bigr)^2\varepsilon^2
++O(\varepsilon^3)$. Altogether
+\begin{equation}
+  \dot z_4=\varepsilon^2\bigl(-z_3u_1-\alpha z_2^2u_2\bigr)+O(\varepsilon^3),
+  \qquad
+  \alpha=\frac{\dzero(\dzero+\lone)}{2}.
+  \label{eq:alpha1}
+\end{equation}
+The powers $\varepsilon^0$ and $\varepsilon^1$ vanish, and the lowest power is
+$\varepsilon^2=\varepsilon^{w_4-1}$, as required.
+
+\paragraph{The approximating system.}
+In each equation, only the term with the lowest power of $\varepsilon$ is kept,
+and $\varepsilon$ is set to $1$. This gives the nilpotent approximation for one
+trailer:
+\begin{equation}
+  \dot z=u_1g_1(z)+u_2g_2(z),\qquad
+  g_1(z)=\begin{pmatrix}1\\0\\-z_2\\-z_3\end{pmatrix},\quad
+  g_2(z)=\begin{pmatrix}0\\1\\0\\-\alpha z_2^{2}\end{pmatrix}.
+  \label{eq:nilp1}
+\end{equation}
+It has only one parameter, $\alpha$. So the system depends on the geometry only
+through $\dzero$ and $\lone$, and $\alpha>0$ for all positive $\dzero$ and
+$\lone$. For the platform values $\dzero=\SI{0.115}{m}$ and
+$\lone=\SI{0.082}{m}$ (\cref{sec:parameters}), $\alpha\approx\SI{1.133e-2}{m^2}$.
+
+\paragraph{Brackets and the matrix $G$.}
+The brackets of the approximating fields are constant:
+\begin{equation}
+  [g_1,g_2]=(0,0,1,0)^\top,\qquad
+  [g_1,[g_1,g_2]]=(0,0,0,1)^\top .
+\end{equation}
+Also, $[g_2,[g_1,g_2]]=0$, and all brackets of length four are zero. So the Lie
+algebra is nilpotent of step three, as predicted in \cref{sec:homogeneity}.
+The matrix $G(z)$ has the columns $g_1$, $g_2$, $[g_1,g_2]$ and
+$[g_1,[g_1,g_2]]$. It is lower triangular with ones on the diagonal, so
+\begin{equation}
+  \det G(z)=1\qquad\text{for all }z .
+  \label{eq:detG}
+\end{equation}
+This is different from \cref{sec:controllability}, where $\det F(0)\ne0$ was a
+condition that had to be checked for the real system. Here, $\det G=1$ holds for
+every system of this triangular form. It only confirms that the construction was
+carried out correctly. It also means that the inverse $G(z)^{-1}$ exists for
+every $z$. The controller of Chapter~\ref{ch:control} uses this inverse, so it is
+well defined everywhere.
+
+\paragraph{The chained form appears by itself.}
+If $\dzero\to0$, which means that the hitch is on the axle, then $\alpha\to0$ and
+\begin{equation}
+  \dot z_4=-z_3u_1 .
+\end{equation}
+This is exactly the chained form from~\cite{sordalen1993}. The chained form was
+not used anywhere in the derivation, and it comes out by itself in this case.
+When the hitch is off the axle, the term $-\alpha z_2^2u_2$ is the only
+difference from the classical case. This agrees with the discussion in
+\cref{sec:geometry}.
+
+% ===========================================================================
+\section{Approximation for two trailers}
+\label{sec:approx2}
+
+The approximation for the car with two trailers was obtained
+in~\cite{zuyev2024}. It is summarized here, together with the checks made for
+this thesis.
+
+The weights are $w=(1,1,2,3,4)$. The linear coordinates $y=F(0)^{-1}x$ are given
+in~\cite{zuyev2024}, and their entries are fractions made of the four lengths.
+For two trailers, the correction \eqref{eq:bellaiche} is not zero. The only term
+that survives is cubic in $x_3=z_2$, and its degree is $3<w_5=4$. So
+\begin{equation}
+  z_1=x_1,\quad z_2=x_3,\quad z_3=-x_2,\quad z_4=y_4,\quad
+  z_5=y_5-\beta x_3^{3},
+  \label{eq:xtoz2}
+\end{equation}
+with
+\begin{equation}
+  \beta=\frac{\dzero\ltwo\bigl[\dzero^{2}(\done+\lone)(\lone-\ltwo-\done)
+        +\lone^{3}(\dzero+\ltwo)\bigr]}{6(\dzero+\ltwo)\lone^{2}} .
+\end{equation}
+The coefficient $\beta$ is chosen so that it cancels the term of order
+$\varepsilon^2$ in $\dot z_5$. Without it, this term would fail the practical test
+of \cref{sec:privileged}.
+
+The approximating system is
+\begin{equation}
+  \dot z_1=u_1,\quad \dot z_2=u_2,\quad \dot z_3=-z_2u_1,\quad
+  \dot z_4=-z_3u_1-\alpha z_2^{2}u_2,\quad
+  \dot z_5=(\kappa z_2^{3}-z_4)u_1-\theta z_2z_3u_2 ,
+  \label{eq:nilp2}
+\end{equation}
+That is, $g_1=(1,0,-z_2,-z_3,\kappa z_2^3-z_4)^\top$ and
+$g_2=(0,1,0,-\alpha z_2^2,-\theta z_2z_3)^\top$. The coefficients are
+\begin{align}
+  \alpha&=\frac{\dzero^{3}\bigl[\lone^{3}+\lone^{2}\ltwo-\lone\ltwo^{2}-\done\ltwo(\done+\ltwo)\bigr]
+         +\dzero\lone^{3}\bigl[\dzero(\lone+2\ltwo)+\ltwo(\lone+\ltwo)\bigr]}
+         {2(\dzero+\ltwo)\lone^{3}},\\[2pt]
+  \kappa&=\frac{\dzero^{2}\Bigl\{\tfrac32\ltwo^{2}(\dzero+\lone)(\done+\lone)
+         -\ltwo\bigl[\lone^{3}+\tfrac12\dzero\lone^{2}-\done\lone(\dzero+\tfrac32\done)
+         -\tfrac32\dzero\done^{2}\bigr]+\tfrac12\dzero\done^{2}\lone\Bigr\}}
+         {3(\dzero+\ltwo)\lone^{3}},\\[2pt]
+  \theta&=\frac{\dzero^{2}\bigl[\ltwo^{2}(\done+\lone)(\dzero+\lone)
+         +\bigl(\dzero\done+(\dzero+\done)\lone\bigr)\done\ltwo+\dzero\done^{2}\lone\bigr]}
+         {(\dzero+\ltwo)\lone^{3}} .
+\end{align}
+The symbol $\alpha$ is used again, but it is not the same number as for one
+trailer, because $z_4$ is defined differently here.
+
+As a check, the two parameter sets of the numerical example in
+\cite{zuyev2024} ($\dzero=\done=0.1$, $\lone=\ltwo=1$ and
+$\dzero=\done=\lone=\ltwo=1$) give $(\alpha,\kappa,\theta)=(0.10495,\,0.0024,\,0.0112)$
+and $(1,\,1.5,\,4)$ with these formulas. These are the values printed in the
+paper. They were also checked with the MATLAB function
+\texttt{offhooked\_coeffs} (Chapter~\ref{ch:feasibility}) and with a symbolic
+computation (\cref{app:nilpotent}).
+\TODO[the denominator of alpha in eq. (11) of the paper seems to contain $\ell_2^3$, but the derivation here gives $\ell_1^3$; the examples cannot tell because $\ell_1=\ell_2$ there; check the PDF]
+
+The matrix $G(z)$ has the columns $g_1$, $g_2$ and the brackets up to length
+four. It is again lower triangular with ones on the diagonal, so
+$\det G(z)=1$. Its third column, the bracket $[g_1,g_2]$, is
+$(0,0,1,0,-(\alpha+3\kappa-\theta)z_2^{2})^\top$.
+
+Compare the approximations for one and two trailers, \eqref{eq:nilp1} and
+\eqref{eq:nilp2}. The first four equations have the same form. The coefficient
+$\alpha$ is different, because $z_4$ is defined differently in the two cases: for
+two trailers, $y_4$ contains $x_5$. The second trailer adds one equation and a
+correction $\beta$, and it gives three coefficients instead of one. It also
+raises the weight of the last coordinate from $3$ to $4$.
+
+\begin{table}[t]
+  \centering
+  \caption{Nilpotent approximation of the car with one and two trailers.}
+  \label{tab:approx}
+  \begin{tabular}{lcc}
+    \toprule
+                                   & one trailer & two trailers \\
+    \midrule
+    state dimension                & 4           & 5 \\
+    growth vector                  & $(2,3,4)$   & $(2,3,4,5)$ \\
+    weights                        & $(1,1,2,3)$ & $(1,1,2,3,4)$ \\
+    degree of nonholonomy $r$      & 3           & 4 \\
+    nonlinear correction           & none        & $\beta$ (cubic term in $z_5$) \\
+    coefficients                   & $\alpha$    & $\alpha,\kappa,\theta$ \\
+    $\det G(z)$                    & 1           & 1 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% ===========================================================================
+\section{Verification}
+\label{sec:verification}
+
+The derivation in \cref{sec:approx1} is not copied from a paper, so it was
+checked in four ways.
+
+\begin{enumerate}
+  \item \textbf{$\det G(z)=1$.} The matrix of brackets of the approximating system
+        has determinant $1$ for all $z$, for one and for two trailers. This only
+        confirms that the matrix is triangular with ones on the diagonal, as the
+        construction should give.
+  \item \textbf{Nilpotency.} All brackets of length greater than $r$ are zero
+        ($r=3$ and $r=4$), as predicted in \cref{sec:homogeneity}.
+  \item \textbf{The limit $\dzero\to0$ gives the chained form.} This is a strong
+        check, because the chained form was not used in the construction. It is
+        a known fact from the classical theory, and the derivation reproduces it.
+  \item \textbf{Symbolic computation.} The practical test of
+        \cref{sec:privileged} was applied symbolically (\cref{app:nilpotent}).
+        For one trailer, with $\dzero$ and $\lone$ left as symbols, it gives
+        $\alpha=\dzero(\dzero+\lone)/2$. For two trailers, it determines $\beta$
+        from the requirement that the $\varepsilon^2$ term of $\dot z_5$ is zero.
+        It also reproduces $\alpha,\kappa,\theta,\beta$ of this chapter exactly,
+        as fractions, for three sets of lengths. These are the two sets quoted in
+        \cite{zuyev2024}, one of them giving $\alpha=0.10495$, $\kappa=0.0024$,
+        $\theta=0.0112$, and the platform lengths.
+\end{enumerate}
+A general MATLAB routine, \texttt{derive\_privileged.m}, gives the same results.
+It receives only the fields $f_1$ and $f_2$, and it finds the weights, the
+correction and the approximating system by itself. For two trailers, it
+reproduces the coefficient $\beta$ of~\cite{zuyev2024} exactly.
+
+\paragraph{What is not verified.}
+The nilpotent approximation keeps only the leading terms, so it is not exact. How
+close a controller designed for it comes to the exact kinematics of
+Chapter~\ref{ch:model} is measured by simulation in
+Chapter~\ref{ch:simulation} (\cref{sec:sim-exact,sec:sim-validity}).

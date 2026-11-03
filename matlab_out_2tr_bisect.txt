@@ -1,0 +1,10 @@
+step                                         |z0|   t_stop      min    final    hitch1    hitch2   max u1  verdict
+S0 old project (case 1b)                   0.8905      2.4   0.0005   0.0005    1.48 r    1.11 r 199.871   CONVERGED
+S1 + robot geometry, start scaled          0.3036      0.9   0.0002   0.0002    1.68 r    2.68 r  54.508   CONVERGED
+S2 + our start (x0.25)                     0.2091      0.6   0.0022   0.0022    2.75 r    2.92 r  79.920   CONVERGED
+S3 + k = (14,5,1)                          0.2091     10.0   0.3379   1.3452   27.73 r    3.15 r  91.541   not finished
+S4 + sqrt Lyapunov function                0.2091     10.0   0.2425   0.6752   12.88 r    3.04 r 102.127   not finished
+S5 + eps = 3 s, gamma = 1.3e-3             0.2091    165.0   0.4436   3.3504   65.96 r   22.30 r   1.238   DIVERGED
+S6 + gamma = 4.68e-5 (limits) = ours       0.2091   6000.0   0.5123   2.5306   49.93 r   15.70 r   0.435   not finished
+
+min, final = ||z||/||z0||; hitch = largest |angle difference| over all samples [rad]; max u1 in m/s (limit 0.22).

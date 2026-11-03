@@ -1,0 +1,44 @@
+
+##### scale = 0.5
+
+=== thesis_sim: two trailers (r = 4), design eps = 3 s, k = (14   5   1), V = sqrt, delta = 0.005 ===
+
+-- start scaled by 0.5: ||z0|| = 0.4182
+
+-- long run: 4667 intervals of 3 s (t_end = 14001 s), gamma = 3.7688e-05
+    10.0 %  t =      1401 s  exact 0.8829  approx 0.8735   (13 s elapsed)
+    20.0 %  t =      2802 s  exact 0.7959  approx 0.7469   (26 s elapsed)
+    30.0 %  t =      4203 s  exact 0.8458  approx 0.6204   (39 s elapsed)
+    40.0 %  t =      5604 s  exact 1.1373  approx 0.4940   (50 s elapsed)
+    50.0 %  t =      7005 s  exact 1.6126  approx 0.3676   (60 s elapsed)
+    60.0 %  t =      8406 s  exact 2.1007  approx 0.2413   (72 s elapsed)
+    70.0 %  t =      9807 s  exact 2.6241  approx 0.1155   (83 s elapsed)
+    80.1 %  t =     11208 s  exact 3.1547  approx 0.0033   (95 s elapsed)
+    90.1 %  t =     12609 s  exact 3.6552  approx 0.0000   (108 s elapsed)
+  at t = 14001 s: exact 4.15363, approx 0.00000, gradient-flow estimate 0.00000
+  largest difference (in % of ||z0||) exact/estimate 415.36, exact/approx 415.36; max |u1| = 1.9139 of the limit
+  peak |u1| of the exact run is 1.9139 of the limit, in interval 2738 (t = 8211 s);  approximation: 1.0000
+  intervals with |u1| above the limit (exact): 4638 of 4667
+  largest |angle| at the end of an interval: 9251.7 deg
+
+##### scale = 0.25
+
+=== thesis_sim: two trailers (r = 4), design eps = 3 s, k = (14   5   1), V = sqrt, delta = 0.005 ===
+
+-- start scaled by 0.25: ||z0|| = 0.2091
+
+-- long run: 2667 intervals of 3 s (t_end = 8001 s), gamma = 4.6833e-05
+    10.0 %  t =       801 s  exact 0.8272  approx 0.8203   (7 s elapsed)
+    20.0 %  t =      1602 s  exact 0.6694  approx 0.6406   (13 s elapsed)
+    30.0 %  t =      2403 s  exact 0.6464  approx 0.4611   (19 s elapsed)
+    40.0 %  t =      3204 s  exact 0.9320  approx 0.2818   (26 s elapsed)
+    50.1 %  t =      4005 s  exact 1.3693  approx 0.1042   (33 s elapsed)
+    60.1 %  t =      4806 s  exact 1.8394  approx 0.0006   (41 s elapsed)
+    70.1 %  t =      5607 s  exact 2.3102  approx 0.0000   (48 s elapsed)
+    80.1 %  t =      6408 s  exact 2.7774  approx 0.0000   (58 s elapsed)
+    90.1 %  t =      7209 s  exact 3.2850  approx 0.0000   (66 s elapsed)
+  at t = 8001 s: exact 3.69723, approx 0.00000, gradient-flow estimate 0.00000
+  largest difference (in % of ||z0||) exact/estimate 369.72, exact/approx 369.72; max |u1| = 1.9750 of the limit
+  peak |u1| of the exact run is 1.9750 of the limit, in interval 1211 (t = 3630 s);  approximation: 1.0000
+  intervals with |u1| above the limit (exact): 2617 of 2667
+  largest |angle| at the end of an interval: 4146.7 deg

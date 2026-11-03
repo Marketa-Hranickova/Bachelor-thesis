@@ -1,0 +1,275 @@
+% ---------------------------------------------------------------------------
+% Appendix D -- Numbers of Chapter 6
+% ---------------------------------------------------------------------------
+
+\chapter{Numbers of the Feasibility Chapter}
+\label{app:feasibility}
+
+Every number and figure of Chapter~\ref{ch:feasibility} is produced by three MATLAB
+functions. \texttt{thesis\_figures} in the folder \texttt{1 trailer} (car with one
+trailer, $r=3$) and in the folder \texttt{2 trailers} ($r=4$) use the same functions as
+the rest of the study (\texttt{gamma\_max}, \texttt{control\_bound}, \texttt{eta\_ray},
+\texttt{x\_to\_z}), compute the sweeps of the chapter, write the PDF figures with
+\texttt{print} and the numbers into \texttt{feas\_1tr.mat} and \texttt{feas\_2tr.mat}.
+\texttt{thesis\_figures\_compare} reads these two files and draws the comparison of
+$r=2,3,4$; the case $r=2$ (car alone) is computed there from the first three
+privileged coordinates, with the terms $a_1,a_2,T_{12}$ only.
+
+The design of the experiment (period, multipliers, Lyapunov function) is written at the top of each
+\texttt{thesis\_figures} so that the chapter does not change when \texttt{params.m} is edited for
+other purposes; the gain is the largest one admissible along the ray, and it reproduces the gain
+of \texttt{params.m} ($3.2028\times10^{-3}$ and $2.7498\times10^{-5}$).
+
+Quantities used throughout: $\gamma_{\mathrm{amp}}$ is the largest gain for which the
+bound \eqref{eq:bound3} stays within both limits, \texttt{gamma\_cap} is $0.8/\varepsilon$
+(quadratic $V$), $t(10\%)$ is the time for $\|z\|$ to fall to \SI{10}{\percent} of
+$\|z_0\|$. The ``ray check'' confirms that for the quadratic $V$ the start $z_0$ is the
+most restrictive point of the straight ray to the origin (value $1$), which the sweeps
+rely on.
+
+\paragraph{One trailer.}
+
+{\footnotesize\begin{verbatim}
+=== thesis_figures: one trailer (r = 3) ===
+geometry d0=0.115 l1=0.082, k=(3  2), eps in use = 5 s, ||z0|| = 0.8351
+ray check (worst point of the ray / z0, quadratic V; 1 = z0 is the worst):
+      1.000000
+
+  eps [s]   gamma_amp    gamma_cap    t(10%) [min]
+    0.25    1.625e-05    3.200e+00      2362.05
+    0.50    6.147e-05    1.600e+00       624.34
+    1.00    2.279e-04    8.000e-01       168.37
+    2.00    8.232e-04    4.000e-01        46.62
+    3.00    1.718e-03    2.667e-01        22.34
+    4.00    2.870e-03    2.000e-01        13.37
+    5.00    4.250e-03    1.600e-01         9.03
+    6.00    5.834e-03    1.333e-01         6.58
+    8.00    9.530e-03    1.000e-01         4.03
+   12.00    1.862e-02    6.667e-02         2.06
+   16.00    2.935e-02    5.000e-02         1.31
+   24.00    5.374e-02    3.333e-02         1.15
+   32.00    7.992e-02    2.500e-02         1.54
+
+in-use design: gamma = 3.2028e-03 (largest admissible along the ray), V =
+      sqrt, delta = 0.02
+terms at z0, in-use design (share of limit):
+  u1: [0.00349 0.16 0.8]   sum 0.963
+  u2: [0.00106 0.0124 0.124]   sum 0.137
+
+Lyapunov functions at eps = 5:
+  quadratic              gamma 4.250e-03   t(10%)     9.03 min   t(0.1%)
+        27.09 min
+  log, c = 10            gamma 2.114e-02   t(10%)     4.54 min   t(0.1%)
+        8.19 min
+  log, c = 100           gamma 7.208e-02   t(10%)     8.51 min   t(0.1%)
+        9.66 min
+  sqrt, d = 0.02         gamma 3.203e-03   t(10%)     3.92 min   t(0.1%)
+        4.64 min
+
+d0 sweep (l1 = 0.082 fixed): t(10%) [min], 1 = amplitude-limited
+  d0 = 0.020        9.63    1.00
+  d0 = 0.040        9.55    1.00
+  d0 = 0.060        9.44    1.00
+  d0 = 0.080        9.31    1.00
+  d0 = 0.100        9.16    1.00
+  d0 = 0.115        9.03    1.00
+  d0 = 0.140        8.78    1.00
+  d0 = 0.170        8.43    1.00
+  d0 = 0.200        8.02    1.00
+  d0 = 0.250        7.21    1.00
+  d0 = 0.300        6.23    1.00
+
+l scale sweep (d0 = 0.115 fixed): t(10%) [min]
+  l x 0.50         7.67    1.00
+  l x 0.75         8.31    1.00
+  l x 1.00         9.03    1.00
+  l x 1.50        10.67    1.00
+  l x 2.00        12.58    1.00
+  l x 3.00        17.17    1.00
+  l x 4.00        22.78    1.00
+
+hardware limits scaled (eps = 5): t(10%) [min]
+  scale   u1 scaled   u2 scaled
+   0.25      443.99        9.03
+   0.50       62.10        9.03
+   0.75       19.99        9.03
+   1.00        9.03        9.03
+   1.50        2.99        9.03
+   2.00        1.39        9.03
+   3.00        0.48        9.03
+   4.00        0.24        9.03
+   6.00        0.24        9.03
+   8.00        0.24        9.03
+
+multipliers k at eps = 5, quadratic V: gamma_amp
+  k = (3  2)   4.250e-03   (1.00 x the first row);  V in use along the ray:
+        gamma 3.203e-03, t(0.1%) 4.64 min
+  k = (5  2)   3.734e-03   (0.88 x the first row);  V in use along the ray:
+        gamma 2.712e-03, t(0.1%) 5.48 min
+  k = (7  2)   3.385e-03   (0.80 x the first row);  V in use along the ray:
+        gamma 2.333e-03, t(0.1%) 6.37 min
+  k = (2  3)   2.387e-03   (0.56 x the first row);  V in use along the ray:
+        gamma 1.986e-03, t(0.1%) 7.49 min
+
+start distance scaled (eps = 5, quadratic V): ||z0||, gamma, t(10%)
+  x  0.25   ||z0||  0.7886   gamma 3.000e-02   t     1.28 min
+  x  0.50   ||z0||  0.7981   gamma 1.181e-02   t     3.25 min
+  x  1.00   ||z0||  0.8351   gamma 4.250e-03   t     9.03 min
+  x  2.00   ||z0||  0.9687   gamma 1.396e-03   t    27.49 min
+  x  4.00   ||z0||  1.3791   gamma 4.240e-04   t    90.51 min
+  x  8.00   ||z0||  2.3991   gamma 1.214e-04   t   316.19 min
+
+best radial design (gain at every radius as large as allowed, quadratic h):
+      t(10%) 3.70 min, t(0.1%) 4.32 min
+  (sqrt V in use: t(10%) 3.92 min, t(0.1%) 4.64 min)
+
+quadratic V, t(0.1%) for every multiplier set at eps = 5:
+  k = (3  2)   27.09 min
+  k = (5  2)   30.83 min
+  k = (7  2)   34.01 min
+  k = (2  3)   48.23 min
+\end{verbatim}}
+
+\paragraph{Two trailers.}
+
+{\footnotesize\begin{verbatim}
+=== thesis_figures: two trailers (r = 4) ===
+geometry d0=0.115 l1=0.082, k=(14   5   1), eps in use = 3 s, ||z0|| =
+      0.8364
+ray check (worst point of the ray / z0, quadratic V; 1 = z0 is the worst):
+      1.000000
+
+  eps [s]   gamma_amp    gamma_cap    t(10%) [h]
+    0.25    7.397e-08    3.200e+00      8647.32
+    0.50    4.310e-07    1.600e+00      1484.08
+    1.00    2.400e-06    8.000e-01       266.49
+    2.00    1.272e-05    4.000e-01        50.30
+    3.00    3.288e-05    2.667e-01        19.45
+    4.00    6.372e-05    2.000e-01        10.04
+    5.00    1.057e-04    1.600e-01         6.05
+    6.00    1.590e-04    1.333e-01         4.02
+    8.00    3.000e-04    1.000e-01         2.13
+   12.00    7.188e-04    6.667e-02         0.89
+   16.00    1.315e-03    5.000e-02         0.49
+   24.00    3.007e-03    3.333e-02         0.21
+   32.00    5.303e-03    2.500e-02         0.12
+
+in-use design: gamma = 2.7498e-05 (largest admissible along the ray), V =
+      sqrt, delta = 0.005
+terms at z0, in-use design (share of limit):
+  u1: [2.99e-05 0.0413 0.492 0.467]   sum 1.000
+  u2: [9.09e-06 0.0032 0.0762 0.108]   sum 0.188
+
+Lyapunov functions at eps = 3:
+  quadratic              gamma 3.288e-05   t(10%)    19.45 h   t(0.1%)
+        58.36 h
+  log, c = 10            gamma 2.450e-04   t(10%)     6.54 h   t(0.1%)
+        11.80 h
+  log, c = 100           gamma 1.058e-03   t(10%)     9.69 h   t(0.1%)
+        10.99 h
+  sqrt, d = 0.005        gamma 2.750e-05   t(10%)     7.60 h   t(0.1%)
+        8.52 h
+
+d0 sweep (l1 = 0.082 fixed): t(10%) [h], 1 = amplitude-limited
+  d0 = 0.020       16.05    1.00
+  d0 = 0.040       16.32    1.00
+  d0 = 0.060       16.84    1.00
+  d0 = 0.080       17.61    1.00
+  d0 = 0.100       18.59    1.00
+  d0 = 0.115       19.45    1.00
+  d0 = 0.140       21.11    1.00
+  d0 = 0.170       23.41    1.00
+  d0 = 0.200       26.02    1.00
+  d0 = 0.250       31.04    1.00
+  d0 = 0.300       36.87    1.00
+
+l scale sweep (d0 = 0.115 fixed): t(10%) [h]
+  l x 0.50        19.96    1.00
+  l x 0.75        18.06    1.00
+  l x 1.00        19.45    1.00
+  l x 1.50        26.21    1.00
+  l x 2.00        36.29    1.00
+  l x 3.00        64.89    1.00
+  l x 4.00       105.12    1.00
+
+hardware limits scaled (eps = 3): t(10%) [h]
+  scale   u1 scaled   u2 scaled
+   0.25     2161.51       19.45
+   0.50      199.69       19.45
+   0.75       50.79       19.45
+   1.00       19.45       19.45
+   1.50        5.12       19.45
+   2.00        2.01       19.45
+   3.00        0.55       19.45
+   4.00        0.22       19.45
+   6.00        0.07       19.45
+   8.00        0.07       19.45
+
+multipliers k at eps = 3, quadratic V: gamma_amp
+  k = (14   5   1)   3.288e-05   (1.00 x the first row);  V in use along the
+        ray: gamma 2.750e-05, t(0.1%) 8.52 h
+  k = (18   4   1)   4.074e-05   (1.24 x the first row);  V in use along the
+        ray: gamma 3.408e-05, t(0.1%) 6.88 h
+  k = (8  6  5)   1.991e-06   (0.06 x the first row);  V in use along the
+        ray: gamma 1.665e-06, t(0.1%) 140.74 h
+
+start distance scaled (eps = 3, quadratic V): ||z0||, gamma, t(10%)
+  x  0.25   ||z0||  0.7890   gamma 1.276e-04   t     5.01 h
+  x  0.50   ||z0||  0.7988   gamma 7.144e-05   t     8.95 h
+  x  1.00   ||z0||  0.8364   gamma 3.288e-05   t    19.45 h
+  x  2.00   ||z0||  0.9717   gamma 1.255e-05   t    50.96 h
+  x  4.00   ||z0||  1.3859   gamma 4.123e-06   t   155.12 h
+  x  8.00   ||z0||  2.4128   gamma 1.218e-06   t   525.30 h
+
+best radial design (gain at every radius as large as allowed, quadratic h):
+      t(10%) 5.75 h, t(0.1%) 6.15 h
+  (sqrt V in use: t(10%) 7.60 h, t(0.1%) 8.52 h)
+
+quadratic V, t(0.1%) for every multiplier set at eps = 3:
+  k = (14   5   1)   58.36 h
+  k = (18   4   1)   47.09 h
+  k = (8  6  5)   963.76 h
+\end{verbatim}}
+
+\paragraph{Comparison $r=2,3,4$.}
+
+{\footnotesize\begin{verbatim}
+   eps [s]   t(10%) r=2 [min]   r=3 [min]   r=4 [h]   r=4 / r=3
+    0.25            1.780      2362.05    8647.32         220
+    0.50            0.924       624.34    1484.08         143
+    1.00            0.495       168.37     266.49          95
+    2.00            0.279        46.62      50.30          65
+    3.00            0.206        22.34      19.45          52
+    4.00            0.192        13.37      10.04          45
+    5.00            0.240         9.03       6.05          40
+    6.00            0.288         6.58       4.02          37
+    8.00            0.384         4.03       2.13          32
+   12.00            0.576         2.06       0.89          26
+   16.00            0.768         1.31       0.49          22
+   24.00            1.151         1.15       0.21          11
+   32.00            1.535         1.54       0.12           5
+
+   eps [s]   gamma_amp  r=2        r=3        r=4
+    0.25    2.156e-02  1.625e-05  7.397e-08
+    0.50    4.154e-02  6.147e-05  4.310e-07
+    1.00    7.753e-02  2.279e-04  2.400e-06
+    2.00    1.374e-01  8.232e-04  1.272e-05
+    3.00    1.859e-01  1.718e-03  3.288e-05
+    4.00    2.264e-01  2.870e-03  6.372e-05
+    5.00    2.610e-01  4.250e-03  1.057e-04
+    6.00    2.911e-01  5.834e-03  1.590e-04
+    8.00    3.414e-01  9.530e-03  3.000e-04
+   12.00    4.162e-01  1.862e-02  7.188e-04
+   16.00    4.704e-01  2.935e-02  1.315e-03
+   24.00    5.461e-01  5.374e-02  3.007e-03
+   32.00    5.980e-01  7.992e-02  5.303e-03
+
+log-log slope of gamma_amp over eps = 0.25..1 s:  r=2 0.95 0.90   r=3 1.92
+      1.89   r=4 2.54 2.48
+
+feas_cmp_eps.pdf written to figures
+\end{verbatim}}
+
+\noindent
+The printouts above were produced with GNU Octave~8.4 from the same \texttt{.m} files;
+\TODO[re-run the three functions in MATLAB and replace these printouts, the numbers should agree to the digits shown].

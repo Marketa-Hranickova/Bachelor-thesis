@@ -1,0 +1,12 @@
+{
+  "_comment": "One trailer (r = 3). Design of thesis Chapters 6-7, MATLAB: 1 trailer/params.m. Geometry measured 15 Sep 2026.",
+  "n_trailers": 1,
+  "geometry": {"d0": 0.115, "l1": 0.082},
+  "gamma": 3.2028e-03,
+  "epsilon": 5.0,
+  "k": [3, 2],
+  "lyapunov": {"type": "sqrt", "delta": 0.02},
+  "u1_max": 0.22,
+  "u2_max": 2.84,
+  "clip_fraction": 1.0
+}

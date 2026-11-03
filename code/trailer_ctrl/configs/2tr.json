@@ -1,0 +1,12 @@
+{
+  "_comment": "Two trailers (r = 4). Same as MATLAB 2 trailers/params.m since 27 Oct 2026: start 0.6*(-0.2,-0.2,45,45,45 deg), ||x0|| = 0.834 < 1 (Victoria, 26 Oct), gamma = gamma_max(z0) for that start.",
+  "n_trailers": 2,
+  "geometry": {"d0": 0.115, "l1": 0.082, "d1": 0.084, "l2": 0.089},
+  "gamma": 3.498e-05,
+  "epsilon": 3.0,
+  "k": [14, 5, 1],
+  "lyapunov": {"type": "sqrt", "delta": 0.005},
+  "u1_max": 0.22,
+  "u2_max": 2.84,
+  "clip_fraction": 1.0
+}

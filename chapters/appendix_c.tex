@@ -1,0 +1,67 @@
+% ---------------------------------------------------------------------------
+% Appendix C -- Verification of Chapter 5
+% ---------------------------------------------------------------------------
+
+\chapter{Verification of the Controller}
+\label{app:control}
+
+The script \texttt{code/verify\_control.py} (Python with \texttt{sympy},
+\texttt{numpy} and \texttt{scipy}) checks the claims of Chapter~\ref{ch:control}
+for the car with one trailer. It does the following.
+
+\begin{enumerate}
+  \item It computes the mean value over one period of $\dot z_3$ for the
+        second-level term and of $\dot z_4$ for the third-level term
+        (\cref{sec:structure}) and shows that $z_3$ returns to its starting
+        value for the third-level term.
+  \item It integrates the nilpotent system exactly over one sampling interval
+        for the multipliers $(3,2)$, for all four sign combinations, and compares
+        with the ideal step \eqref{eq:step}. This is Lemma~\ref{lem:interval}.
+  \item It scans all pairs $1\le k_{12},k_{112}\le12$ for a spurious term in
+        the one-interval displacement with $a_1=a_2=0$
+        (\cref{sec:multipliers}).
+  \item For the platform parameters it integrates one interval numerically for
+        several gains and prints the relative size of the remainder $R$ and the
+        largest $|u_1|$ (table in \cref{sec:convergence}).
+\end{enumerate}
+
+Output of the script:
+
+{\footnotesize\begin{verbatim}
+=== (1) mean drift of the oscillating terms (per unit time) ===
+level 2: mean of dz3/dt = T**2*s/(2*k*w)  (= a12 if T^2 = 2 k w |a12|, s =
+      sign a12)
+level 3: mean of dz4/dt = T**3*s/(4*k**2*w**2)  (= a112 if T^3 = 4 k^2 w^2
+      |a112|, s = sign a112)
+                      and z3 returns to its start after one interval: True
+
+=== (2) one-interval map, exact integration, multipliers (k12,k112) = (3,2)
+      ===
+a1=a2=0, signs (s12,s112) = (1, 1) : z(eps) - [z + eps*G*a] = [0, 0, 0, 0]
+a1=a2=0, signs (s12,s112) = (1, -1) : z(eps) - [z + eps*G*a] = [0, 0, 0, 0]
+a1=a2=0, signs (s12,s112) = (-1, 1) : z(eps) - [z + eps*G*a] = [0, 0, 0, 0]
+a1=a2=0, signs (s12,s112) = (-1, -1) : z(eps) - [z + eps*G*a] = [0, 0, 0, 0]
+a1, a2 general, s12 = 1:  R3 = z3(eps) - z30 - eps*(G a)_3 =
+      -sqrt(3)*sqrt(B12)*a1*eps**(3/2)/(3*sqrt(pi)) - a1*a2*eps**2/2
+closed form  R3 = -eps^2 a1 a2 / 2 - s12 a1 eps^(3/2) sqrt(|a12|/(pi k12)):
+      True
+z1, z2 are exact: R1, R2 = 0 0
+every term of R4 contains a1 or a2: True
+
+=== (3) multiplier pairs with a spurious term (a1 = a2 = 0, k12, k112 <= 12)
+      ===
+pairs (k12,k112) with a non-zero residual: [(1, 1), (2, 2), (3, 1), (3, 3),
+      (4, 4), (5, 5), (6, 2), (6, 6), (7, 7), (8, 8), (9, 3), (9, 9), (10,
+      10), (11, 11), (12, 4), (12, 12)]
+all of them satisfy k12 = k112 or k12 = 3*k112: True
+
+=== (4) one interval for the platform parameters (params.m, one trailer) ===
+z0 = [-0.2      0.7854   0.2     -0.02168]  |z0| = 0.8351
+     gamma        mu |R|/|eps G a| max|u1| [m/s]
+ 8.007e-04    0.0048       0.0017        0.129
+ 1.601e-03    0.0096       0.0028        0.165
+ 3.203e-03    0.0192       0.0045        0.212
+ 6.406e-03    0.0383       0.0074        0.273
+ 1.281e-02    0.0767       0.0125        0.353
+ 2.562e-02    0.1534       0.0218        0.458
+\end{verbatim}}

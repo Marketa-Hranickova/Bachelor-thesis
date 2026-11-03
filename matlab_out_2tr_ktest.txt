@@ -1,0 +1,4 @@
+
+===== part B: eps = 3, sqrt h, gamma from the limits =====
+k                   gamma   t_stop      min    final    hitch1    hitch2   max u1  verdict
+(18, 4, 1)     5.639e-05   4008.0   0.0007   0.0007    0.91 r    2.69 r   0.224   CONVERGED

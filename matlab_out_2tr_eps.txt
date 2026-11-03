@@ -1,0 +1,63 @@
+
+##### epsilon = 2
+
+=== thesis_sim: two trailers (r = 4), design eps = 3 s, k = (14   5   1), V = sqrt, delta = 0.005 ===
+
+-- long run: 6000 intervals of 2 s (t_end = 12000 s), gamma = 1.0635e-05
+    10.0 %  t =      1200 s  exact 0.9864  approx 0.9847   (15 s elapsed)
+    20.0 %  t =      2400 s  exact 0.9728  approx 0.9694   (29 s elapsed)
+    30.0 %  t =      3600 s  exact 0.9589  approx 0.9541   (43 s elapsed)
+    40.0 %  t =      4800 s  exact 0.9454  approx 0.9388   (57 s elapsed)
+    50.0 %  t =      6000 s  exact 0.9347  approx 0.9236   (74 s elapsed)
+    60.0 %  t =      7200 s  exact 0.9252  approx 0.9083   (89 s elapsed)
+    70.0 %  t =      8400 s  exact 0.9137  approx 0.8930   (103 s elapsed)
+    80.0 %  t =      9600 s  exact 0.9072  approx 0.8777   (118 s elapsed)
+    90.0 %  t =     10800 s  exact 0.9032  approx 0.8624   (132 s elapsed)
+   100.0 %  t =     12000 s  exact 0.8988  approx 0.8471   (147 s elapsed)
+  at t = 12000 s: exact 0.89876, approx 0.84712, gradient-flow estimate 0.84885
+  largest difference (in % of ||z0||) exact/estimate 4.99, exact/approx 5.16; max |u1| = 1.4000 of the limit
+  peak |u1| of the exact run is 1.4000 of the limit, in interval 6000 (t = 11998 s);  approximation: 1.0000
+  intervals with |u1| above the limit (exact): 5944 of 6000
+  largest |angle| at the end of an interval: 1054.7 deg
+
+##### epsilon = 1.5
+
+=== thesis_sim: two trailers (r = 4), design eps = 3 s, k = (14   5   1), V = sqrt, delta = 0.005 ===
+
+-- long run: 8000 intervals of 1.5 s (t_end = 12000 s), gamma = 5.3578e-06
+    10.0 %  t =      1200 s  exact 0.9930  approx 0.9923   (22 s elapsed)
+    20.0 %  t =      2400 s  exact 0.9863  approx 0.9846   (42 s elapsed)
+    30.0 %  t =      3600 s  exact 0.9794  approx 0.9769   (61 s elapsed)
+    40.0 %  t =      4800 s  exact 0.9725  approx 0.9692   (82 s elapsed)
+    50.0 %  t =      6000 s  exact 0.9655  approx 0.9615   (101 s elapsed)
+    60.0 %  t =      7200 s  exact 0.9585  approx 0.9538   (119 s elapsed)
+    70.0 %  t =      8400 s  exact 0.9515  approx 0.9461   (138 s elapsed)
+    80.0 %  t =      9600 s  exact 0.9448  approx 0.9384   (157 s elapsed)
+    90.0 %  t =     10800 s  exact 0.9385  approx 0.9307   (178 s elapsed)
+   100.0 %  t =     12000 s  exact 0.9333  approx 0.9230   (196 s elapsed)
+  at t = 12000 s: exact 0.93327, approx 0.92301, gradient-flow estimate 0.92319
+  largest difference (in % of ||z0||) exact/estimate 1.01, exact/approx 1.03; max |u1| = 1.1593 of the limit
+  peak |u1| of the exact run is 1.1593 of the limit, in interval 8000 (t = 11998.5 s);  approximation: 1.0000
+  intervals with |u1| above the limit (exact): 7844 of 8000
+  largest |angle| at the end of an interval: 381.7 deg
+
+##### epsilon = 1
+
+=== thesis_sim: two trailers (r = 4), design eps = 3 s, k = (14   5   1), V = sqrt, delta = 0.005 ===
+
+-- long run: 12000 intervals of 1 s (t_end = 12000 s), gamma = 2.0074e-06
+    10.0 %  t =      1200 s  exact 0.9973  approx 0.9971   (30 s elapsed)
+    20.0 %  t =      2400 s  exact 0.9947  approx 0.9942   (62 s elapsed)
+    30.0 %  t =      3600 s  exact 0.9922  approx 0.9913   (88 s elapsed)
+    40.0 %  t =      4800 s  exact 0.9896  approx 0.9885   (121 s elapsed)
+    50.0 %  t =      6000 s  exact 0.9871  approx 0.9856   (152 s elapsed)
+    60.0 %  t =      7200 s  exact 0.9845  approx 0.9827   (181 s elapsed)
+    70.0 %  t =      8400 s  exact 0.9820  approx 0.9798   (216 s elapsed)
+    80.0 %  t =      9600 s  exact 0.9794  approx 0.9769   (243 s elapsed)
+    90.0 %  t =     10800 s  exact 0.9768  approx 0.9740   (272 s elapsed)
+   100.0 %  t =     12000 s  exact 0.9742  approx 0.9712   (303 s elapsed)
+  at t = 12000 s: exact 0.97418, approx 0.97117, gradient-flow estimate 0.97120
+  largest difference (in % of ||z0||) exact/estimate 0.30, exact/approx 0.30; max |u1| = 1.0615 of the limit
+  peak |u1| of the exact run is 1.0615 of the limit, in interval 12000 (t = 11999 s);  approximation: 1.0000
+  intervals with |u1| above the limit (exact): 11315 of 12000
+  largest |angle| at the end of an interval: 181.7 deg

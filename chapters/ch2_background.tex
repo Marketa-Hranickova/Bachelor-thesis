@@ -1,0 +1,426 @@
+% ---------------------------------------------------------------------------
+% Chapter -- Theoretical Background and Related Work
+% Text rewritten in plain English (1 Nov 2026). Statements about other papers
+% are NOT all verified against the papers; every open check is marked \TODO.
+% ---------------------------------------------------------------------------
+
+\chapter{Theoretical Background and Related Work}
+\label{ch:background}
+
+This chapter collects the ideas on which the rest of the thesis is built.
+Section~\ref{sec:bg-constraints} explains what makes a system nonholonomic.
+Section~\ref{sec:bg-brackets} shows how Lie brackets decide controllability, and
+how ``deep'' a system is. Section~\ref{sec:bg-brockett} explains why no smooth
+time-invariant feedback can stabilize such a system.
+Section~\ref{sec:bg-classical} describes the classical tools for vehicles with
+trailers and why they do not cover off-hooked trailers.
+Section~\ref{sec:bg-oscillating} introduces the oscillating controllers used in
+this thesis, and Section~\ref{sec:bg-state} places the thesis in the literature.
+
+% ===========================================================================
+\section{Nonholonomic constraints}
+\label{sec:bg-constraints}
+
+A wheel that rolls without slipping cannot move sideways. Take a planar body
+with position $(x,y)$ and heading $\theta$, carried by a wheel axle with its
+midpoint at $(x,y)$. The condition of no sideways motion is
+\begin{equation}
+  \dot x\sin\theta-\dot y\cos\theta=0 .
+  \label{eq:bg-rolling}
+\end{equation}
+This is a linear constraint on the velocity $\dot q$ of the configuration
+$q=(x,y,\theta)$. Constraints of this kind are written in Pfaffian form
+$A(q)\dot q=0$ \cite{deluca1995}.
+
+The word ``constraint'' can mean two different things. If
+$A(q)\dot q=0$ can be integrated to a relation $h(q)=0$ between the
+coordinates, the constraint is \emph{holonomic}. It removes configurations, and
+the system lives on a surface of lower dimension. If it cannot be integrated,
+the constraint is \emph{nonholonomic}. It removes only \emph{directions of
+instantaneous motion}, and every configuration may still be reachable. The
+wheel is the standard example. At any instant it cannot move sideways, yet a
+car can be parked in a gap next to it, because forward, turning and backward
+motions together produce a net sideways displacement. The constraint limits how
+the system moves, not where it can go.
+
+The admissible velocities are the vectors in the kernel of $A(q)$. A basis
+$f_1(q),\dots,f_m(q)$ of this kernel turns the constraint into a
+\emph{driftless control-affine system}
+\begin{equation}
+  \dot q=\sum_{i=1}^{m}u_if_i(q),\qquad q\in\R^n,\ u\in\R^m,\ m<n,
+  \label{eq:bg-driftless}
+\end{equation}
+where the inputs $u_i$ are velocities. For~\eqref{eq:bg-rolling} one can take
+\begin{equation}
+  f_1(q)=\begin{pmatrix}\cos\theta\\ \sin\theta\\ 0\end{pmatrix},\qquad
+  f_2(q)=\begin{pmatrix}0\\ 0\\ 1\end{pmatrix},
+  \label{eq:bg-unicycle}
+\end{equation}
+with $u_1$ the forward velocity and $u_2$ the angular velocity. This is the
+\emph{unicycle}, the kinematic model of a differential-drive robot such as the
+TurtleBot3 used in this thesis. Each trailer adds one angle and one rolling
+constraint. A car with $N$ trailers therefore has $n=N+3$ states and still only
+$m=2$ inputs. The model for $N=1,2$ off-hooked trailers is derived in
+Chapter~\ref{ch:model}. ``Driftless'' means that $u=0$ gives $\dot q=0$:
+the vehicle stops when the wheels stop.
+
+Whether a constraint is holonomic is decided by the Frobenius theorem. The
+constraints are integrable exactly when the distribution spanned by
+$f_1,\dots,f_m$ is involutive, that is, closed under the Lie bracket introduced
+next \cite{nijmeijer1990,deluca1995}. For the unicycle it is not, as
+\cref{eq:bg-unicycle-bracket} below shows.
+
+% ===========================================================================
+\section{Lie brackets and controllability}
+\label{sec:bg-brackets}
+
+\begin{definition}[Lie bracket]
+For smooth vector fields $f,g$ on $\R^n$ the \emph{Lie bracket} is the vector
+field
+\begin{equation}
+  \bracket{f}{g}(q)=\frac{\partial g}{\partial q}(q)\,f(q)
+                   -\frac{\partial f}{\partial q}(q)\,g(q).
+  \label{eq:bg-bracket}
+\end{equation}
+\end{definition}
+
+The bracket has a direct meaning for motion. Let $\Phi^f_t$ be the flow of $f$
+for time $t$. The system moves along $f$ for time $t$, then along $g$, then
+along $-f$, and finally along $-g$. It does not return to $q$, but to
+\begin{equation}
+  \Phi^{-g}_t\circ\Phi^{-f}_t\circ\Phi^{g}_t\circ\Phi^{f}_t(q)
+  =q+t^2\,\bracket{f}{g}(q)+O(t^3).
+  \label{eq:bg-commutator}
+\end{equation}
+A closed loop in the inputs therefore produces a net motion in the direction
+of the bracket. The size of this motion is $t^2$ instead of $t$. For the unicycle~\eqref{eq:bg-unicycle}
+\begin{equation}
+  \bracket{f_1}{f_2}(q)=\begin{pmatrix}\sin\theta\\ -\cos\theta\\ 0\end{pmatrix},
+  \label{eq:bg-unicycle-bracket}
+\end{equation}
+which is exactly the sideways direction forbidden by~\eqref{eq:bg-rolling}.
+The manoeuvre ``drive, turn, drive back, turn back'' is the parking manoeuvre of
+Section~\ref{sec:bg-constraints}. Equation~\eqref{eq:bg-commutator} says how much it
+achieves: driving and turning for a time $t$ each moves the robot sideways
+by about $t^2$. The bracket is not in the span of $f_1,f_2$. The distribution
+is therefore not involutive, and the constraint~\eqref{eq:bg-rolling} is
+nonholonomic.
+
+Brackets of brackets give further directions, which are reached by longer
+manoeuvres. Following \cite{bellaiche2005}, let $\mathcal L^1$ be the span of
+$f_1,\dots,f_m$, and let $\mathcal L^s$ be the span of all brackets of these
+fields of length at most $s$. A bracket such as $\bracket{f_1}{\bracket{f_1}{f_2}}$
+has length~$3$. At a point $p$, these spaces form an increasing sequence of
+subspaces $\mathcal L^1(p)\subseteq\mathcal L^2(p)\subseteq\dots\subseteq\R^n$.
+
+\begin{definition}[Chow's condition, LARC]
+System~\eqref{eq:bg-driftless} satisfies \emph{Chow's condition}, also called
+the \emph{Lie algebra rank condition} (LARC), if the fields $f_i$ and their
+iterated brackets span $\R^n$ at every point.
+\end{definition}
+
+\begin{theorem}[Chow, Rashevskii {\cite[Thm.~1.3]{bellaiche2005}}]
+If the state space is connected and Chow's condition holds, any two points can
+be joined by a trajectory of~\eqref{eq:bg-driftless}.
+\end{theorem}
+
+The theorem gives controllability in the sense of reachability. It says nothing
+about how to steer or how long it takes. When Chow's condition holds, there is
+at every point $p$ a smallest integer $r(p)$ with $\mathcal L^{r(p)}(p)=\R^n$.
+This is the \emph{degree of nonholonomy} at $p$. The dimensions
+\begin{equation}
+  \bigl(n_1(p),n_2(p),\dots,n_r(p)\bigr),\qquad n_s(p)=\dim\mathcal L^s(p),
+\end{equation}
+form the \emph{growth vector} \cite{bellaiche2005}. A point is \emph{regular}
+if these dimensions are constant in a neighbourhood of it, and \emph{singular}
+otherwise \cite{bellaiche2005}.
+
+\paragraph{Physical reading of the growth vector.}
+The first $n_1$ directions can be driven directly by the inputs. The next
+$n_2-n_1$ directions need a manoeuvre of the type~\eqref{eq:bg-commutator},
+whose effect after time $t$ is of order $t^2$. The next $n_3-n_2$ directions
+need manoeuvres built from brackets of length three, with an effect of order
+$t^3$, and so on. The degree of nonholonomy is thus the length of the
+longest manoeuvre needed. Directions of high bracket length are
+``expensive'': a small motion in them needs a comparatively large motion
+of the inputs. This is the origin of the amplitude problem quantified in
+Chapter~\ref{ch:feasibility}.
+
+\paragraph{Vehicles with trailers.}
+Consider the standard car with trailers, hitched at the axle midpoints.
+Bella\"iche, Jean and Risler show that the car with one trailer has growth
+vector $(2,3,4)$ everywhere, so $r=3$. The car with two trailers has $r=4$ at
+regular points and $r=5$ at the singular points where two consecutive bodies are
+perpendicular \cite{bellaiche2005}. For a car with two \emph{off-hooked}
+trailers and unit lengths, Vendittelli, Laumond and Oriolo find $r=3$ at
+regular points and $r=4$ at singular points. The singular points are those
+where the two hitch angles are equal \cite{vendittelli1998}. The straight
+configuration, which is the goal of this thesis, has both hitch angles equal to
+zero. It is therefore singular in this sense. The value $r=4$ at the origin,
+obtained in~\cite{zuyev2024} and in Chapter~\ref{ch:model} for arbitrary lengths,
+is consistent with this. The goal therefore lies exactly where the system is
+hardest to control.
+\TODO[Check in bellaiche2005 and vendittelli1998 the values of r at regular and singular points quoted above; only the titles of these papers were found]
+
+% ===========================================================================
+\section{Brockett's condition}
+\label{sec:bg-brockett}
+
+Controllability does not imply that a feedback law $u=k(q)$ can stabilize an
+equilibrium. Brockett showed this with a degree-theoretic argument
+\cite{brockett1983}.
+
+\begin{theorem}[Brockett {\cite[Thm.~1]{brockett1983}}]
+\label{thm:brockett}
+Let $\dot q=f(q,u)$ with $f(q_0,0)=0$ and $f$ continuously differentiable near
+$(q_0,0)$. If there is a continuously differentiable feedback $u=k(q)$ that
+makes $q_0$ asymptotically stable, then
+\begin{enumerate}
+  \item the linearization has no uncontrollable modes with eigenvalues of
+        positive real part,
+  \item there is a neighbourhood $N$ of $q_0$ such that every $q\in N$ can be
+        steered to $q_0$ as $t\to\infty$, and
+  \item the map $(q,u)\mapsto f(q,u)$ is onto an open set containing $0$.
+\end{enumerate}
+\end{theorem}
+
+The third condition is the restrictive one. It asks that every small velocity
+$\xi$ can be produced by some state near $q_0$ and some small input. For a
+driftless system~\eqref{eq:bg-driftless} whose fields $f_1,\dots,f_m$ are
+linearly independent at $q_0$, this fails as soon as $m<n$. Take coordinates in
+which $f_i(q_0)$ is the $i$-th unit vector. Then the first $m$ components of
+$\sum_iu_if_i(q)$ vanish for $q$ near $q_0$ only if $u=0$. So no small velocity
+of the form $(0,\dots,0,\xi)$ with $\xi\neq0$ is produced. Brockett concludes
+that such a system can be stabilized by continuously differentiable feedback if
+and only if $m=n$ \cite{brockett1983}. Every nonholonomic vehicle model, with
+$m<n$, is therefore excluded. Brockett's own example is the system
+$\dot x=u,\ \dot y=v,\ \dot z=xv-yu$, now often called the Brockett
+integrator \cite{brockett1983}. For the vehicle of this thesis, the violation of
+the third condition is shown directly in Chapter~\ref{ch:model}. A related
+result of Artstein, published in the same year, shows that systems which
+cannot be stabilized by continuous feedback may still be stabilized with
+relaxed controls \cite{artstein1983}.
+
+Theorem~\ref{thm:brockett} leaves three ways out, and all are used in the
+literature:
+\begin{itemize}
+  \item \emph{Time-varying feedback} $u=k(t,q)$. Coron proved that a
+        controllable driftless system can be asymptotically stabilized by a
+        smooth feedback that is periodic in time \cite{coron1992}. The
+        controllers of this thesis belong to this class.
+        \TODO[Check the exact conditions of Coron's theorem (smoothness, global or local) in coron1992]
+  \item \emph{Discontinuous feedback}, which avoids the continuity assumption.
+  \item \emph{A weaker goal}: convergence of only part of the state, or to a
+        neighbourhood of the equilibrium (practical stabilization).
+\end{itemize}
+
+% ===========================================================================
+\section{Classical approaches for vehicles with trailers}
+\label{sec:bg-classical}
+
+\paragraph{Chained form.}
+Many two-input nonholonomic systems can be transformed, by a change of
+coordinates and inputs, into the \emph{chained form}
+\begin{equation}
+  \dot z_1=v_1,\quad \dot z_2=v_2,\quad \dot z_3=z_2v_1,\quad\dots,\quad
+  \dot z_n=z_{n-1}v_1 .
+  \label{eq:bg-chained}
+\end{equation}
+For this form, steering with sinusoidal inputs \cite{murray1993} and
+exponential stabilization by time-varying homogeneous feedback
+\cite{mccloskey1997} are available. This makes the transformation attractive.
+Sørdalen showed that the kinematics of a car with $n$ trailers, each hitched at
+the axle midpoint of the preceding body, can be converted into chained form
+\cite{sordalen1993}. The conversion is local. As noted in
+\cite{michalek2014tcst}, the transformation of \cite{sordalen1993} is valid
+only if the orientation of the last trailer and all joint angles stay in
+$(-\pi/2,\pi/2)$. According to the experience reported in
+\cite{mccloskey1994}, such strongly nonlinear transformations are
+ill-conditioned, and the resulting controller can be very sensitive to small
+changes of the configuration \cite{michalek2014tcst}. M'Closkey and Murray
+implemented time-periodic exponential stabilizers on a mobile robot towing a
+trailer, and compared several control laws experimentally
+\cite{mccloskey1994}.
+\TODO[Check in mccloskey1994 how the trailer was hitched (on or off the axle) and the robot used]
+
+\paragraph{Flatness.}
+A system is differentially flat if all states and inputs can be written as
+functions of a set of outputs and finitely many of their derivatives. Motion
+planning then reduces to choosing a smooth curve for these outputs. The
+standard car with trailers is flat \cite{rouchon1993}, with the position of
+the last trailer as flat output \cite{michalek2014tcst}.
+\TODO[Check whether the car with ONE off-hooked trailer is flat (Rouchon et al. 1993 may treat it); if so, say that flatness-based planning exists for r = 3 but not for two off-hooked trailers]
+
+\paragraph{Why both fail for off-hooked trailers.}
+With the hitch off the axle, the car with two trailers cannot be put into
+chained form. It also does not satisfy the necessary and sufficient flatness
+condition for two-input driftless systems \cite{vendittelli1998}. This is also
+the starting point of \cite{zuyev2024}. Michałek and co-workers describe
+$N$-trailers with off-axle hitches as \emph{differentially non-flat}
+\cite{michalek2015jint}. Altafini interprets the additional complexity as
+virtual steering wheels at the off-axle joints. Their steering angles are
+nonlinear feedbacks of the configuration. This is used to embed the general
+$n$-trailer into a multi-steering $n$-trailer, for which a multi-chained form is
+available \cite{altafini2001}. Lizarraga, Morin and Samson use a chained-form
+\emph{approximation} of the general $N$-trailer for exponential stabilization
+\cite{lizarraga2001}.
+\TODO[Read lizarraga2001: is the result local, practical or exact, and is it validated by simulation or experiment?]
+
+Chapter~\ref{ch:nilpotent} shows the connection from the other side. In the
+limit $\dzero\to0$, the nilpotent approximation of the off-hooked system becomes
+the chained form. The off-axle distance enters through a single additional term.
+
+% ===========================================================================
+\section{Oscillating controls from gradient-flow approximations}
+\label{sec:bg-oscillating}
+
+The idea behind the controllers of this thesis is~\eqref{eq:bg-commutator} used
+in reverse. A Lyapunov function $V$ should decrease. The ideal velocity for this
+is the negative gradient $-\nabla V$. In general it points in directions that
+are reachable only through brackets. A periodic input of small period
+$\varepsilon$ approximates this gradient flow, if its oscillating parts are
+chosen so that their net effect over one period equals a prescribed combination
+of the fields and their brackets. The open-loop construction is turned into a
+feedback by \emph{sampling}. At the beginning of each period the state is
+measured, the coefficients are computed from it, and the input of that period
+is applied.
+
+The method was developed in a sequence of papers by Zuyev, Grushkovskaya and
+co-authors:
+\begin{itemize}
+  \item Zuyev \cite{zuyev2015} constructs trigonometric open-loop controls that
+        approximate the gradient flow of a Lyapunov function. Under the
+        sampling strategy, exponential stability is proved for driftless
+        systems whose fields and first-order brackets span the tangent space.
+        The example is the Brockett integrator.
+  \item Zuyev, Grushkovskaya and Benner \cite{zuyev2016} extend this to
+        systems that need brackets of second order.
+  \item Grushkovskaya and Zuyev \cite{grushkovskaya2023} give a unified
+        framework for stabilization, motion planning and obstacle avoidance.
+        It is based on gradient-flow approximation under bracket-generating
+        conditions.
+  \item Zuyev and Grushkovskaya \cite{zuyev2024} apply the scheme to a car
+        with two off-hooked trailers ($r=4$). They derive privileged coordinates
+        and the nilpotent approximation explicitly in terms of the four
+        lengths, design an oscillating controller and prove exponential
+        convergence. The convergence result is limited to the nilpotent
+        approximation, and the original system is left to future work. Their
+        simulations use the approximation.
+  \item Zuyev and Grushkovskaya \cite{zuyev2025classical} give sufficient
+        conditions under which classical solutions of the closed loop, not
+        only the sampled ones, converge.
+  \item Zuyev, Grushkovskaya and Eisner \cite{zuyev2026implementation}
+        implement controllers of this family on a TurtleBot3 Burger, a unicycle
+        ($r=2$), with OptiTrack motion capture. They report chattering caused by
+        the oscillating inputs under the velocity limits of the robot. They study
+        the admissibility of the gradient flow, and show that the reference
+        position can be stabilized with practically acceptable parameters.
+\end{itemize}
+Murray and Sastry's steering with sinusoids \cite{murray1993} uses the same
+mechanism for open-loop motion planning in chained form. The difference here is
+that the oscillations are generated in feedback, from the current state, and
+that the target is the full configuration.
+
+The controller is described in detail in Chapter~\ref{ch:control}. Two of its
+properties matter for what follows. First, the size of an oscillation that
+produces a drift $a$ in a direction of bracket length $w$ grows like $|a|^{1/w}$.
+The deep directions are therefore expensive, as anticipated in
+\cref{sec:bg-brackets}. Second, the convergence proof holds only for a
+sufficiently small period $\varepsilon$, which depends on the size of the set of
+initial states, and only for the nilpotent approximation. How the controller
+behaves on the exact kinematics and within the velocity limits of a real robot
+is not covered by the theory.
+
+% ===========================================================================
+\section{State of the art}
+\label{sec:bg-state}
+
+\paragraph{Terminology.}
+The name ``off-hooked trailers'' is used by Zuyev and Grushkovskaya
+\cite{zuyev2024} and by Vendittelli et al.\ \cite{vendittelli1998}. Most of the
+literature uses \emph{off-axle hitching}. It distinguishes standard N-trailers
+(all hitches on the axle), non-standard N-trailers (all hitches off the axle)
+and general N-trailers (both kinds)
+\cite{michalek2014pf,michalek2014tcst}. The term \emph{kingpin hitch} is also
+used \cite{altafini2001}. In this terminology the vehicle of this thesis is a
+non-standard N-trailer with $N=1$ or $N=2$.
+
+\paragraph{Tasks.}
+The control tasks must be separated, because their difficulty is very
+different. In \emph{path following}, the vehicle has to move along a given
+geometric path. In \emph{trajectory tracking}, it has to follow a given
+time-dependent reference. Both can be solved with time-invariant feedback,
+because the reference keeps moving. \emph{Set-point control} (point
+stabilization) asks the vehicle to come to rest at a given configuration. This
+is the task affected by Theorem~\ref{thm:brockett}. Within set-point control,
+steering only a guidance point of the vehicle, for example the last trailer, is
+weaker than stabilizing the full configuration.
+
+\paragraph{Related work.}
+Michałek's group in Poznań has the most extensive work on N-trailers with
+off-axle hitching, including hardware experiments with a three-trailer
+laboratory vehicle. Their path-following controller for N-trailers with
+off-axle hitching \cite{michalek2014pf} was validated experimentally on a
+three-trailer vehicle. So was their cascaded Vector-Field-Orientation (VFO)
+controller for set-point and trajectory tracking of non-standard N-trailers
+\cite{michalek2015jint}. The latter takes the input limits of the robot into
+account by a velocity-scaling procedure. A cascaded VFO set-point controller
+for the on-axle case was also verified by simulations and experiments
+\cite{michalek2014tcst}. An earlier paper applies the VFO method to set-point
+control of the N-trailer with off-axle hitching \cite{michalek2012}.
+\TODO[Michalek 2012 (IJC 85(5):502--521): only the title is verified. Check in the full text what is guaranteed (whole configuration or guidance point, exact or neighbourhood) and whether it is simulation only]
+The same authors write that, for non-standard and general N-trailers, a
+practically acceptable solution of set-point stabilization of an
+\emph{arbitrary configuration of the whole vehicle} ``seems to be still open''
+\cite{michalek2015jint}.
+
+\Cref{tab:bg-state} summarizes the approaches by task, system and validation.
+
+\begin{table}[ht]
+  \centering
+  \small
+  \caption{Approaches to the control of vehicles with trailers. ``Full state''
+    means stabilization of the whole configuration. Entries marked $^\ast$ are
+    taken from titles or abstracts only and still have to be checked.}
+  \label{tab:bg-state}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{3.2cm}@{}}
+    \toprule
+    approach & task & hitching & validation \\
+    \midrule
+    chained form \cite{sordalen1993,mccloskey1997} & set-point, full state
+      & on-axle & experiments with one trailer$^\ast$ \cite{mccloskey1994} \\
+    chained-form approximation \cite{lizarraga2001} & set-point (exponential)
+      & general N-trailer & $^\ast$ \\
+    VFO path following \cite{michalek2014pf} & path following & off-axle
+      & experiments, 3 trailers \\
+    cascaded VFO \cite{michalek2014tcst} & set-point & on-axle
+      & simulations, experiments, 3 trailers \\
+    cascaded VFO \cite{michalek2015jint} & set-point, tracking & off-axle
+      & experiments, 3 trailers \\
+    VFO set-point \cite{michalek2012} & set-point & off-axle & $^\ast$ \\
+    nilpotent approx.\ \cite{vendittelli1998} & steering (open loop)
+      & off-axle, 2 trailers & simulations \cite{zuyev2024} \\
+    oscillating control \cite{zuyev2024} & set-point, full state
+      & off-axle, 2 trailers & simulations on the approximation \\
+    oscillating control \cite{zuyev2026implementation} & set-point
+      & unicycle (no trailer) & experiments \\
+    \textbf{this thesis} & set-point, full state & off-axle, 1 and 2 trailers
+      & exact kinematics; Gazebo and experiments planned \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Position of this thesis.}
+The thesis takes the oscillating controller of \cite{zuyev2024} and moves it
+towards a real vehicle. The model and the nilpotent approximation are derived
+for one off-hooked trailer ($r=3$), which \cite{zuyev2024} does not treat. The
+controller is studied on the exact kinematics instead of the approximation, and
+within the velocity limits of the TurtleBot3. Finally, it is validated in
+Gazebo and in experiments.
+\TODO[Gazebo and the experiments are not done yet; adjust this sentence and the table row when they are]
+Experiments with time-varying stabilizers for a robot with a trailer exist
+\cite{mccloskey1994}, and experiments with oscillating controllers of this
+family exist for the unicycle \cite{zuyev2026implementation}. In the literature found for this thesis, there is no experimental validation of
+the oscillating gradient-flow controller for off-hooked trailers, or for a
+degree of nonholonomy above two.
+\TODO[Confirm the novelty statement with the supervisor; the second half depends on what mccloskey1994 and lizarraga2001 actually do]

@@ -1,0 +1,90 @@
+geometry (26): alpha, kappa, theta  paper [0.10495 0.0024 0.0112]   our formulas [0.10495 0.0024 0.0112]
+geometry (27): alpha, kappa, theta  paper [1 1.5 4]   our formulas [1 1.5 4]
+
+##### case 1: geometry (26), start paper z0, h = 1
+  x0 = [1         -2         -2     -1.853      1.278]   ||z0|| = 3.3166
+   t [s]      exact     approx
+     1.0     0.5264     0.3714
+     2.0     0.2751     0.1359
+     3.0     0.2309    0.04933
+     4.0     0.2642    0.01777
+     5.0     0.2934   0.006356
+     6.0     0.2971   0.002261
+     7.0     0.2787   0.000801
+     8.0     0.2374  0.0002827
+  -> not finished: min exact 0.2211, final exact 0.2374, approx 0.0002827, max|u1| 219.0, largest |angle| 134 deg
+
+##### case 2: geometry (26), start paper z0, h = |log|
+  x0 = [1         -2         -2     -1.853      1.278]   ||z0|| = 3.3166
+   t [s]      exact     approx
+     1.0     0.3938     0.3437
+     2.0     0.3229      0.306
+     3.0     0.3082      0.302
+     4.0     0.3038     0.3016
+     5.0     0.3024     0.3015
+     6.0     0.3018     0.3015
+     7.0     0.3016     0.3015
+     8.0     0.3016     0.3015
+  -> not finished: min exact 0.2731, final exact 0.3016, approx 0.3015, max|u1| 256.2, largest |angle| 139 deg
+
+##### case 3: geometry (26), start small x0, h = 1
+  x0 = [0.4       -0.4        0.3       -0.2        0.1]   ||z0|| = 0.8905
+   t [s]      exact     approx
+     1.0     0.4376     0.3652
+     2.0     0.1832     0.1338
+     3.0     0.0696    0.04871
+     4.0    0.02529     0.0176
+     5.0   0.009026   0.006311
+  -> CONVERGED: min exact 0.009026, final exact 0.009026, approx 0.006311, max|u1| 174.3, largest |angle| 55 deg
+
+##### case 4: geometry (26), start small x0, h = |log|
+  x0 = [0.4       -0.4        0.3       -0.2        0.1]   ||z0|| = 0.8905
+   t [s]      exact     approx
+     1.0     0.6435     0.5523
+     2.0    0.06499  0.0006896
+     3.0  8.216e-05  6.263e-05
+  -> CONVERGED: min exact 8.216e-05, final exact 8.216e-05, approx 6.263e-05, max|u1| 199.9, largest |angle| 56 deg
+
+##### case 5: geometry (27), start paper z0, h = 1
+  x0 = [1         -2         -2         -2         10]   ||z0|| = 3.3166
+   t [s]      exact     approx
+     1.0      2.742      0.597
+     2.0      2.891     0.2369
+     3.0      2.883    0.08772
+     4.0      2.823    0.03125
+     5.0      2.768    0.01098
+     6.0      2.725   0.003835
+     7.0      2.685   0.001337
+     8.0      2.639  0.0004658
+  -> not finished: min exact 1, final exact 2.639, approx 0.0004658, max|u1| 542.8, largest |angle| 826 deg
+
+##### case 6: geometry (27), start paper z0, h = |log|
+  x0 = [1         -2         -2         -2         10]   ||z0|| = 3.3166
+   t [s]      exact     approx
+     1.0       3.39     0.4451
+  -> DIVERGED: min exact 1, final exact 3.39, approx 0.4451, max|u1| 869.1, largest |angle| 941 deg
+
+##### case 7: geometry (27), start small x0, h = 1
+  x0 = [0.4       -0.4        0.3       -0.2        0.1]   ||z0|| = 1.1927
+   t [s]      exact     approx
+     1.0     0.3733     0.3507
+     2.0     0.1342      0.125
+     3.0      0.048    0.04465
+     4.0    0.01704    0.01591
+     5.0   0.006009    0.00565
+  -> CONVERGED: min exact 0.006009, final exact 0.006009, approx 0.00565, max|u1| 205.8, largest |angle| 66 deg
+
+##### case 8: geometry (27), start small x0, h = |log|
+  x0 = [0.4       -0.4        0.3       -0.2        0.1]   ||z0|| = 1.1927
+   t [s]      exact     approx
+     1.0     0.8582     0.8542
+     2.0      0.841     0.8401
+     3.0     0.8388     0.8386
+     4.0     0.8385     0.8385
+     5.0     0.8384     0.8384
+     6.0     0.8384     0.8384
+     7.0     0.8384     0.8384
+     8.0     0.8384     0.8384
+  -> not finished: min exact 0.8224, final exact 0.8384, approx 0.8384, max|u1| 149.9, largest |angle| 55 deg
+
+ratios are ||z||/||z0||; "approx" = nilpotent approximation, "exact" = exact kinematics.

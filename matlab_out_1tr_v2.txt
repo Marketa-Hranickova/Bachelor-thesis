@@ -1,0 +1,81 @@
+
+=== thesis_sim: one trailer (r = 3), design eps = 5 s, k = (3  2), V = sqrt, delta = 0.02 ===
+
+-- design run: gamma = 3.2028e-03, dt = 0.0200 s, t_end = 400 s
+  ||z|| to 10% / 1% / 0.1% of ||z0||  approx [212.7 260 275] s   exact [220.3 265 280] s
+  largest ||z_exact - z_approx|| = 0.0357 (4.3 % of ||z0||) at t = 110.5 s
+  max |u1| approx 0.2198 exact 0.2141 (limit 0.22);  max |u2| approx 0.3899 exact 0.3896 (limit 2.84)
+  final ||z|| approx 1.636e-21 exact 4.097e-21;  final theta1 -0.00 deg, largest |theta1| 119.7 deg
+
+-- validity: 12 intervals per period, gain = largest admissible
+  eps    gamma       dev/||z0||  ||z(T)||/||z0||  approx  exact   |u1|e/lim  |u2|e/lim  max|angle| [deg]  excursion [m]
+    2.0  6.789e-04      0.016        0.980      0.981      0.995     0.145         46.9        0.033
+    3.0  1.387e-03      0.025        0.940      0.942      0.988     0.142         47.5        0.048
+    5.0  3.203e-03      0.040        0.770      0.777      0.968     0.137        107.9        0.078
+    7.0  2.288e-03      0.040        0.770      0.777      0.691     0.098        107.9        0.078
+   10.0  1.601e-03      0.040        0.770      0.777      0.484     0.069        107.9        0.078
+   15.0  1.068e-03      0.040        0.770      0.777      0.323     0.046        107.9        0.078
+
+-- fixed against adaptive gain (approximation), t_end = 400 s
+  fixed    : to 10/1/0.1 %: [212.7 260 275] s, max |u1| 0.2198, max |u2| 0.3899
+  adaptive : to 10/1/0.1 %: [207.7 250 260] s, max |u1| 0.2200, max |u2| 0.4041
+  adaptive gamma: min 3.200e-03  max 3.980e-03  (fixed 3.203e-03);  final ||z|| fixed 1.64e-21 adaptive 3.68e-22
+
+-- envelope of start poses x0 = s*(+-0.2 m, +-0.2 m, 45 deg, 45 deg), exact kinematics, 400 s
+  sign  s     |x0|[m]   t(0.1%) [s]   max|u1|/lim   theta1 end [deg]
+  +1    1.00   0.283          NaN        1.719          -235.2
+  +1    0.75   0.212          NaN        1.722          -235.2
+  +1    0.50   0.141        145.0        1.035             0.0
+  +1    0.40   0.113        120.0        0.934            -0.0
+  +1    0.30   0.085         95.0        0.866             0.0
+  +1    0.20   0.057         70.0        0.812            -0.0
+  -1    1.00   0.283        280.0        0.973            -0.0
+
+-- step stability: eps = 5 s, 10 intervals, quadratic V (h = 1), limits ignored
+  eps*gamma   ||z_N||/||z_0||   (1-eps*gamma)^N
+     0.40       6.258e-03        6.047e-03
+     0.80       1.325e-07        1.024e-07
+     1.00       6.530e-44        0.000e+00
+     1.20       1.150e-07        1.024e-07
+     1.40       1.052e-04        1.049e-04
+     1.60       5.989e-03        6.047e-03
+     1.90       3.510e-01        3.487e-01
+     2.10       2.863e+00        2.594e+00
+     2.60       2.697e+04        1.100e+02
+
+figures and sim_1tr.mat written to /Users/marke/Documents/thesis/figures
+
+=== thesis_sim: one trailer (r = 3), design eps = 5 s, k = (3  2), V = sqrt, delta = 0.02 ===
+
+-- long run: 80 intervals of 5 s (t_end = 400 s), gamma = 3.2028e-03
+    10.0 %  t =        40 s  exact 0.8514  approx 0.8468   (0 s elapsed)
+    20.0 %  t =        80 s  exact 0.7026  approx 0.6936   (0 s elapsed)
+    30.0 %  t =       120 s  exact 0.5534  approx 0.5405   (0 s elapsed)
+    40.0 %  t =       160 s  exact 0.4037  approx 0.3875   (0 s elapsed)
+    50.0 %  t =       200 s  exact 0.2534  approx 0.2348   (1 s elapsed)
+    60.0 %  t =       240 s  exact 0.1031  approx 0.0835   (1 s elapsed)
+    70.0 %  t =       280 s  exact 0.0002  approx 0.0000   (1 s elapsed)
+    80.0 %  t =       320 s  exact 0.0000  approx 0.0000   (1 s elapsed)
+    90.0 %  t =       360 s  exact 0.0000  approx 0.0000   (1 s elapsed)
+   100.0 %  t =       400 s  exact 0.0000  approx 0.0000   (1 s elapsed)
+  at t = 400 s: exact 0.00000, approx 0.00000, gradient-flow estimate 0.00000
+  largest difference (in % of ||z0||) exact/estimate 2.06, exact/approx 1.96; max |u1| = 0.9730 of the limit
+  peak |u1| of the exact run is 0.9730 of the limit, in interval 21 (t = 100 s);  approximation: 0.9990
+  intervals with |u1| above the limit (exact): 0 of 80
+  largest |angle| at the end of an interval: 73.1 deg
+
+figures and sim_1tr.mat written to /Users/marke/Documents/thesis/figures
+
+ans = 
+
+  struct with fields:
+
+    model: '1tr'
+    label: 'one trailer (r = 3)'
+      des: [1×1 struct]
+       z0: [4×1 double]
+       x0: [4×1 double]
+    u1max: 0.2200
+    u2max: 2.8400
+     long: [1×1 struct]
+

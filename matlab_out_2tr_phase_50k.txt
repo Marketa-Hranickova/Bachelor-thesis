@@ -1,0 +1,33 @@
+
+=== thesis_sim: two trailers (r = 4), design eps = 3 s, k = (14   5   1), V = sqrt, delta = 0.005 ===
+
+-- long run: 16667 intervals of 3 s (t_end = 50001 s), gamma = 2.7498e-05
+    10.0 %  t =      5001 s  exact 0.8412  approx 0.8374   (185 s elapsed)
+    20.0 %  t =     10002 s  exact 0.6823  approx 0.6747   (377 s elapsed)
+    30.0 %  t =     15003 s  exact 0.5232  approx 0.5121   (567 s elapsed)
+    40.0 %  t =     20004 s  exact 0.3636  approx 0.3495   (756 s elapsed)
+    50.0 %  t =     25005 s  exact 0.2032  approx 0.1870   (951 s elapsed)
+    60.0 %  t =     30006 s  exact 0.0414  approx 0.0256   (1153 s elapsed)
+    70.0 %  t =     35007 s  exact 0.0000  approx 0.0000   (1338 s elapsed)
+    80.0 %  t =     40008 s  exact 0.0000  approx 0.0000   (1522 s elapsed)
+    90.0 %  t =     45009 s  exact 0.0000  approx 0.0000   (1705 s elapsed)
+  at t = 50001 s: exact 0.00000, approx 0.00000, gradient-flow estimate 0.00000
+  largest difference (in % of ||z0||) exact/estimate 2.71, exact/approx 1.64; max |u1| = 0.9133 of the limit
+  peak |u1| of the exact run is 0.9133 of the limit, in interval 1 (t = 0 s);  approximation: 0.9133
+  intervals with |u1| above the limit (exact): 0 of 16667
+  largest |angle| at the end of an interval: 98.1 deg
+  largest hitch angle over all samples: car-trailer1 1.656 rad, trailer1-trailer2 2.833 rad; samples above 1.40 rad: 32.5 %
+
+ans = 
+
+  struct with fields:
+
+    model: '2tr'
+    label: 'two trailers (r = 4)'
+      des: [1×1 struct]
+       z0: [5×1 double]
+       x0: [5×1 double]
+    u1max: 0.2200
+    u2max: 2.8400
+     long: [1×1 struct]
+

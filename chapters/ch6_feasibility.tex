@@ -1,511 +1,99 @@
 % ---------------------------------------------------------------------------
 % Chapter -- Feasibility Limits on Real Hardware
-%
-% DRAFT 1 (19 Oct 2026). Proposed by Claude, to be read and rewritten in
-% your own words.
-% EVERY number and every figure of this chapter comes from MATLAB:
-%   "1 trailer/thesis_figures.m", "2 trailers/thesis_figures.m" and
-%   thesis_figures_compare.m (they write figures/feas_*.pdf and feas_*.mat).
-% The text quotes the printout of those functions; if you change params.m,
-% run them again and compare the numbers below.
+% Work in progress: the text is being written section by section.
+% Numbers come from "1 trailer/thesis_figures.m" and "2 trailers/thesis_figures.m".
 % ---------------------------------------------------------------------------
-
-% a missing figure file prints a red box instead of stopping the compilation
-\providecommand{\feasfig}[2]{%
-  \IfFileExists{figures/#1.pdf}{\includegraphics[#2]{figures/#1}}%
-  {\fbox{\textcolor{red}{figure \detokenize{#1} missing -- run thesis\_figures}}}}
 
 \chapter{Feasibility Limits on Real Hardware}
 \label{ch:feasibility}
-\TODO[status of this chapter: about 80 percent done]
+\TODO[chapter in progress: only the outline is here]
 
-The controller of Chapter~\ref{ch:control} has a free gain $\gamma$ and a free
-period $\varepsilon$, and the convergence it promises holds only for
-sufficiently small $\varepsilon$. This chapter asks what these numbers can be
-on the TurtleBot3, whose wheel speeds are limited. The answer turns out to
-decide whether the method is usable at all: with the settings of the original
-paper the commanded velocities are hundreds of times above the limits, and
-once the controller is tuned to respect them, the car with two trailers needs
-hours to reach the goal where the car with one trailer needs minutes.
-Everything is computed with the MATLAB code described in
-Chapter~\ref{ch:simulation}; the printouts behind the numbers are in
-Appendix~\ref{app:feasibility}.
+\begin{itemize}
+  \item The controller has a free gain $\gamma$ and a free period $\varepsilon$. What can these be on the TurtleBot3?
+  \item Short answer to give here: with the settings of the paper the velocities are far above the limits; with a tuned controller, one trailer needs minutes and two trailers hours.
+\end{itemize}
 
 % ===========================================================================
 \section{Problem formulation}
 \label{sec:feas-problem}
 
-\paragraph{Hardware limits.}
-The TurtleBot3 Burger accepts a linear velocity of at most
-\SI{0.22}{m/s} and an angular velocity of at most \SI{2.84}{rad/s}
-\cite{robotis2026tb3}. In the notation of the thesis, with $u_1$ the driving
-and $u_2$ the angular velocity,
-\begin{equation}
-  |u_1(t)|\le u_1^{\max}=\SI{0.22}{m/s},\qquad
-  |u_2(t)|\le u_2^{\max}=\SI{2.84}{rad/s}.
-  \label{eq:limits}
-\end{equation}
-The manufacturer quotes an operating time of about two and a half hours per
-battery charge \cite{robotis2026tb3}; this matters in Section~\ref{sec:feas-two}.
-
-\paragraph{An upper bound on the controls.}
-The controller \eqref{eq:controller} is a sum of constant and oscillating
-terms. By the triangle inequality its magnitude is at most the sum of the
-magnitudes of the terms. For $r=3$,
+\begin{itemize}
+  \item Velocity limits of the TurtleBot3 and its battery time.
+  \item Upper bound on the controls from the terms of the controller:
+\end{itemize}
 \begin{equation}
   B_1=|a_1|+T_{12}+T_{112},\qquad
-  B_2=|a_2|+T_{12}+2\,T_{112},
+  B_2=|a_2|+T_{12}+2\,T_{112}.
   \label{eq:bound3}
 \end{equation}
-and for $r=4$ the third oscillating term adds $2T_{1112}$ to $B_1$ and
-$6T_{1112}$ to $B_2$, with $T_{1112}=(k_{1112}\omega)^{3/4}|a_{1112}|^{1/4}$.
-The factors $2$ and $6$ are the amplitudes of the terms in the controller of
-\cite{zuyev2024}. The bound for $u_1$ is not conservative: all cosines in $u_1$
-equal one at the start of every interval, so $u_1$ attains $B_1$ there (up to
-the sign of the small constant term $a_1$). The bound for $u_2$ is conservative,
-since the sines vanish at the start of the interval and the peaks of the
-different terms do not coincide; as the numbers below show, $u_1$ is the
-limiting one anyway.
-
-\paragraph{Three conditions on the tuning.}
-A choice of $(\gamma,\varepsilon,k,V)$ is usable on the robot if
-
-\begin{enumerate}
-  \item[(i)] \emph{amplitude:} $B_1\le u_1^{\max}$ and $B_2\le u_2^{\max}$ at every
-    point of the path the state follows;
-  \item[(ii)] \emph{contraction:} $\varepsilon\gamma h(z)\le 0.8$ along the path, so that
-    the factor $1-\mu$ in \eqref{eq:contraction} stays positive with a margin
-    (the value $0.8$ is the safety margin used in the code, not a result of the theory);
-  \item[(iii)] \emph{validity:} $\varepsilon$ is small enough for the nilpotent
-    approximation to describe the real kinematics over one interval.
-\end{enumerate}
-
-Conditions (i) and (ii) are checked by computation (below). Condition (iii) is
-not computed here: it is an observation from simulations of the exact kinematics
-and is discussed in Chapter~\ref{ch:simulation}; where it matters we say so.
-
-Write $\gamma_{\mathrm{amp}}(z)$ for the largest $\gamma$ satisfying (i) at
-the state $z$. Because the amplitudes are proportional to $\gamma h(z)$, this is
-found by a one-dimensional search. Along the straight ray from $z_0$ to the
-origin, which every radial Lyapunov function follows (Chapter~\ref{ch:control}),
-the largest admissible fixed gain is
-\begin{equation}
-  \gamma_{\mathrm{eff}}=\min\Bigl\{\min_{z\ \mathrm{on\ ray}}\gamma_{\mathrm{amp}}(z),\
-  \frac{0.8}{\varepsilon\,\max_{\mathrm{ray}}h}\Bigr\}.
-  \label{eq:geff}
-\end{equation}
-As the measure of performance we use the time $t_q$ for $\|z\|$ to drop to a
-fraction $q$ of its initial value, computed from the gradient flow of
-Section~\ref{sec:convergence}. It was checked against the full oscillating
-simulation, with agreement to \SI{0.2}{\percent} of the progress over \SI{80}{s}
-(\TODO[this check is quoted from the comments in the MATLAB code - repeat it for the final parameters in the simulation chapter]).
-All numbers refer to the start pose of the experiment: for one trailer
-$x_0=(-0.2\,\mathrm{m},-0.2\,\mathrm{m},45^\circ,45^\circ)$, with $\|z_0\|=0.835$; for two trailers
-$x_0=0.6\,(-0.2\,\mathrm{m},-0.2\,\mathrm{m},45^\circ,45^\circ,45^\circ)=(-0.12\,\mathrm{m},-0.12\,\mathrm{m},27^\circ,27^\circ,27^\circ)$,
-with $\|x_0\|=0.834$ and $\|z_0\|=0.502$. The start for two trailers was reduced by the factor $0.6$
-so that $\|x_0\|<1$, as the supervisor required
-(\TODO[confirm with the supervisor whether the condition $\|x_0\|<1$ refers to the physical state $x_0$, as assumed here, or to $z_0$; the one-trailer start has $\|x_0\|=1.15$]).
-All numbers also refer to the measured
-dimensions $d_0=\SI{115}{mm}$, $d_1=\SI{84}{mm}$, $\ell_1=\SI{82}{mm}$,
-$\ell_2=\SI{89}{mm}$ (\TODO[the dimensions are those of the 15 September measurement - keep in sync with the parameter section of the model chapter]).
-
-\paragraph{How the gain depends on the period.}
-Every oscillating term of the controller has the form
-$T_m=c\,(k\omega)^{(m-1)/m}|a_m|^{1/m}$ for a bracket of length $m$, and
-$a_m$ is proportional to $\gamma$. If the term of the deepest bracket ($m=r$)
-alone used up a limit $u^{\max}$, the condition would read
-$c\,\omega^{(r-1)/r}\gamma^{1/r}\approx u^{\max}$, i.e.
-\begin{equation}
-  \gamma_{\mathrm{amp}}\ \propto\ \varepsilon^{\,r-1}\,(u^{\max})^{r}.
-  \label{eq:scaling}
-\end{equation}
-Two consequences organize the whole chapter. A longer period $\varepsilon$ allows a
-much larger gain, the more so the deeper the bracket (exponent $r-1$), and the limit
-on the linear velocity enters to the power $r$. Both are confirmed by the numbers
-below.
+\begin{itemize}
+  \item The same for two trailers (one more term); which bound is tight and which is not.
+  \item The three conditions on the tuning: amplitude, contraction, validity of the approximation.
+  \item How the largest gain is found along the straight path to the origin; the time to reach a fraction of the start.
+  \item Start poses and dimensions used for all numbers.
+  \item How the gain depends on the period (the power $r-1$).
+\end{itemize}
 
 % ===========================================================================
 \section{Two trailers: feasible, but only slowly}
 \label{sec:feas-two}
 
-\paragraph{The settings of the paper.}
-The simulations of \cite{zuyev2024} use $\varepsilon=0.1$, $\gamma=1$,
-multipliers $(8,6,5)$ and the start $z_0=(1,-2,2,-1,1)$, with
-$d_0=d_1=0.1$ and $\ell_1=\ell_2=1$ (units are not stated). For these values
-our code reproduces the printed coefficients
-$\alpha=0.10495$, $\kappa=0.0024$, $\theta=0.0112$ (and $1,1.5,4$ for the second
-parameter set of the paper), which is an independent check of the formulas of
-Chapter~\ref{ch:nilpotent}. The bound \eqref{eq:bound3} for this setting is
-$B_1\approx 132$ and $B_2\approx 349$, i.e.\ about $600$ times the limit of
-$u_1$ if the units are metres and seconds. To respect the limits at these
-$\varepsilon$ and $k$, the gain would have to be $\gamma\approx3\times10^{-11}$.
-The paper does not address hardware limits (it gives only an order estimate of the
-controls, with the constant omitted); the point is that its settings are of a different
-order of magnitude from what the robot can execute.
-
-\paragraph{What fits the robot.}
-For the robot we choose (Chapter~\ref{ch:simulation}) $\varepsilon=\SI{3}{s}$,
-multipliers $(14,5,1)$ and the square-root Lyapunov function with
-$\delta=0.005$, whose factor $h$ is discussed in Section~\ref{sec:feas-V}. The
-largest gain along the ray satisfying \eqref{eq:geff} is
-$\gamma=3.50\times10^{-5}$. At $z_0$ this uses \SI{100}{\percent} of the $u_1$
-limit and \SI{18}{\percent} of the $u_2$ limit, so $u_1$ is the binding one. The
-breakdown of the bound, as a share of the limit, is:
-
-\begin{table}[ht]
-  \centering
-  \caption{Share of the velocity limits used by each term of the bound at $z_0$,
-  for the settings of the experiment.}
-  \label{tab:terms}
-  \begin{tabular}{lccccc}
-    \toprule
-     & $|a|$ & $T_{12}$ & $T_{112}$ & $T_{1112}$ & sum \\
-    \midrule
-    one trailer, $u_1$   & 0.002 & 0.133 & 0.707 & --    & 0.843 \\
-    one trailer, $u_2$   & 0.001 & 0.010 & 0.110 & --    & 0.121 \\
-    two trailers, $u_1$  & 0.000 & 0.073 & 0.504 & 0.423 & 1.000 \\
-    two trailers, $u_2$  & 0.000 & 0.006 & 0.078 & 0.098 & 0.182 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-For the car with two trailers the two deepest brackets use \SI{93}{\percent} of the
-linear-velocity budget, and the first-level oscillation and the constant part
-together less than \SI{8}{\percent}. This is the quantitative form of the remark
-of Chapter~\ref{ch:control} that the deep brackets are expensive: the gain is set
-almost entirely by $T_{112}$ and $T_{1112}$. (The one-trailer row sums to $0.843$ at $z_0$ because with the logarithmic function
-of the experiment, Section~\ref{sec:feas-V}, the amplitude $\propto h\,\|z\|$ is largest not at $z_0$
-but at $\|z\|\approx0.3$ on the ray, and the gain is set there. In the simulation the peak of $|u_1|$
-is $0.2141$ m/s ($97\%$ of the limit) on the exact kinematics and $0.2229$ m/s ($101.3\%$) on the approximation.
-\TODO[the approximation exceeds the u1 limit by 1.3 percent on the actual path although the gain is the largest admissible along the ray; the path is not exactly the ray - decide whether to add a margin])
-
-\paragraph{The price: time.}
-With this gain the estimated times for $\|z\|$ to fall to \SI{50}{\percent},
-\SI{10}{\percent} and \SI{0.1}{\percent} of $\|z_0\|$ are \SI{2.0}{h},
-\SI{3.6}{h} and \SI{4.1}{h}. For the car with one trailer, with its own
-settings ($\varepsilon=\SI{5}{s}$, $(k_{12},k_{112})=(3,2)$, the logarithmic
-function with $c=10$ of the supervisor, $\gamma=2.1\times10^{-2}$), the estimates are \SI{4.5}{min} to \SI{10}{\percent}
-and \SI{8.2}{min} to \SI{0.1}{\percent}; the simulation with the exact kinematics
-reaches \SI{0.1}{\percent} after \SI{445}{s} (the approximate model also after
-\SI{445}{s}). One additional trailer therefore costs a factor of about $30$ in time,
-from minutes to hours. Two facts matter beyond the number itself:
-
 \begin{itemize}
-  \item \SI{4.1}{h} exceeds the manufacturer's operating time of the robot
-    (\SI{2.5}{h}) \cite{robotis2026tb3} by a factor of $1.6$; a full convergence of the
-    two-trailer system would need more than one battery charge, or a different
-    objective (for instance stopping at \SI{10}{\percent}, which still takes about
-    \SI{3.6}{h}).
-  \item The \SI{4.1}{h} is an estimate from the gradient flow. The full oscillating
-    simulation of the exact kinematics was compared with the approximation
-    over the first minute (the distance between the two stays below
-    \SI{2.7}{\percent} of $\|z_0\|$) and, interval by interval, over \SI{30}{min}
-    (Chapter~\ref{ch:simulation}); a simulation over the whole time on the exact kinematics
-    does not confirm the estimate
-    (\TODO[a longer run on the exact kinematics at eps = 3 s shows that the norm of z stops decreasing after about 3450 s, at about 0.82 of its initial value, and then grows again; so the estimate of 4.1 h holds for the approximation only; decide how to present this here and in the simulation chapter]).
+  \item The settings of the paper and how far they are from the limits.
+  \item What fits the robot: chosen $\varepsilon$, $k$ and $V$, resulting gain.
+  \item Share of each term of the bound in the limit (table).
+  \item The price: time to 50\,\%, 10\,\% and 0.1\,\%; comparison with one trailer; comparison with the battery time.
+  \item Estimate versus simulation of the exact model.
 \end{itemize}
 
 % ===========================================================================
 \section{Which parameters help and which do not}
 \label{sec:feas-geometry}
 
-The geometry of the vehicle enters the controller in two ways: through the
-coefficients $\alpha,\kappa,\theta$ of the nilpotent approximation, which multiply
-the deep brackets in the amplitudes \eqref{eq:amps}, and through the coordinate
-change $x\mapsto z$, which fixes how large the same physical offset looks in
-$z$. We varied one dimension at a time while keeping the start pose
-$x_0$ fixed (so $z_0$ changes with the geometry), the quadratic Lyapunov
-function and the period of the experiment, and computed the time to reach
-\SI{10}{\percent} of $\|z_0\|$.
-
-\begin{figure}[ht]
-  \centering
-  \feasfig{feas_1tr_geom}{width=0.48\textwidth}\hfill
-  \feasfig{feas_2tr_geom}{width=0.48\textwidth}
-  \caption{Time to \SI{10}{\percent} of $\|z_0\|$ against the hitch offset $d_0$ (left in each
-  pair) and a common scale factor on the trailer lengths (right in each pair); one trailer
-  at $\varepsilon=\SI{5}{s}$ (minutes), two trailers at $\varepsilon=\SI{3}{s}$ (hours). Dotted lines
-  mark the measured dimensions.}
-  \label{fig:geometry-sweep}
-\end{figure}
-
 \begin{itemize}
-  \item \emph{Hitch offset $d_0$} (from \SI{20}{mm} to \SI{300}{mm}). The effect is modest
-    and has a different sign for the two systems: with one trailer the time falls
-    from \SI{9.6}{min} to \SI{6.2}{min} as $d_0$ grows, with two trailers it grows from
-    \SI{8.3}{h} to \SI{13.8}{h}.
-  \item \emph{Trailer length $\ell$} (scale from $0.5$ to $4$). Longer trailers are slower:
-    with one trailer from \SI{7.7}{min} ($0.5\times$) to \SI{23}{min} ($4\times$); with two
-    trailers from \SI{7.3}{h} ($0.5\times$) through \SI{9.2}{h} ($1\times$) and
-    \SI{19.5}{h} ($2\times$) to \SI{59}{h} ($4\times$).
+  \item How the geometry enters the controller.
+  \item Effect of the hitch offset $d_0$ and of the trailer length $\ell$ (figure).
+  \item Which geometric parameter is worth changing.
 \end{itemize}
-
-For changes of the geometry one could realistically make on this platform the spread is a
-factor of two to three, small next to the effect of the period, the multipliers
-and the Lyapunov function (Sections~\ref{sec:feas-levers} and~\ref{sec:feas-V}).
-The geometry is also not freely chosen: the measured dimensions are those of the
-available hardware. We therefore regard $\ell$ as the only geometric parameter worth
-adjusting (shorter hitches, if the hardware allows), and $d_0$ as essentially fixed.
-(Why the two systems react to $d_0$ in opposite ways is not explained by this
-computation; we do not claim an explanation.)
 
 % ===========================================================================
 \section{Comparison by degree of nonholonomy}
 \label{sec:feas-r}
 
-The three systems of the same family differ in the length $r$ of the longest bracket needed
-to reach all directions: $r=2$ is the car alone (only $[f_1,f_2]$), $r=3$ the car with
-one trailer, $r=4$ the car with two. \Cref{fig:cmp-eps} and \cref{tab:cmp} compare
-them at equal period, with the quadratic $V$, the start pose of the experiment (for $r=2$ the first
-three privileged coordinates of the one-trailer start; for $r=4$ the reduced start of
-Section~\ref{sec:feas-two}, so the comparison is not at equal distance) and the same limits. The
-case $r=2$ has no code of its own in the study; it is computed with the
-same recipe from the terms $a_1,a_2,T_{12}$ only (see the header of
-\texttt{thesis\_figures\_compare.m}), with $k_{12}=1$.
-
-\begin{figure}[ht]
-  \centering
-  \feasfig{feas_cmp_eps}{width=0.95\textwidth}
-  \caption{Left: the largest gain compatible with the velocity limits, $\gamma_{\mathrm{amp}}$,
-  against the period $\varepsilon$, for $r=2,3,4$ (dotted: the contraction cap
-  $0.8/\varepsilon$ for the quadratic $V$). Right: time to \SI{10}{\percent} of
-  $\|z_0\|$ with $\gamma_{\mathrm{eff}}$. The shaded region marks where the
-  two-trailer approximation was found to break down (\cref{sec:feas-problem}, (iii)).}
-  \label{fig:cmp-eps}
-\end{figure}
-
-\begin{table}[ht]
-  \centering
-  \caption{Time to \SI{10}{\percent} of $\|z_0\|$ (quadratic $V$, limits of the TurtleBot3).}
-  \label{tab:cmp}
-  \begin{tabular}{rrrr}
-    \toprule
-    $\varepsilon$ [s] & $r=2$ [min] & $r=3$ [min] & $r=4$ [h]\\
-    \midrule
-    1 & 0.50 & 168 & 115\\
-    2 & 0.28 & 46.6 & 22.9\\
-    3 & 0.21 & 22.3 & 9.18\\
-    4 & 0.19 & 13.4 & 4.87\\
-    5 & 0.24 & 9.0 & 3.01\\
-    8 & 0.38 & 4.0 & 1.12\\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-Three things can be read off. First, at the same period every further bracket level
-costs one to two orders of magnitude in time: at $\varepsilon=\SI{3}{s}$ the car alone
-needs about \SI{12}{s}, one trailer \SI{22}{min} and two trailers \SI{9.2}{h}. Second, the
-slope of $\gamma_{\mathrm{amp}}(\varepsilon)$ on the log--log plot at small $\varepsilon$ is
-$0.95$, $1.9$ and $2.5$ for $r=2,3,4$ (computed over $\varepsilon=0.25$--$\SI{1}{s}$), in line with the
-exponent $r-1=1,2,3$ of \eqref{eq:scaling}; for $r=4$ the asymptotic value is approached
-only slowly because the lower terms still matter. Third, the larger the period, the
-smaller the gap between the systems, but the period is limited from above by condition
-(iii): for two trailers the approximation tracks the exact kinematics up to about
-$\varepsilon=\SI{4}{s}$ and breaks down at \SI{6}{s} \TODO[these two numbers are taken from comments in the MATLAB parameter file - repeat the comparison of the approximation with the exact model for the final geometry and report it in the simulation chapter]. In the
-admissible range the two-trailer car is therefore bound to take about \SI{5}{h} or more with the quadratic $V$.
+\begin{itemize}
+  \item The cases $r=2,3,4$ and how they are compared (figure and table).
+  \item What every further bracket level costs.
+  \item Slope of the gain against the period and the limit set by the validity of the approximation.
+\end{itemize}
 
 % ===========================================================================
 \section{Quantifying the levers}
 \label{sec:feas-levers}
 
-Four quantities can be changed without changing the robot: the period $\varepsilon$,
-the multipliers $k$, the Lyapunov function (next section) and the size of the
-workspace, i.e.\ the starting distance. We take them in turn, with the quadratic $V$
-and the settings of the experiment as reference.
-
-\paragraph{Period.} See \cref{tab:cmp}: roughly, $t\propto\varepsilon^{-(r-1)}$ while
-the amplitude limit is binding. The contraction cap takes over at about
-$\varepsilon=\SI{20}{s}$ for $r=3$ and above \SI{32}{s} for $r=4$, far outside the validity range
-of the approximation. For $r=3$ no breakdown has been seen for $\varepsilon\le\SI{7}{s}$
-(\TODO[same check as above for one trailer]). The period is thus the strongest lever, and it is
-capped by condition (iii), not by the hardware.
-
-\paragraph{Multipliers.}
-\Cref{tab:k} shows the largest gain at the period of the experiment, for several
-admissible multipliers. The deepest bracket is the most expensive, so the
-multiplier of the deepest term should be smallest ($T_m\propto k^{(m-1)/m}$): the
-exponents are $1/2$, $2/3$ and $3/4$, and the shallow multiplier $k_{12}$ is almost free.
-The paper's choice $(8,6,5)$ is $13$ times slower than $(14,5,1)$ for the same
-Lyapunov function; $(18,4,1)$ is $22\%$ faster than $(14,5,1)$.
-The multipliers cannot be shrunk without limit because of the non-resonance
-condition (\cref{sec:multipliers}); $(14,5,1)$ and $(18,4,1)$ satisfy condition C1
-of \cite{zuyev2024}. A larger $k_{12}$ also means a faster oscillation
-($k_{12}\omega=\SI{29}{rad/s}$ for $14$, \SI{38}{rad/s} for $18$ at $\varepsilon=\SI{3}{s}$),
-which the velocity controller of the robot has to follow
-(\TODO[how well the velocity controller of the robot follows an oscillation of 4.7 to 6 Hz - the experiment will tell]).
-The multipliers $(14,5,1)$ were chosen by the search of the MATLAB code; with the
-current dimensions $(18,4,1)$ is better, probably because it lies outside the range
-that was searched (\TODO[check the search range, then decide whether to retune to (18,4,1)]).
-
-\begin{table}[ht]
-  \centering
-  \caption{Effect of the multipliers. Quadratic $V$: largest gain at $z_0$ and time to
-  \SI{0.1}{\percent}. $V$ of the experiment (logarithmic with $c=10$ for one trailer, square root
-  with $\delta=0.005$ for two): gain along the ray and time to \SI{0.1}{\percent}.}
-  \label{tab:k}
-  \begin{tabular}{lrrrr}
-    \toprule
-    $k$ & $\gamma_{\mathrm{amp}}$ & $t_{0.1\%}$, quadr. & $\gamma_{\mathrm{eff}}$, exper. & $t_{0.1\%}$, exper.\\
-    \midrule
-    \multicolumn{5}{l}{one trailer, $\varepsilon=\SI{5}{s}$ (times in min)}\\
-    $(3,2)$ & $4.25\times10^{-3}$ & 27.1 & $2.11\times10^{-2}$ & 8.19\\
-    $(5,2)$ & $3.73\times10^{-3}$ & 30.8 & $1.72\times10^{-2}$ & 10.1\\
-    $(7,2)$ & $3.39\times10^{-3}$ & 34.0 & $1.47\times10^{-2}$ & 11.8\\
-    $(2,3)$ & $2.39\times10^{-3}$ & 48.2 & $1.39\times10^{-2}$ & 12.5\\
-    \midrule
-    \multicolumn{5}{l}{two trailers, $\varepsilon=\SI{3}{s}$ (times in h)}\\
-    $(14,5,1)$ & $6.97\times10^{-5}$ & 27.5 & $3.50\times10^{-5}$ & 4.06\\
-    $(18,4,1)$ & $8.50\times10^{-5}$ & 22.6 & $4.27\times10^{-5}$ & 3.33\\
-    $(8,6,5)$  & $5.32\times10^{-6}$ & 361 & $2.67\times10^{-6}$ & 53.3\\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\paragraph{Size of the workspace.}
-With the position part of the start scaled by a factor $s$ (the angles kept at
-$45^\circ$), the time to \SI{10}{\percent} for $s=0.5,1,2,4$ is
-\SI{3.3}{min}, \SI{9.0}{min}, \SI{27}{min}, \SI{91}{min} for one trailer and
-\SI{4.6}{h}, \SI{9.2}{h}, \SI{22}{h}, \SI{64}{h} for two (here $s=1$ is the reduced start of
-the experiment). Doubling the distance
-multiplies the time by about $3$ (one trailer) or by $2.0$ to $2.9$ (two). Starting close to the
-goal is therefore much cheaper, which is relevant for the experiment: the starting
-distance of \SI{0.12}{m} in each coordinate (already reduced from \SI{0.2}{m}) still costs hours for two trailers.
-
-\paragraph{Combined.}
-The levers act together. Starting from $\varepsilon=\SI{3}{s}$, the paper's multipliers
-and the quadratic $V$, the time to \SI{0.1}{\percent} for two trailers is
-\SI{361}{h}; the choice $(14,5,1)$ brings it to \SI{27.5}{h}, the square-root $V$ to
-\SI{4.1}{h}, and $(18,4,1)$ would give \SI{3.3}{h}. For one trailer, starting from
-$\varepsilon=\SI{3}{s}$ with the quadratic $V$ ($\SI{67}{min}$), $\varepsilon=\SI{5}{s}$
-gives \SI{27}{min} and the logarithmic $V$ of the experiment \SI{8.2}{min} (the square-root $V$
-\SI{4.6}{min}). Each lever helps, but none changes the
-qualitative picture: two trailers stay more than an order of magnitude slower than one.
+\begin{itemize}
+  \item Period.
+  \item Multipliers $k$ (table).
+  \item Size of the workspace.
+  \item All levers together.
+\end{itemize}
 
 % ===========================================================================
 \section{State-dependent gain and the choice of Lyapunov function}
 \label{sec:feas-V}
 
-The amplitudes are proportional to $\gamma h(z)$ and, because $a_m\propto\|z\|$
-at fixed $\gamma h$, the oscillation required shrinks as the state approaches the goal
-($T_m\propto(\gamma h\|z\|)^{1/m}$). A constant gain, as with the quadratic $V$
-($h=1$), is fixed by the worst point, which is the start; near the goal it leaves
-most of the velocity budget unused. This suggests making the gain depend on the
-state, and since $V$ enters only through $h$ (Chapter~\ref{ch:control}), this is the
-same as changing the Lyapunov function. For a radial $V=\Phi(\|z\|)$, $h=\Phi'(r)/(\gamma r)$, and
-the radius obeys $\dot r=-\gamma h(r)\,r$. We compare four choices, each with the
-largest gain admissible along the ray by \eqref{eq:geff}:
-
 \begin{itemize}
-  \item quadratic: $h=1$;
-  \item logarithmic: $V=\frac{\gamma}{2c}\ln(1+c\|z\|^2)$, $h=1/(1+c\|z\|^2)$ with $c=10$ and $c=100$ \cite{grushkovskaya2023};
-  \item square root: $V=\gamma(\sqrt{\|z\|^2+\delta^2}-\delta)$, $h=1/\sqrt{\|z\|^2+\delta^2}$.
+  \item Why a constant gain wastes the velocity budget near the goal.
+  \item State-dependent gain is the same as another Lyapunov function; the compared functions.
+  \item Result for one and for two trailers (figure and table).
+  \item Caveat: the convergence theorem is stated for the quadratic function.
 \end{itemize}
-
-For the square root, $\dot r=-\gamma\,r/\sqrt{r^2+\delta^2}$: the speed is approximately
-the constant $\gamma$ when $\|z\|\gg\delta$ and linear in $\|z\|$ for $\|z\|\ll\delta$. The
-price is that $h\le1/\delta$, so the contraction condition (ii) becomes
-$\gamma\le0.8\,\delta/\varepsilon$ and for small $\delta$ it is the cap, not the
-amplitude, that eventually limits the gain. In the experiment the amplitude
-limit is the binding one for both systems ($\varepsilon\gamma\,h_{\max}=0.11$ for one trailer with the
-logarithmic function, $0.02$ for two trailers with the square-root function).
-
-\begin{figure}[ht]
-  \centering
-  \feasfig{feas_1tr_V}{width=0.48\textwidth}\hfill
-  \feasfig{feas_2tr_V}{width=0.48\textwidth}
-  \caption{Estimated decay of $\|z\|/\|z_0\|$ for the four Lyapunov functions, each at its own
-  largest admissible gain. Left: one trailer ($\varepsilon=\SI{5}{s}$, minutes);
-  right: two trailers ($\varepsilon=\SI{3}{s}$, hours).}
-  \label{fig:V}
-\end{figure}
-
-\begin{table}[ht]
-  \centering
-  \caption{Lyapunov functions at their largest admissible gain.
-  ``Best radial'' is the lower limit for any radial $V$: the gain is chosen at every
-  radius as large as the limits and the cap allow.}
-  \label{tab:V}
-  \begin{tabular}{lrrrr}
-    \toprule
-    $V$ & $\gamma_{\mathrm{eff}}$ & $t_{10\%}$ & $t_{0.1\%}$ \\
-    \midrule
-    \multicolumn{4}{l}{one trailer, $\varepsilon=\SI{5}{s}$ (min)}\\
-    quadratic                    & $4.25\times10^{-3}$ & 9.0 & 27.1\\
-    logarithmic, $c=10$          & $2.11\times10^{-2}$ & 4.5 & 8.2\\
-    logarithmic, $c=100$         & $7.21\times10^{-2}$ & 8.5 & 9.7\\
-    square root, $\delta=0.02$   & $3.20\times10^{-3}$ & 3.9 & 4.6\\
-    best radial                  & --                  & 3.7 & 4.3\\
-    \midrule
-    \multicolumn{4}{l}{two trailers, $\varepsilon=\SI{3}{s}$ (h)}\\
-    quadratic                    & $6.97\times10^{-5}$ & 9.2  & 27.5\\
-    logarithmic, $c=10$          & $2.45\times10^{-4}$ & 4.0  & 9.3\\
-    logarithmic, $c=100$         & $1.06\times10^{-3}$ & 3.9  & 5.1\\
-    square root, $\delta=0.005$  & $3.50\times10^{-5}$ & 3.6  & 4.1\\
-    best radial                  & --                  & 2.9  & 3.1\\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-Two observations. First, the state-dependent gain makes a large difference
-to the \emph{late} part of the descent: to \SI{0.1}{\percent} the square-root
-$V$ is $5.8$ times faster than the quadratic one with one trailer and $6.8$ times
-faster with two. To \SI{10}{\percent} the difference is smaller ($2.3$ and $2.6$ times),
-because the early part is limited by the same worst point. Second, the square-root
-function is within \SI{7}{\percent} (one trailer) and \SI{30}{\percent} (two trailers) of the
-best that any radial $V$ could reach under the same limits, so there is little to gain
-from further searching in this family. The logarithmic function with $c=10$, which is used in the experiment
-with one trailer, needs $8.2$ min to \SI{0.1}{\percent}, i.e.\ $1.8$ times as long as the square-root function and $1.9$ times the best radial
-design (\TODO[state why the experiment uses the logarithmic function of the supervisor and not the faster square-root one]); the remaining gap in the two-trailer case is
-the cap $\varepsilon\gamma h\le0.8$ with $\delta=0.005$.
-
-A caveat on the theory: the convergence theorem of \cite{zuyev2024} is stated for a
-quadratic $V$, and the logarithmic function comes from the related work
-\cite{grushkovskaya2023}. The square-root function is smooth, positive definite, radial and
-has a bounded gradient, but we have not checked it against the assumptions of the theorem
-(\TODO[ask the supervisor which assumptions on V the convergence proof needs and whether the square-root function satisfies them]).
-The comparison above is therefore a comparison of designs under the hardware limits, not
-of proved guarantees.
 
 % ===========================================================================
 \section{Hardware requirements}
 \label{sec:feas-hw}
 
-What would a faster robot buy? We scaled each limit separately by a factor
-$s$ (quadratic $V$, the period of the experiment). The result for the
-time to \SI{10}{\percent}:
-
-\begin{figure}[ht]
-  \centering
-  \feasfig{feas_1tr_hw}{width=0.48\textwidth}\hfill
-  \feasfig{feas_2tr_hw}{width=0.48\textwidth}
-  \caption{Time to \SI{10}{\percent} when one limit is scaled and the other kept at its
-  TurtleBot3 value; left: one trailer, right: two trailers. The curve for $u_2$ is
-  flat; the one for $u_1$ saturates when another constraint takes over (the cap for one
-  trailer, the $u_2$ limit for two).}
-  \label{fig:hw}
-\end{figure}
-
 \begin{itemize}
-  \item \emph{Faster rotation does nothing.} Even at its present value $u_2$ is used to
-    only \SI{12}{\percent} (one trailer) and \SI{18}{\percent} (two trailers) of its limit, so raising
-    the limit on the angular velocity changes nothing.
-  \item \emph{Faster driving helps a lot.} The time falls roughly as $(u_1^{\max})^{-r}$, as predicted by \eqref{eq:scaling}
-    (measured exponents about $2.7$ for one trailer and $3.2$ for two, between
-    $s=0.5$ and $s=2$). For two trailers, doubling the limit of $u_1$ to \SI{0.44}{m/s} gives
-    \SI{1.0}{h}; $s=3$ (\SI{0.66}{m/s}) brings the time to \SI{10}{\percent} down to \SI{17}{min}. For one trailer,
-    doubling gives \SI{1.4}{min}. The improvement stops at about $s=4$ for one trailer, where
-    the cap $\varepsilon\gamma\le0.8$ binds, and at about $s=8$ for two trailers, where the
-    limit of $u_2$ becomes the binding one (raising both limits together would help further).
-  \item \emph{A larger vehicle} is not a remedy in itself. Scaling the trailers by a factor
-    $2$ (\cref{sec:feas-geometry}) makes the two-trailer car slower by a factor of
-    $2.1$, and a larger robot would also have larger velocity limits only if its drive
-    allows it.
+  \item Effect of faster driving and of faster rotation (figure).
+  \item Effect of a larger vehicle.
+  \item Summary of the chapter.
 \end{itemize}
-
-\paragraph{Summary.} For the TurtleBot3 the control of the car with one trailer is
-feasible in a few minutes with the oscillating controller. For two trailers it is feasible in the
-sense that conditions (i)--(iii) can all be met, but the price is an
-estimated convergence time of the order of hours, set by the linear-velocity limit and the
-deep brackets; the periods that would shorten it are excluded by the validity of the approximation. The
-experiments of Chapter~\ref{ch:experiments} are therefore designed for one trailer, with
-two trailers treated in simulation.

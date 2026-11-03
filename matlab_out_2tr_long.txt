@@ -1,0 +1,35 @@
+
+=== thesis_sim: two trailers (r = 4), design eps = 3 s, k = (14   5   1), V = sqrt, delta = 0.005 ===
+
+-- long run: 600 intervals of 3 s (t_end = 1800 s), gamma = 2.7498e-05
+    10.0 %  t =       180 s  exact 0.9946  approx 0.9941   (2 s elapsed)
+    20.0 %  t =       360 s  exact 0.9895  approx 0.9881   (4 s elapsed)
+    30.0 %  t =       540 s  exact 0.9843  approx 0.9822   (6 s elapsed)
+    40.0 %  t =       720 s  exact 0.9790  approx 0.9763   (7 s elapsed)
+    50.0 %  t =       900 s  exact 0.9737  approx 0.9703   (9 s elapsed)
+    60.0 %  t =      1080 s  exact 0.9683  approx 0.9644   (11 s elapsed)
+    70.0 %  t =      1260 s  exact 0.9630  approx 0.9585   (13 s elapsed)
+    80.0 %  t =      1440 s  exact 0.9577  approx 0.9525   (14 s elapsed)
+    90.0 %  t =      1620 s  exact 0.9525  approx 0.9466   (16 s elapsed)
+   100.0 %  t =      1800 s  exact 0.9475  approx 0.9407   (17 s elapsed)
+  at t = 1800 s: exact 0.94747, approx 0.94066, gradient-flow estimate 0.94085
+  largest difference (in % of ||z0||) exact/estimate 0.66, exact/approx 0.68; max |u1| = 1.1163 of the limit
+  peak |u1| of the exact run is 1.1163 of the limit, in interval 600 (t = 1797 s);  approximation: 1.0000
+  intervals with |u1| above the limit (exact): 586 of 600
+  largest |angle| at the end of an interval: 287.4 deg
+
+figures and sim_2tr.mat written to /Users/marke/Documents/thesis/figures
+
+ans = 
+
+  struct with fields:
+
+    model: '2tr'
+    label: 'two trailers (r = 4)'
+      des: [1×1 struct]
+       z0: [5×1 double]
+       x0: [5×1 double]
+    u1max: 0.2200
+    u2max: 2.8400
+     long: [1×1 struct]
+
